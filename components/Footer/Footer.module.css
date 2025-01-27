@@ -1,0 +1,89 @@
+.footerHead {
+  @apply text-white text-sm mb-1 md:mb-3 font-bold;
+}
+
+.column {
+  @apply flex text-gray400 flex-col;
+}
+
+.column a:hover {
+  color: white;
+  position: relative;
+}
+
+.column a:hover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 1px;
+  background-color: white;
+  animation: underlineAnimation 0.5s forwards;
+}
+
+@keyframes underlineAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80%;
+  }
+}
+.newsLetterText {
+  @apply max-w-xs;
+  @apply mb-3;
+}
+
+.fullFooter {
+  background-color: #232323;
+  @apply text-white;
+}
+
+.column a,
+.column span {
+  @apply py-1;
+  @apply text-sm;
+}
+
+.footerContainer {
+  @apply border-t-2 border-gray100 py-20;
+}
+
+.footerContents {
+  @apply flex flex-col md:flex-row justify-between;
+}
+
+.footerContainer > div {
+  @apply mb-6 md:mb-0;
+}
+
+.bottomFooter {
+  @apply border-2 py-1 text-xs border-gray500 text-gray400;
+}
+
+.socialsContainer {
+  @apply flex text-gray400 flex-row;
+  @apply justify-items-start;
+}
+.socials {
+  width: 25px;
+  height: 25px;
+  @apply mr-3;
+  cursor: pointer;
+}
+.socials :hover {
+  color: white;
+  @apply shadow-2xl;
+  @apply transition-shadow;
+}
+
+.bottomFooter a {
+  @apply ml-4;
+}
+@media (max-width: 750px) {
+  .column,
+  .socialsContainer {
+    @apply mb-3;
+  }
+}

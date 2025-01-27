@@ -1,0 +1,99 @@
+/* Top Bar */
+.topLeftMenu {
+  @apply ml-8;
+}
+
+.topLeftMenu li {
+  @apply text-xs my-2 mr-4 hover:text-gray300;
+}
+
+.topRightMenu li {
+  @apply text-xs my-2 ml-4 hover:text-gray300;
+}
+
+/* Main Menu */
+.mainMenu {
+  @apply py-6;
+}
+.navBarItem {
+  @apply text-sm;
+  @apply font-semibold;
+}
+.navBarItem:hover {
+  position: relative;
+}
+.navBarItem:hover::after {
+  @apply text-gray400;
+  @apply bg-gray400;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 1px;
+  animation: underlineAnimation 0.5s forwards;
+}
+
+.navBarSubItem {
+  @apply cursor-pointer text-gray400 hover:text-gray400 text-xs font-thin;
+}
+
+.navBarSubItem:hover {
+  position: relative;
+  color: #007bff;
+}
+.navBarSubItem:hover::after {
+  /* @apply text-gray400;
+  @apply bg-gray400;
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  width: 100%;
+  height: 1px;
+  animation: underlineAnimationSub 0.5s forwards; */
+}
+
+@keyframes underlineAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes underlineAnimationSub {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80%;
+  }
+}
+/* .leftMenu {
+  @apply ml-8 my-6;
+} */
+
+.leftMenu li {
+  @apply mr-12 hidden lg:block whitespace-nowrap;
+}
+
+.leftMenu li:hover {
+  @apply text-gray400;
+}
+
+.leftMenu li:last-child {
+  @apply mr-0;
+}
+
+.rightMenu li {
+  @apply ml-12;
+}
+
+.rightMenu li:not(:last-child) {
+  @apply hidden lg:block;
+}
+
+.rightMenu li:nth-child(3) {
+  @apply hidden sm:block;
+}
