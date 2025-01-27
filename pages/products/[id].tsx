@@ -266,12 +266,25 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                 />
               </div>
             ) : (
-              <Image
-                src={mainImg}
-                alt={product?.name}
-                width={800}
-                height={1482}
-              />
+              productOption?.images?.split(",").map((el: any) => (
+                <Swiper
+                  slidesPerView={1}
+                  spaceBetween={0}
+                  loop={true}
+                  pagination={{
+                    clickable: true,
+                  }}
+                >
+                  <SwiperSlide>
+                    <Image
+                      src={el}
+                      alt={product?.name}
+                      width={800}
+                      height={1482}
+                    />
+                  </SwiperSlide>
+                </Swiper>
+              ))
             )}
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
@@ -344,7 +357,6 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
             {size && (
               <div className="mb-2 mt-2">
                 <strong
-                  
                   style={{
                     color: "red",
                   }}
