@@ -124,6 +124,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
     { value: "iPhone 7 Plus", label: "iPhone 7 Plus" },
   ];
   const listSam = [
+    { value: "Samsung Galaxy S24 Ultra", label: "Samsung Galaxy S24 Ultra" },
+    { value: "Samsung Galaxy S24", label: "Samsung Galaxy S24" },
     { value: "Samsung Galaxy S23 Ultra", label: "Samsung Galaxy S23 Ultra" },
     { value: "Samsung Galaxy S23+", label: "Samsung Galaxy S23+" },
     { value: "Samsung Galaxy S23", label: "Samsung Galaxy S23" },
@@ -226,55 +228,58 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
         {/* ===== Main Content Section ===== */}
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           <div className="imgSection w-full md:w-1/2 h-full flex">
-            <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
-              {productOption?.images?.split(",").map((el: any) => (
-                <Image
-                  className={`cursor-pointer ${
-                    mainImg === el
-                      ? "opacity-100 border border-gray300"
-                      : "opacity-50"
-                  }`}
-                  onClick={() => setMainImg(el)}
-                  src={el as string}
-                  alt={product.name}
-                  width={1000}
-                  height={1482}
-                />
-              ))}
-            </div>
-
             {!isMobile ? (
-              <div
-                className="w-full sm:w-3/4 h-full m-0 sm:m-4 ps-5 pe-5"
-                style={{
-                  paddingLeft: "4rem",
-                  paddingRight: "4rem",
-                }}
-              >
-                <EasyZoomOnMove
-                  loadingIndicator
-                  mainImage={{
-                    src: mainImg,
-                    alt: "My Product",
-                    width: 600,
-                    height: 700,
-                  }}
-                  zoomImage={{
-                    src: mainImg,
-                    alt: "My Product",
-                  }}
-                />
-              </div>
-            ) : (
-              productOption?.images?.split(",").map((el: any) => (
-                <Swiper
-                  slidesPerView={1}
-                  spaceBetween={0}
-                  loop={true}
-                  pagination={{
-                    clickable: true,
+              <>
+                <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
+                  {productOption?.images?.split(",").map((el: any) => (
+                    <Image
+                      className={`cursor-pointer ${
+                        mainImg === el
+                          ? "opacity-100 border border-gray300"
+                          : "opacity-50"
+                      }`}
+                      onClick={() => setMainImg(el)}
+                      src={el as string}
+                      alt={product.name}
+                      width={1000}
+                      height={1482}
+                    />
+                  ))}
+                </div>
+
+                <div
+                  className="w-full sm:w-3/4 h-full m-0 sm:m-4 ps-5 pe-5"
+                  style={{
+                    paddingLeft: "4rem",
+                    paddingRight: "4rem",
                   }}
                 >
+                  <EasyZoomOnMove
+                    loadingIndicator
+                    mainImage={{
+                      src: mainImg,
+                      alt: "My Product",
+                      width: 600,
+                      height: 700,
+                    }}
+                    zoomImage={{
+                      src: mainImg,
+                      alt: "My Product",
+                    }}
+                  />
+                </div>
+              </>
+            ) : (
+              <Swiper
+                slidesPerView={1}
+                spaceBetween={0}
+                loop={true}
+                pagination={{
+                  clickable: true,
+                }}
+              >
+                {" "}
+                {productOption?.images?.split(",").map((el: any) => (
                   <SwiperSlide>
                     <Image
                       src={el}
@@ -283,8 +288,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       height={1482}
                     />
                   </SwiperSlide>
-                </Swiper>
-              ))
+                ))}
+              </Swiper>
             )}
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
@@ -302,7 +307,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
             <div className="mb-2 mt-2">
               <strong
                 style={{
-                  color: "red",
+                  color: "#F14A00",
                 }}
               >
                 {" "}
@@ -327,15 +332,18 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       <img
                         src={
                           el === "IPHONE"
-                            ? "https://www.pngarts.com/files/8/Apple-iPhone-11-PNG-Photo.png"
+                            ? "https://www.tnprime.shop:6443" +
+                              "/images/" +
+                              "ap.png"
                             : el === "SAMSUNG"
-                            ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUzCeKfBzO6CgrJc_t3XcS0VLhtZ-N7gKzvQ&s"
+                            ? "https://www.tnprime.shop:6443" +
+                              "/images/" +
+                              "sam.png"
                             : "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/oppo-a3-pro-5g-en/featured/640_640-purple.png.thumb.webp"
                         }
                         height={100}
                         width={100}
                       />
-                      <p className="text-center">{el} </p>
                     </div>
                   </div>
                 ))}
@@ -358,7 +366,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               <div className="mb-2 mt-2">
                 <strong
                   style={{
-                    color: "red",
+                    color: "#F14A00",
                   }}
                 >
                   2 - Selectionner Votre Model de Télephone
@@ -403,7 +411,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               <div className="mb-2 mt-2">
                 <strong
                   style={{
-                    color: "red",
+                    color: "#F14A00",
                   }}
                 >
                   3 - Placer Votre Commande
@@ -475,17 +483,12 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                 </>
               )}
             </Disclosure>
-            <div className="flex items-center mt-4">
-              <span>{t("shareLink")}</span>
-              <div
-                className="ml-3 cursor-pointer rounded-full h-10 w-10 flex items-center justify-center hover:bg-gray200"
-                onClick={() => {
-                  copy(window.location.href);
-                  setcopied(true);
-                }}
-              ></div>
-              {copied && <p className="text-blue">copié!</p>}
-            </div>
+
+            {product?.detail.includes("https://www.youtube.com") && (
+              <div className="flex items-center mt-4">
+                <iframe width="550" height="315" src={product?.detail}></iframe>
+              </div>
+            )}
           </div>
         </div>
         {/* ===== Horizontal Divider ===== */}
@@ -546,91 +549,6 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const products: any = resProduct.data.data;
 
-  //   id: 1234,
-  //   name: "Blue Cotton T-Shirt",
-  //   price: 29.99,
-  //   detail:
-  //     "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //   img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //   img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //   categoryName: "Shirts",
-  // };
-
-  // Might be temporary solution for suggested products
-  // const randomProductRes = await axios.get(
-  //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?category=${product.categoryName}`
-  // );
-  // const fetchedProducts: apiProductsType[] = randomProductRes.data.data;
-
-  // // Shuffle array
-  // const shuffled = fetchedProducts.sort(() => 0.5 - Math.random());
-
-  // // Get sub-array of first 5 elements after shuffled
-  // let randomFetchedProducts = shuffled.slice(0, 5);
-
-  // let products: itemType[] = [
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  //   {
-  //     id: 1234,
-  //     name: "Blue Cotton T-Shirt",
-  //     price: 29.99,
-  //     detail:
-  //       "A comfortable and stylish blue cotton t-shirt. Perfect for casual wear.",
-  //     img1: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path
-  //     img2: "https://threadlogic.com/cdn/shop/files/Gildan-Softstyle-Ladies-T-Shirt-23_800x.jpg?v=1712000091", // Replace with actual image path (optional)
-  //     categoryName: "Shirts",
-  //   },
-  // ];
-  // randomFetchedProducts.forEach((randomProduct: apiProductsType) => {
-  //   products.push({
-  //     id: randomProduct.id,
-  //     name: randomProduct.name,
-  //     price: randomProduct.price,
-  //     img1: randomProduct.image1,
-  //     img2: randomProduct.image2,
-  //   });
-  // });
-
-  // Pass data to the page via props
   return {
     props: {
       product: {

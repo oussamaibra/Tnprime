@@ -88,6 +88,8 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
   ];
 
   const listSam = [
+    { value: "Samsung Galaxy S24 Ultra", label: "Samsung Galaxy S24 Ultra" },
+    { value: "Samsung Galaxy S24", label: "Samsung Galaxy S24" },
     { value: "Samsung Galaxy S23 Ultra", label: "Samsung Galaxy S23 Ultra" },
     { value: "Samsung Galaxy S23+", label: "Samsung Galaxy S23+" },
     { value: "Samsung Galaxy S23", label: "Samsung Galaxy S23" },
