@@ -79,7 +79,11 @@ const ShoppingCart = () => {
   const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
   const [orderError, setOrderError] = useState("");
   const [sendEmail, setSendEmail] = useState(false);
-  const [location, setlocation] = useState({});
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [paymentSuccess, setpaymentSuccess] = useState(false);
+
+
 
   const products = cart.map((item) => ({
     id: Number(_.uniqueId()),
@@ -88,14 +92,18 @@ const ShoppingCart = () => {
     size: item?.size,
   }));
 
+
+  const [location, setlocation] = useState({});
+  const [currency, setcurrency] = useState("TND");
+  
   const checkLocation = async () => {
-    const loc = localStorage.getItem("location") ?? "";
-    setlocation(JSON.parse(loc));
+    const loc = JSON.parse(localStorage.getItem("location") ?? "");
+    setlocation(loc);
+    setcurrency(loc.currency)
   };
   useEffect(() => {
     checkLocation();
   }, []);
-
 
   //   if (!isOrdering) return;
 
@@ -225,9 +233,6 @@ const ShoppingCart = () => {
   const stripe: any = useStripe();
   const elements = useElements();
 
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [paymentSuccess, setpaymentSuccess] = useState(false);
-
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
@@ -289,10 +294,6 @@ const ShoppingCart = () => {
       password !== "" &&
       shippingAddress !== "" &&
       isOrdering;
-    // &&
-    // paymentSuccess
-    //   ? false
-    //   : true;
   } else {
     disableOrder =
       name !== "" &&
@@ -300,11 +301,9 @@ const ShoppingCart = () => {
       phone !== "" &&
       shippingAddress !== "" &&
       isOrdering;
-
-    // && paymentSuccess
-    //   ? false
-    //   : true;
   }
+
+  console.log("disableOrder", disableOrder,!disableOrder);
 
   const lista = [
     {
@@ -852,7 +851,7 @@ const ShoppingCart = () => {
                         <span className="text-gray400">| {item.size}</span>
                       </span>
                       <span className="text-base">
-                        {roundDecimal(item.price * item!.qty!)} TND
+                        {roundDecimal(item.price * item!.qty!)} {currency}
                       </span>
                     </div>
                   ))}
@@ -860,7 +859,7 @@ const ShoppingCart = () => {
 
                 <div className="py-3 flex justify-between">
                   <span className="uppercase">{t("subtotal")}</span>
-                  <span> {subtotal} TND</span>
+                  <span> {subtotal} {currency}</span>
                 </div>
 
                 <div className="py-3">
@@ -880,7 +879,7 @@ const ShoppingCart = () => {
                           {"Livraison à domicile"}
                         </label>
                       </div>
-                      <span> 8 TND </span>
+                      <span> 8 {currency} </span>
                     </div>
                   </div>
                 </div>
@@ -888,7 +887,7 @@ const ShoppingCart = () => {
                 <div>
                   <div className="flex justify-between py-3">
                     <span>{t("grand_total")}</span>
-                    <span> {roundDecimal(+subtotal + deliFee)} TND </span>
+                    <span> {roundDecimal(+subtotal + deliFee)} {currency} </span>
                   </div>
 
                   <div className="grid gap-4 mt-2 mb-4">
@@ -965,25 +964,27 @@ const ShoppingCart = () => {
                         </span>
                       </span>
                     </label> */}
-                    {/* <form onSubmit={handleSubmit}>
-                      <PaymentElement />
 
-                      <Button
-                        value={"Pay"}
-                        size="xl"
-                        extraClass={`w-full mt-5`}
-                        type="submit"
-                        disabled={
-                          (!stripe || !elements) &&
-                          name !== "" &&
-                          email !== "" &&
-                          phone !== ""
-                        }
-                      />
+                    {!location?.country?.includes("Tunisia") && (
+                      <form onSubmit={handleSubmit}>
+                        <PaymentElement />
 
-                    
-                      {errorMessage && <div>{errorMessage}</div>}
-                    </form> */}
+                        <Button
+                          value={"Pay"}
+                          size="xl"
+                          extraClass={`w-full mt-5`}
+                          type="submit"
+                          disabled={
+                            (!stripe || !elements) &&
+                            name !== "" &&
+                            email !== "" &&
+                            phone !== ""
+                          }
+                        />
+
+                        {errorMessage && <div>{errorMessage}</div>}
+                      </form>
+                    )}
                   </div>
 
                   <div className="my-8">
@@ -1010,13 +1011,23 @@ const ShoppingCart = () => {
                   </div>
                 </div>
 
-                <Button
-                  value={!auth.user ? "Register" : t("place_order")}
-                  size="xl"
-                  extraClass={`w-full`}
-                  onClick={() => Ordering()}
-                  // disabled={disableOrder}
-                />
+                {location?.country?.includes("Tunisia") ? (
+                  <Button
+                    value={!auth.user ? "Register" : t("place_order")}
+                    size="xl"
+                    extraClass={`w-full`}
+                    onClick={() => Ordering()}
+                    disabled={!disableOrder}
+                  />
+                ) : (
+                  <Button
+                    value={!auth.user ? "Register" : t("place_order")}
+                    size="xl"
+                    extraClass={`w-full`}
+                    onClick={() => Ordering()}
+                    disabled={!disableOrder && !paymentSuccess}
+                  />
+                )}
               </div>
 
               {errorMsg !== "" && (
@@ -1085,7 +1096,7 @@ const ShoppingCart = () => {
                   <div className="pt-2 flex justify-between mb-2">
                     <span className="text-base uppercase">{t("total")}</span>
                     <span className="text-base">
-                      {completedOrder.totalPrice} TND
+                      {completedOrder.totalPrice} {currency}
                     </span>
                   </div>
                 </div>

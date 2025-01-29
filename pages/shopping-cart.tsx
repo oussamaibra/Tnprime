@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -16,6 +16,19 @@ import { useRouter } from "next/router";
 // let w = window.innerWidth;
 
 const ShoppingCart = () => {
+
+  const [location, setlocation] = useState({});
+  const [currency, setcurrency] = useState("TND");
+  
+  const checkLocation = async () => {
+    const loc = JSON.parse(localStorage.getItem("location") ?? "");
+    setlocation(loc);
+    setcurrency(loc.currency)
+  };
+  useEffect(() => {
+    checkLocation();
+  }, []);
+
   const t = useTranslations("CartWishlist");
   const router = useRouter();
   const [deli, setDeli] = useState("Pickup");
@@ -104,7 +117,7 @@ const ShoppingCart = () => {
                           </span>
                         </td>
                         <td className="text-right text-gray400 hidden sm:table-cell">
-                           {roundDecimal(item.price)} TND
+                           {roundDecimal(item.price)} {currency}
                         </td>
                         <td>
                           <div className="w-12 h-32 sm:h-auto sm:w-3/4 md:w-2/6 mx-auto flex flex-col-reverse sm:flex-row border border-gray300 sm:divide-x-2 divide-gray300">
@@ -126,10 +139,10 @@ const ShoppingCart = () => {
                           </div>
                         </td>
                         <td className="text-right text-gray400">
-                         {roundDecimal(item.price * item.qty!)} TND
+                         {roundDecimal(item.price * item.qty!)} {currency}
                           <br />
                           <span className="text-xs">
-                            ( {roundDecimal(item.price)} TND)
+                            ( {roundDecimal(item.price)} {currency})
                           </span>
                         </td>
                         <td className="text-right" style={{ minWidth: "3rem" }}>
@@ -162,7 +175,7 @@ const ShoppingCart = () => {
               <h2 className="text-xl mb-3">{t("cart_totals")}</h2>
               <div className="flex justify-between py-2">
                 <span className="uppercase">{t("subtotal")}</span>
-                <span> {roundDecimal(subtotal)} TND</span>
+                <span> {roundDecimal(subtotal)} {currency}</span>
               </div>
               <div className="py-3">
                 <span className="uppercase">{t("delivery")}</span>
@@ -182,13 +195,13 @@ const ShoppingCart = () => {
                         {"Livraison à domicile"}
                       </label>
                     </div>
-                    <span> 8.00 TND </span>
+                    <span> 8.00 {currency} </span>
                   </div>
                 </div>
               </div>
               <div className="flex justify-between py-3">
                 <span>{t("grand_total")}</span>
-                <span> {roundDecimal(subtotal + 8)} TND</span>
+                <span> {roundDecimal(subtotal + 8)} {currency}</span>
               </div>
               <Button
                 value={t("proceed_to_checkout")}

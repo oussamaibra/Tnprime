@@ -28,6 +28,22 @@ type Props = {
 };
 
 const Card: FC<Props> = ({ item, outStock = false }) => {
+
+
+    const [location, setlocation] = useState({});
+    const [currency, setcurrency] = useState("TND");
+    
+    const checkLocation = async () => {
+      const loc = JSON.parse(localStorage.getItem("location") ?? "");
+      setlocation(loc);
+      setcurrency(loc.currency)
+    };
+    useEffect(() => {
+      checkLocation();
+    }, []);
+
+    
+  
   const { addItem } = useCart();
 
   const t = useTranslations("CartWishlist");
@@ -229,7 +245,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
         </Link>
         <div className="text-gray400">
           {" "}
-          <strong> {price} TND </strong>
+          <strong> {price} {currency} </strong>
         </div>
         {/* <button
           type="button"
@@ -282,7 +298,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
         </div>
         <div className=" h-auto py-8 sm:pl-4 flex flex-col">
           <h1 className="text-3xl mb-4">{item.name}</h1>
-          <span className="text-2xl text-gray400 mb-2">{item.price} TND</span>
+          <span className="text-2xl text-gray400 mb-2">{item.price} {currency}</span>
           <span className="mb-2 text-justify break-words">
             {item.description}
           </span>

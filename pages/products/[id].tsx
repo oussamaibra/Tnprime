@@ -63,6 +63,20 @@ type Props = {
 };
 
 const Product: React.FC<Props> = ({ product, products, url }) => {
+
+  
+  const [location, setlocation] = useState({});
+  const [currency, setcurrency] = useState("TND");
+  
+  const checkLocation = async () => {
+    const loc = JSON.parse(localStorage.getItem("location") ?? "");
+    setlocation(loc);
+    setcurrency(loc.currency)
+  };
+  useEffect(() => {
+    checkLocation();
+  }, []);
+  
   const isMobile = useMobileDetection();
   const router = useRouter();
   // const img1 = product?.option[0]?.images?.split(",")[0];
@@ -295,7 +309,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
             <span className="text-2xl text-gray400 mb-2">
-              {productOption.price} TND
+              {productOption.price} {currency}
             </span>
             <span className="mb-2 text-justify break-words">
               {product.description}
