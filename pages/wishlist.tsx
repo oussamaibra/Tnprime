@@ -10,6 +10,7 @@ import Button from "../components/Buttons/Button";
 import GhostButton from "../components/Buttons/GhostButton";
 import { useCart } from "../context/cart/CartProvider";
 import { useWishlist } from "../context/wishlist/WishlistProvider";
+import { useEffect, useState } from "react";
 
 // let w = window.innerWidth;
 
@@ -17,6 +18,18 @@ const Wishlist = () => {
   const t = useTranslations("CartWishlist");
   const { addOne } = useCart();
   const { wishlist, deleteWishlistItem, clearWishlist } = useWishlist();
+
+  const [location, setlocation] = useState({});
+  const [currency, setcurrency] = useState("TND");
+
+  const checkLocation = async () => {
+    const loc = JSON.parse(localStorage.getItem("location") ?? "");
+    setlocation(loc);
+    setcurrency(loc.currency);
+  };
+  useEffect(() => {
+    checkLocation();
+  }, []);
 
   let subtotal = 0;
 
@@ -106,7 +119,7 @@ const Wishlist = () => {
                           {item.name} & {item?.size}
                         </td>
                         <td className="text-right text-gray400">
-                          {item.price} TND
+                          {item.price} {currency}
                         </td>
                         <td className="text-center hidden sm:table-cell max-w-xs text-gray400">
                           <Button

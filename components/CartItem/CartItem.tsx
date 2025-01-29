@@ -11,6 +11,20 @@ import { useCart } from "../../context/cart/CartProvider";
 import { useRouter } from "next/router";
 
 export default function CartItem() {
+
+
+  const [location, setlocation] = useState({});
+  const [currency, setcurrency] = useState("TND");
+  
+  const checkLocation = async () => {
+    const loc = JSON.parse(localStorage.getItem("location") ?? "");
+    setlocation(loc);
+    setcurrency(loc.currency)
+  };
+  useEffect(() => {
+    checkLocation();
+  }, []);
+
   const router = useRouter();
   const t = useTranslations("CartWishlist");
   const [open, setOpen] = useState(false);
@@ -139,7 +153,7 @@ export default function CartItem() {
                   <div className="btnContainer mt-4 px-4 h-1/3 mb-20 w-full flex flex-col ">
                     <div className="flex justify-between">
                       <span>{t("subtotal")}</span>
-                      <span> {roundDecimal(subtotal)} TND</span>
+                      <span> {roundDecimal(subtotal)} {currency}</span>
                     </div>
                     <LinkButton
                       href="/shopping-cart"

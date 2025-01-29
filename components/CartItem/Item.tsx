@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { roundDecimal } from "../Util/utilFunc";
 
 type Props = {
@@ -22,6 +22,20 @@ const Item: FC<Props> = ({
   onRemove,
   onDelete,
 }) => {
+
+
+    const [location, setlocation] = useState({});
+    const [currency, setcurrency] = useState("TND");
+    
+    const checkLocation = async () => {
+      const loc = JSON.parse(localStorage.getItem("location") ?? "");
+      setlocation(loc);
+      setcurrency(loc.currency)
+    };
+    useEffect(() => {
+      checkLocation();
+    }, []);
+  
   return (
     <div className="item flex bg-white my-4 border-b-2 pb-4 border-gray200">
       <Image className="w-2/12 w-img" src={img} alt={name} width={70} height={104} />
@@ -53,7 +67,7 @@ const Item: FC<Props> = ({
         >
           &#10005;
         </button>
-        <span> {roundDecimal(price)} TND</span>
+        <span> {roundDecimal(price)} {currency}</span>
       </div>
     </div>
   );
