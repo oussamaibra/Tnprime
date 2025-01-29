@@ -56,6 +56,11 @@
     "sort_by_price_desc": "Trier par prix : élevé à bas"
   },
   "CartWishlist": {
+    "copié!":"copié!",
+    "NometPrénom":"Nom et Prénom",
+    "PlacerVotreCommande":"Placer Votre Commande",
+    "SelectionnerVotreModeldeTélephone": "Selectionner Votre Model de Télephone",
+    "SelectionnerVotreMarquedeTélephone": "Selectionner Votre Marque de Télephone",
     "Listedesouhaits": "Liste de souhaits",
     "home": "Accueil",
     "Imageduproduit": "Image du produit",
@@ -146,6 +151,8 @@
     "go_back_to": "Retourner à"
   },
   "Index": {
+    "Collections": "Collections",
+    "ListDesProduits": "List Des Produits",
     "new_arrivals": "Nouveautés",
     "women_collection": "Collection femmes",
     "men_collection": "Collection hommes",
@@ -161,6 +168,9 @@
     "our_shop_desc": "Visitez nos magasins pour découvrir les histoires derrière nos produits, obtenir une session de stylisme personnelle ou acheter les dernières tendances en personne. Voir les emplacements de nos magasins."
   },
   "Category": {
+    "PlacerVotreCommande": "Placer Votre Commande",
+    "SelectionnerVotreModeldeTélephone": "Selectionner Votre Model de Télephone",
+    "SelectionnerVotreMarquedeTélephone": "Selectionner Votre Marque de Télephone",
     "home": "Accueil",
     "men": "Hommes",
     "women": "Femmes",

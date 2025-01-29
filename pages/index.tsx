@@ -28,7 +28,6 @@ const Home: React.FC<Props> = ({ products, collections }) => {
   const t = useTranslations("Index");
   const [currentItems, setCurrentItems] = useState(products);
   const [isFetching, setIsFetching] = useState(false);
-  console.log("testttttttttt", products);
   // useEffect(() => {
   //   if (!isFetching) return;
   //   const fetchData = async () => {
@@ -77,7 +76,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  <h2 className="text-4xl">Collections</h2>
+                  <h2 className="text-4xl">{t("Collections")}</h2>
                 </td>
                 <td>
                   <hr style={{ opacity: "0.2" }} />
@@ -133,7 +132,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  <h2 className="text-4xl">List Des Produits</h2>
+                  <h2 className="text-4xl">{t("ListDesProduits")}</h2>
                 </td>
                 <td>
                   <hr style={{ opacity: "0.2" }} />

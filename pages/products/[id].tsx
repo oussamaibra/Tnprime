@@ -63,20 +63,18 @@ type Props = {
 };
 
 const Product: React.FC<Props> = ({ product, products, url }) => {
-
-  
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
-  
+
   const checkLocation = async () => {
     const loc = JSON.parse(localStorage.getItem("location") ?? "");
     setlocation(loc);
-    setcurrency(loc.currency)
+    setcurrency(loc.currency);
   };
   useEffect(() => {
     checkLocation();
   }, []);
-  
+
   const isMobile = useMobileDetection();
   const router = useRouter();
   // const img1 = product?.option[0]?.images?.split(",")[0];
@@ -325,7 +323,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                 }}
               >
                 {" "}
-                1 - Selectionner Votre Marque de Télephone
+                1 - {t("SelectionnerVotreMarquedeTélephone")}
               </strong>
 
               <div className="sizeContainer flex space-x-4 text-sm mb-4">
@@ -383,7 +381,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     color: "#F14A00",
                   }}
                 >
-                  2 - Selectionner Votre Model de Télephone
+                  2 - {t("SelectionnerVotreModeldeTélephone")}
                 </strong>
 
                 {["IPHONE", "SAMSUNG"].includes(size) ? (
@@ -428,7 +426,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     color: "#F14A00",
                   }}
                 >
-                  3 - Placer Votre Commande
+                  3 - {t("PlacerVotreCommande")}
                 </strong>
 
                 <div className="addToCart flex flex-col sm:flex-row md:flex-col lg:flex-row space-y-4 sm:space-y-0 mb-4">

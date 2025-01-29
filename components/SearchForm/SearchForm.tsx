@@ -188,7 +188,7 @@ export default function SearchForm() {
                           <Card key={item.id} item={item} />
                         ))}
                       </div>
-                      {moreThanFour && (
+                      {/* {moreThanFour && (
                         <GhostButton
                           onClick={() =>
                             router.push(`/search?q=${searchValue}`)
@@ -196,7 +196,7 @@ export default function SearchForm() {
                         >
                           {t("voirtout")}
                         </GhostButton>
-                      )}
+                      )} */}
                     </div>
                   )}
                 </div>

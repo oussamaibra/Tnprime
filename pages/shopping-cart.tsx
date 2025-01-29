@@ -48,7 +48,7 @@ const ShoppingCart = () => {
       {/* ===== Head Section ===== */}
       <Header title={`Shopping Cart - TN PrimeFashion`} />
 
-      <main id="main-content">
+      <main id="main-content" className="mb-96">
         {/* ===== Heading & Continue Shopping */}
         <div className="app-max-width px-4 sm:px-8 md:px-20 w-full border-t-2 border-gray100">
           <h1 className="text-2xl sm:text-4xl text-center sm:text-left mt-6 mb-2 animatee__animated animate__bounce">

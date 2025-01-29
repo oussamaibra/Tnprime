@@ -674,7 +674,7 @@ const ShoppingCart = () => {
             <div className="h-full w-full lg:w-7/12 mr-8">
               <div className="my-4">
                 <label htmlFor="name" className="text-lg">
-                  Nom et Prénom
+                  {t("NometPrénom")}
                 </label>
                 <Input
                   name="name"

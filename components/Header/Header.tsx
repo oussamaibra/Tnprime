@@ -153,7 +153,6 @@ const Header: React.FC<Props> = ({ title }) => {
   //   </MenuRC>
   // );
 
-  
   const menuCat = (
     <MenuRC onSelect={onSelect} className="cursor-pointer ">
       <div className="bg-gray100 py-2" style={{ backgroundColor: "#f8f9fa" }}>
@@ -292,7 +291,7 @@ const Header: React.FC<Props> = ({ title }) => {
               <li>
                 <CartItem />
               </li>
-              <li>
+              <li className="hidden sm:block">
                 <Mheadlessui as="div" className="relative">
                   <Mheadlessui.Button as="a" href="#" className="flex">
                     {t(locale)} <DownArrow />
@@ -314,14 +313,22 @@ const Header: React.FC<Props> = ({ title }) => {
                     </Mheadlessui.Item>
                     <Mheadlessui.Item>
                       {({ active }) => (
-                        <MyLink active={locale === "ar" ? true : active} href={asPath} locale="ar">
+                        <MyLink
+                          active={locale === "ar" ? true : active}
+                          href={asPath}
+                          locale="ar"
+                        >
                           {t("ar")}
                         </MyLink>
                       )}
                     </Mheadlessui.Item>
                     <Mheadlessui.Item>
                       {({ active }) => (
-                        <MyLink active={locale === "it" ? true : active} href={asPath} locale="it">
+                        <MyLink
+                          active={locale === "it" ? true : active}
+                          href={asPath}
+                          locale="it"
+                        >
                           {t("it")}
                         </MyLink>
                       )}
