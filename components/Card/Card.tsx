@@ -311,7 +311,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
           <div className="mb-2 mt-2">
             <strong
               style={{
-                color: "red",
+                color: "#F14A00",
               }}
             >
               {" "}
@@ -333,18 +333,22 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
                   } cursor-pointer hover:bg-gray500 hover:text-gray100`}
                 >
                   <div>
-                    <img
-                      src={
-                        el === "IPHONE"
-                          ? "https://www.pngarts.com/files/8/Apple-iPhone-11-PNG-Photo.png"
-                          : el === "SAMSUNG"
-                          ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUzCeKfBzO6CgrJc_t3XcS0VLhtZ-N7gKzvQ&s"
-                          : "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/oppo-a3-pro-5g-en/featured/640_640-purple.png.thumb.webp"
-                      }
-                      height={100}
-                      width={100}
-                    />
-                    <p className="text-center">{el} </p>
+                  <img
+                        src={
+                          el === "IPHONE"
+                            ? "https://www.tnprime.shop:6443" +
+                              "/images/" +
+                              "ap.png"
+                            : el === "SAMSUNG"
+                            ? "https://www.tnprime.shop:6443" +
+                              "/images/" +
+                              "sam.png"
+                            : "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/oppo-a3-pro-5g-en/featured/640_640-purple.png.thumb.webp"
+                        }
+                        height={100}
+                        width={100}
+                      />
+                
                   </div>
                 </div>
               ))}
@@ -367,7 +371,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
             <div className="mb-2 mt-2">
               <strong
                 style={{
-                  color: "red",
+                  color: "#F14A00",
                 }}
               >
                 2 - Selectionner Votre Model de Télephone
@@ -412,7 +416,7 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
             <div className="mb-2 mt-2">
               <strong
                 style={{
-                  color: "red",
+                  color: "#F14A00",
                 }}
               >
                 3 - Placer Votre Commande
