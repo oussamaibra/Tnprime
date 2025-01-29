@@ -1,13 +1,13 @@
 const withPWA = require("next-pwa");
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // module.exports = withPWA({
 module.exports = {
   i18n: {
-    locales: ["en", "my"],
-    defaultLocale: "en",
+    locales: ["fr", "ar", "it"],
+    defaultLocale: "fr",
   },
   reactStrictMode: true,
   // swcMinify: true,
@@ -15,7 +15,18 @@ module.exports = {
     removeConsole: false,
   },
   images: {
-    domains: ["robohash.org", "res.cloudinary.com", "dptvo-store.com", "threadlogic.com", "celio.tn","127.0.0.1", "dummyimage.com","tnprime.org","www.tnprime.shop","tnprime.shop"],
+    domains: [
+      "robohash.org",
+      "res.cloudinary.com",
+      "dptvo-store.com",
+      "threadlogic.com",
+      "celio.tn",
+      "127.0.0.1",
+      "dummyimage.com",
+      "tnprime.org",
+      "www.tnprime.shop",
+      "tnprime.shop",
+    ],
   },
 
   // devServer: {

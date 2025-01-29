@@ -10,14 +10,25 @@ import styles from "./Header.module.css";
 
 type LinkProps = {
   href: string;
-  locale: "en" | "my";
+  locale: "fr" | "ar" | "it";
   active: boolean;
 };
 
-const MyLink: React.FC<LinkProps> = ({ href, locale, children, active, ...rest }) => {
+const MyLink: React.FC<LinkProps> = ({
+  href,
+  locale,
+  children,
+  active,
+  ...rest
+}) => {
   return (
     <Link href={href} locale={locale}>
-      <a className={`py-2 px-4 text-center ${active ? "bg-gray200 text-gray500" : "bg-white text-gray500"}`} {...rest}>
+      <a
+        className={`py-2 px-4 text-center ${
+          active ? "bg-gray200 text-gray500" : "bg-white text-gray500"
+        }`}
+        {...rest}
+      >
         {children}
       </a>
     </Link>
@@ -32,9 +43,40 @@ const TopNav = () => {
   return (
     <div className="bg-white text-black hidden lg:block">
       <div className="text-center app-max-width p-2 ">
-        <p className=" decoration-sky-500 " style={{ fontWeight: "500", fontSize: "12px" }}>
+        <p
+          className=" decoration-sky-500 "
+          style={{ fontWeight: "500", fontSize: "12px" }}
+        >
           Découvrez la nouvelle marque
         </p>
+        <ul className={`flex ${styles.topRightMenu}`}>
+          <li>
+            <Menu as="div" className="relative">
+              <Menu.Button as="a" href="#" className="flex">
+                {locale === "fr" ? t("fr") : t("ar")} <DownArrow />
+              </Menu.Button>
+              <Menu.Items
+                className="flex flex-col w-20 right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none"
+                style={{ zIndex: 9999 }}
+              >
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink active={active} href={asPath} locale="fr">
+                      {t("fr")}
+                    </MyLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink active={active} href={asPath} locale="ar">
+                      {t("ar")}
+                    </MyLink>
+                  )}
+                </Menu.Item>
+              </Menu.Items>
+            </Menu>
+          </li>
+        </ul>
         {/* <ul className={`flex ${styles.topLeftMenu}`}>
           <li>
             <a href="#" aria-label="TN PrimeFashion Facebook Page">
@@ -53,33 +95,7 @@ const TopNav = () => {
             <a href="#">{t("our_policy")}</a>
           </li>
         </ul>
-        <ul className={`flex ${styles.topRightMenu}`}>
-          <li>
-            <Menu as="div" className="relative">
-              <Menu.Button as="a" href="#" className="flex">
-                {locale === "en" ? t("eng") : t("myn")} <DownArrow />
-              </Menu.Button>
-              <Menu.Items
-                className="flex flex-col w-20 right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none"
-                style={{ zIndex: 9999 }}
-              >
-                <Menu.Item>
-                  {({ active }) => (
-                    <MyLink active={active} href={asPath} locale="en">
-                      {t("eng")}
-                    </MyLink>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <MyLink active={active} href={asPath} locale="my">
-                      {t("myn")}
-                    </MyLink>
-                  )}
-                </Menu.Item>
-              </Menu.Items>
-            </Menu>
-          </li>
+      
           <li>
             <Menu as="div" className="relative">
               <Menu.Button as="a" href="#" className="flex">

@@ -28,23 +28,33 @@ export default function Menu() {
   const [openCol, setopenCol] = useState(false);
   const [openCat, setopenCat] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [collection, setcollection] = useState<Array<{ id: number; name: string }>>([]);
-  const [categorie, setcategorie] = useState<Array<{ id: number; name: string }>>([]);
+  const [collection, setcollection] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
+  const [categorie, setcategorie] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
 
-  
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_COLLECTIONS_MODULE}`
+      );
 
-      setcollection(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
+      setcollection(
+        res.data.data.map((el: any) => ({ name: el.name, id: el?.id }))
+      );
     })();
     (async () => {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_CATEGORIE_MODULE}`);
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_CATEGORIE_MODULE}`
+      );
 
-      setcategorie(res.data.data.map((el: any) => ({ name: el.name, id: el?.id })));
+      setcategorie(
+        res.data.data.map((el: any) => ({ name: el.name, id: el?.id }))
+      );
     })();
   }, []);
-
 
   // Calculate Number of Wishlist
   let noOfWishlist = wishlist.length;
@@ -182,14 +192,13 @@ export default function Menu() {
                       </div>
                     )} */}
 
-                  
-                      <a
-                        className="w-full text-xl hover:bg-gray100 text-left py-2"
-                        onClick={() => setopenCat(!openCat)}
-                      >
-                        {"Catalogue"}
-                      </a>
-           
+                    <a
+                      className="w-full text-xl hover:bg-gray100 text-left py-2"
+                      onClick={() => setopenCat(!openCat)}
+                    >
+                      {"Catalogue"}
+                    </a>
+
                     {openCat && (
                       <div className="itemContainer px-10 w-full flex flex-col justify-around items-center">
                         {categorie.map((el, i) => (
@@ -206,13 +215,13 @@ export default function Menu() {
                       </div>
                     )}
 
-                    <hr className="border border-gray300 w-full mt-2" />
+                    {/* <hr className="border border-gray300 w-full mt-2" />
                     <div className="w-full text-xl py-2 my-3 flex justify-between">
                       <AuthForm extraClass="flex justify-between w-full">
                         <span>{auth.user ? t("profile") : t("login")}</span>
                         <UserIcon />
                       </AuthForm>
-                    </div>
+                    </div> */}
                     <hr className="border border-gray300 w-full" />
                     <Link href="/wishlist">
                       <a className="text-xl py-2 my-3 w-full flex justify-between">
@@ -232,7 +241,7 @@ export default function Menu() {
                     <hr className="border border-gray300 w-full" />
 
                     {/* Locale Dropdown */}
-                    {/* <HMenu
+                    <HMenu
                       as="div"
                       className="relative bg-gray100 mt-4 mb-2 w-full"
                     >
@@ -241,7 +250,7 @@ export default function Menu() {
                         href="#"
                         className="flex justify-center items-center py-2 px-4 text-center"
                       >
-                        {locale === "en" ? t("english") : t("myanmar")}{" "}
+                        {t(locale)}
                         <DownArrow />
                       </HMenu.Button>
                       <HMenu.Items
@@ -249,33 +258,46 @@ export default function Menu() {
                         style={{ zIndex: 9999 }}
                       >
                         <HMenu.Item>
-                          <Link href={asPath} locale="en">
+                          <Link href={asPath} locale="fr">
                             <a
                               className={`${
-                                locale === "en"
+                                locale === "fr"
                                   ? "bg-gray200 text-gray500"
                                   : "bg-white text-gray500"
                               } py-2 px-4 text-center focus:outline-none`}
                             >
-                              {t("english")}
+                              {t("fr")}
                             </a>
                           </Link>
                         </HMenu.Item>
                         <HMenu.Item>
-                          <Link href={asPath} locale="my">
+                          <Link href={asPath} locale="ar">
                             <a
                               className={`${
-                                locale === "my"
+                                locale === "ar"
                                   ? "bg-gray200 text-gray500"
                                   : "bg-white text-gray500"
                               } py-2 px-4 text-center focus:outline-none`}
                             >
-                              {t("myanmar")}
+                              {t("ar")}
+                            </a>
+                          </Link>
+                        </HMenu.Item>
+                        <HMenu.Item>
+                          <Link href={asPath} locale="it">
+                            <a
+                              className={`${
+                                locale === "it"
+                                  ? "bg-gray200 text-gray500"
+                                  : "bg-white text-gray500"
+                              } py-2 px-4 text-center focus:outline-none`}
+                            >
+                              {t("it")}
                             </a>
                           </Link>
                         </HMenu.Item>
                       </HMenu.Items>
-                    </HMenu> */}
+                    </HMenu>
 
                     {/* Currency Dropdown */}
                     {/* <HMenu as="div" className="relative bg-gray100 my-2 w-full">

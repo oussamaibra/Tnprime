@@ -76,21 +76,21 @@ export default function Footer() {
       </div> */}
 
       <div className={styles.bottomFooter}>
-
-
         <div className="app-max-width app-x-padding w-full flex justify-center">
           <span className="mt-1">
             © {new Date().getFullYear()} TN PRIME Industry. All Rights Reserved.
           </span>
 
           <div className={styles.socialsContainer}>
-          <a
-            href={"https://www.instagram.com/iphone_tnprime"}
-            className={styles.socials}
-          >
-            <IgLogo extraClass={styles.socials} />
-          </a>
-        </div>
+            <a
+              href={"https://www.instagram.com/prime.shop.tn/"}
+              target="_blank"
+              className={styles.socials}
+              rel="noreferrer"
+            >
+              <IgLogo extraClass={styles.socials} />
+            </a>
+          </div>
 
           {/* <span className="flex items-center">
             <span className="hidden sm:block">{"follow_us_on_social_media"}:</span>{" "}
@@ -102,10 +102,6 @@ export default function Footer() {
             </a>
           </span> */}
         </div>
-
-
-
-
       </div>
     </div>
   );

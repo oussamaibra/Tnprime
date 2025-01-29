@@ -10,6 +10,7 @@ import Card from "../Card/Card";
 import Loading from "../../public/icons/Loading";
 import GhostButton from "../Buttons/GhostButton";
 import { useRouter } from "next/router";
+import _ from "lodash";
 
 export default function SearchForm() {
   const t = useTranslations("Navigation");
@@ -36,10 +37,22 @@ export default function SearchForm() {
     if (!isFetching) return;
     const fetchData = async () => {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/search?q=${searchValue}`
+        `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/search?q=`
       );
-      const fetchedProducts: apiProductsType[] = res.data.data.map(
-        (product: any) => ({
+      const fetchedProducts: apiProductsType[] = res.data.data
+        .filter(
+          (el) =>
+            _.lowerCase(_.deburr(el.description)).includes(
+              _.lowerCase(_.deburr(searchValue))
+            ) ||
+            _.lowerCase(_.deburr(el.name)).includes(
+              _.lowerCase(_.deburr(searchValue))
+            ) ||
+            _.lowerCase(_.deburr(el.detail)).includes(
+              _.lowerCase(_.deburr(searchValue))
+            )
+        )
+        .map((product: any) => ({
           id: product?.id,
           name: product?.name,
           price: product?.option[0].price,
@@ -56,8 +69,7 @@ export default function SearchForm() {
           option: product?.option[0].id,
           size: product?.option[0].size.split(",")[0],
           createdAt: product?.createdAt,
-        })
-      );
+        }));
       if (fetchedProducts.length < 1) setNoResult(true);
       fetchedProducts.map((product, index) => {
         if (index < 4) {
@@ -152,7 +164,7 @@ export default function SearchForm() {
                       )}
                       <input
                         type="search"
-                        placeholder={t("search_anything")}
+                        placeholder={t("chercher")}
                         className="px-4 py-2 w-full focus:outline-none text-2xl"
                         onChange={handleChange}
                       />
@@ -161,7 +173,7 @@ export default function SearchForm() {
                   </div>
                   {noResult ? (
                     <div className="flex justify-center mt-8">
-                      <span>{t("no_result")}</span>
+                      <span>{t("aucunrésultat")}</span>
                     </div>
                   ) : (
                     <div className="text-center">
@@ -182,7 +194,7 @@ export default function SearchForm() {
                             router.push(`/search?q=${searchValue}`)
                           }
                         >
-                          {t("view_all")}
+                          {t("voirtout")}
                         </GhostButton>
                       )}
                     </div>
