@@ -7,7 +7,12 @@ import { ProvideCart } from "../context/cart/CartProvider";
 import { ProvideWishlist } from "../context/wishlist/WishlistProvider";
 import { ProvideAuth } from "../context/AuthContext";
 import { loadStripe } from "@stripe/stripe-js";
-import { PaymentElement, Elements, useStripe, useElements } from "@stripe/react-stripe-js";
+import {
+  PaymentElement,
+  Elements,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 
 import "../styles/globals.css";
 import "animate.css";
@@ -18,6 +23,8 @@ import "swiper/swiper.min.css";
 import "swiper/components/navigation/navigation.min.css";
 import "swiper/components/pagination/pagination.min.css";
 import "swiper/components/scrollbar/scrollbar.min.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -50,6 +57,16 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
   //   const { publishableKey } = await r.json();
   //  return loadStripe(publishableKey);
   // });
+  const checkLocation = async () => {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_LOCATION_MODULE}`);
+    if (res.data) {
+      localStorage.setItem("location", JSON.stringify(res.data));
+    }
+  };
+  
+  useEffect(() => {
+    checkLocation();
+  }, []);
 
   return (
     <NextIntlProvider messages={pageProps?.messages}>
