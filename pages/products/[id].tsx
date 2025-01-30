@@ -462,7 +462,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       onClick={() => size && addItem!(currentItem)}
                     />
                     <Button
-                      value="Passer à la caisse"
+                      value={t("PlacerVotreCommande")}
                       size="lg"
                       disabled={isEmpty(model) || isNil(model)}
                       extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
