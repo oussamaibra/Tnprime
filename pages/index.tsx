@@ -24,26 +24,46 @@ type Props = {
   collections: any;
 };
 
-const Home: React.FC<Props> = ({ products, collections }) => {
+const Home: React.FC<Props> = () => {
   const t = useTranslations("Index");
-  const [currentItems, setCurrentItems] = useState(products);
+  const [currentItems, setCurrentItems] = useState<Array<any>>();
   const [isFetching, setIsFetching] = useState(false);
-  // useEffect(() => {
-  //   if (!isFetching) return;
-  //   const fetchData = async () => {
-  //     const res = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_PROD_BACKEND_URL}/api/v1/products?order_by=createdAt.desc&offset=${currentItems.length}&limit=10`
-  //     );
-  //     const fetchedProducts = res.data.data.map((product: apiProductsType) => ({
-  //       ...product,
-  //       img1: product.image1,
-  //       img2: product.image2,
-  //     }));
-  //     setCurrentItems((products) => [...products, ...fetchedProducts]);
-  //     setIsFetching(false);
-  //   };
-  //   fetchData();
-  // }, [isFetching, currentItems.length]);
+  const [products, setproducts] = useState<Array<any>>();
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
+
+      const sortedArray = _.orderBy(
+        res.data.data,
+        (o: any) => {
+          return moment(o.createdAt).format("YYYY-MM-DD");
+        },
+        ["desc"]
+      );
+
+      const nouveateArray = sortedArray;
+      const products: any[] = nouveateArray.map((el) => ({
+        id: el?.id,
+        option: el?.option[0].id,
+        size: el?.option[0].size.split(",")[0],
+        name: el?.name,
+        price: el?.option[0].price,
+        qty: 1,
+        description: el?.description,
+        detail: el?.detail,
+        img1: el?.option[0].images.split(",")[0],
+        img2:
+          el?.option[0].images.split(",").length > 1
+            ? el?.option[0].images.split(",")[1]
+            : el?.option[0].images.split(",")[0],
+        // categoryName: ,
+        stock: el?.option[0].stock,
+        createdAt: el?.createdAt,
+      }));
+      setproducts(products);
+      setCurrentItems(products);
+    })();
+  }, []);
 
   const handleSeemore = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -155,7 +175,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
           {/* ===== Main Content Section ===== */}
           <div className="app-x-padding app-max-width mt-10 mb-14 ">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
-              {currentItems.map((item) => (
+              {currentItems?.map((item) => (
                 <Card key={item.id} item={item} />
               ))}
             </div>
