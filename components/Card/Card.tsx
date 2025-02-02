@@ -21,7 +21,8 @@ import copy from "copy-to-clipboard";
 import Select from "react-select";
 import Input from "../../components/Input/Input";
 import { isEmpty, isNil, values } from "lodash";
-
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 type Props = {
   item: itemType;
   outStock?: boolean;
@@ -185,12 +186,18 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
             onMouseLeave={() => setIsHovered(false)}
           >
             {!isHovered && (
-              <Image
+              // <Image
+              //   src={img1 as string}
+              //   alt={name}
+              //   width={230}
+              //   height={400}
+              //   layout="responsive"
+              // />
+
+              <LazyLoadImage
+                effect="opacity"
                 src={img1 as string}
-                alt={name}
-                width={230}
-                height={400}
-                layout="responsive"
+                // use normal <img> attributes as props
               />
             )}
             {isHovered && (
@@ -202,6 +209,14 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
                 height={400}
                 layout="responsive"
               />
+
+              // <LazyLoadImage
+              //   effect="opacity"
+              //   // className="transition-transform transform hover:scale-110 duration-1000"
+              //   src={img2 as string}
+
+              //   // use normal <img> attributes as props
+              // />
             )}
           </a>
         </Link>
