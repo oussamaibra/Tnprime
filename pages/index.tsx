@@ -118,7 +118,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
         </section> */}
 
         {/* ===== Best Selling Section ===== */}
-        <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">
+        <section className="app-max-width w-full h-full flex flex-col justify-center mt-24 mb-20">
           <div className="flex justify-center">
             <table width="90%" className="mb-10">
               <tr>
