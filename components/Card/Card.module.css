@@ -3,7 +3,10 @@
 }
 
 .imageContainer {
-  @apply relative overflow-hidden mb-1 h-64;
+  @apply relative overflow-hidden mb-1 h-96;
+}
+.lazy-image {
+  @apply w-full h-full object-cover;
 }
 
 .addBtn {

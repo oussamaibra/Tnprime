@@ -195,27 +195,32 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
               // />
 
               <LazyLoadImage
-                effect="opacity"
+                effect="blur"
                 src={img1 as string}
-                // use normal <img> attributes as props
+                className="lazy-image"
               />
             )}
             {isHovered && (
+              // <Image
+              //   className="transition-transform transform hover:scale-110 duration-1000"
+              //   src={img2 as string}
+              //   alt={name}
+              //   width={230}
+              //   height={400}
+              //   layout="responsive"
+              // />
+
               <Image
                 className="transition-transform transform hover:scale-110 duration-1000"
                 src={img2 as string}
                 alt={name}
-                width={230}
-                height={400}
-                layout="responsive"
+                layout="fill"
               />
 
               // <LazyLoadImage
-              //   effect="opacity"
-              //   // className="transition-transform transform hover:scale-110 duration-1000"
+              //   effect="blur"
               //   src={img2 as string}
-
-              //   // use normal <img> attributes as props
+              //   className="lazy-image"
               // />
             )}
           </a>
