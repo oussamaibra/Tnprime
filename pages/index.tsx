@@ -62,7 +62,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
 
       <main id="main-content" className="-mt-20">
         {/* ===== Category Section ===== */}
-        <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
+        {/* <section className="app-max-width w-full h-full flex flex-col justify-center mt-20 ">
           <div className="flex justify-center">
             <table width="90%">
               <tr>
@@ -115,7 +115,7 @@ const Home: React.FC<Props> = ({ products, collections }) => {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-16 mb-20">

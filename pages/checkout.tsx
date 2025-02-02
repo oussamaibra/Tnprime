@@ -83,8 +83,6 @@ const ShoppingCart = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [paymentSuccess, setpaymentSuccess] = useState(false);
 
-
-
   const products = cart.map((item) => ({
     id: Number(_.uniqueId()),
     quantity: item.qty,
@@ -92,14 +90,13 @@ const ShoppingCart = () => {
     size: item?.size,
   }));
 
-
-  const [location, setlocation] = useState({});
+  const [location, setlocation] = useState(null);
   const [currency, setcurrency] = useState("TND");
-  
+
   const checkLocation = async () => {
     const loc = JSON.parse(localStorage.getItem("location") ?? "");
     setlocation(loc);
-    setcurrency(loc.currency)
+    setcurrency(loc.currency);
   };
   useEffect(() => {
     checkLocation();
@@ -292,18 +289,13 @@ const ShoppingCart = () => {
       email !== "" &&
       phone !== "" &&
       password !== "" &&
-      shippingAddress !== "" &&
-      isOrdering;
+      shippingAddress !== "";
   } else {
     disableOrder =
-      name !== "" &&
-      email !== "" &&
-      phone !== "" &&
-      shippingAddress !== "" &&
-      isOrdering;
+      name !== "" && email !== "" && phone !== "" && shippingAddress !== "";
   }
 
-  console.log("disableOrder", disableOrder,!disableOrder);
+  console.log("disableOrder", disableOrder, !disableOrder);
 
   const lista = [
     {
@@ -766,12 +758,14 @@ const ShoppingCart = () => {
                 {"Adresse Livraison"}
               </label> */}
 
-              {location?.country?.includes("Tunisia") && (
+              {location && !location?.country?.includes("Tunisia") ? (
+                <></>
+              ) : (
                 <>
                   {" "}
                   <div className="my-4">
                     <label htmlFor="shipping_address" className="text-lg">
-                      {"Gouvernorat"}
+                      {t("Gouvernorat")}
                     </label>
 
                     <Select
@@ -788,7 +782,7 @@ const ShoppingCart = () => {
                   </div>
                   <div className="my-4">
                     <label htmlFor="shipping_address" className="text-lg">
-                      {"Ville"}
+                      {t("Ville")} {""}
                     </label>
 
                     <Select
@@ -859,7 +853,10 @@ const ShoppingCart = () => {
 
                 <div className="py-3 flex justify-between">
                   <span className="uppercase">{t("subtotal")}</span>
-                  <span> {subtotal} {currency}</span>
+                  <span>
+                    {" "}
+                    {subtotal} {currency}
+                  </span>
                 </div>
 
                 <div className="py-3">
@@ -887,7 +884,10 @@ const ShoppingCart = () => {
                 <div>
                   <div className="flex justify-between py-3">
                     <span>{t("grand_total")}</span>
-                    <span> {roundDecimal(+subtotal + deliFee)} {currency} </span>
+                    <span>
+                      {" "}
+                      {roundDecimal(+subtotal + deliFee)} {currency}{" "}
+                    </span>
                   </div>
 
                   <div className="grid gap-4 mt-2 mb-4">
@@ -965,7 +965,7 @@ const ShoppingCart = () => {
                       </span>
                     </label> */}
 
-                    {!location?.country?.includes("Tunisia") && (
+                    {location && !location?.country?.includes("Tunisia") && (
                       <form onSubmit={handleSubmit}>
                         <PaymentElement />
 
@@ -1011,7 +1011,7 @@ const ShoppingCart = () => {
                   </div>
                 </div>
 
-                {location?.country?.includes("Tunisia") ? (
+                {location && location?.country?.includes("Tunisia") ? (
                   <Button
                     value={!auth.user ? "Register" : t("place_order")}
                     size="xl"

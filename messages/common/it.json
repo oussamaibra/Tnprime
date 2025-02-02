@@ -57,6 +57,8 @@
   },
 
   "CartWishlist": {
+    "Gouvernorat": "Gouvernorat",
+    "Ville": "Ville",
     "copié!": "Copiato!",
     "NometPrénom": "Nome e Cognome",
     "PlacerVotreCommande": "Effettua il tuo ordine",

@@ -56,6 +56,8 @@
     "sort_by_price_desc": "الفرز حسب السعر: من الأعلى إلى الأقل"
   },
   "CartWishlist": {
+    "Gouvernorat": "محافظة",
+    "Ville": "مدينة",
     "copié!": "تم النسخ!",
     "NometPrénom": "الاسم الكامل",
     "PlacerVotreCommande": "إتمام الطلب",

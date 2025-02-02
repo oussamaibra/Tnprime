@@ -56,6 +56,8 @@
     "sort_by_price_desc": "Trier par prix : élevé à bas"
   },
   "CartWishlist": {
+    "Gouvernorat":"Gouvernorat",
+    "Ville":"Ville",
     "copié!":"copié!",
     "NometPrénom":"Nom et Prénom",
     "PlacerVotreCommande":"Placer Votre Commande",
