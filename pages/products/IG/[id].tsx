@@ -379,7 +379,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
                 {["IPHONE", "SAMSUNG"].includes(size) ? (
                   <Select
-                    className="w-full focus:border-gray500 mb-4 z-50"
+                    className="w-full focus:border-gray500 mb-4 z-10"
                     value={model}
                     onChange={(e: any) => {
                       setmodel(e);

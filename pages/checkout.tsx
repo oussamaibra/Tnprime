@@ -786,7 +786,7 @@ const ShoppingCart = () => {
                     </label>
 
                     <Select
-                      className="w-full focus:border-gray500 mb-4 z-50"
+                      className="w-full focus:border-gray500 mb-4 z-10"
                       value={postcode}
                       onChange={(e: any) => {
                         setpostcode(e);
