@@ -877,6 +877,7 @@ const ShoppingCart = () => {
                         </label>
                       </div>
                       <span> 0 {currency} </span>
+                      
                     </div>
                   </div>
                 </div>
