@@ -95,5 +95,6 @@
 }
 
 .rightMenu li:nth-child(3) {
-  @apply hidden sm:block;
+  /* @apply hidden sm:block; */
+  @apply block;
 }
