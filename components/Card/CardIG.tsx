@@ -60,7 +60,7 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.imageContainerInsta}>
+      <div className="relative overflow-hidden mb-1 h-60 sm:h-80 md:h-96 lg:h-[32rem] flex justify-center items-center">
         <Link href={itemLink}>
           <a tabIndex={-1}>
             <LazyLoadImage

@@ -6,10 +6,10 @@
   @apply relative overflow-hidden mb-1 h-96;
 }
 .imageContainerInsta {
-  @apply relative overflow-hidden mb-1 h-96 w-96 object-cover;
+  @apply relative overflow-hidden mb-1 h-auto w-auto object-cover;
 }
 .lazy-image {
-  @apply w-full h-full object-cover;
+  @apply max-w-full max-h-full object-contain ;
 }
 
 .addBtn {
