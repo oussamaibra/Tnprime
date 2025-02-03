@@ -13,6 +13,7 @@ import Card from "../components/Card/Card";
 import TestiSlider from "../components/TestiSlider/TestiSlider";
 import { apiProductsType, itemType } from "../context/cart/cart-types";
 import LinkButton from "../components/Buttons/LinkButton";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // /bg-img/ourshop.png
 import ourShop from "../public/bg-img/ourshop.png";
@@ -136,6 +137,55 @@ const Home: React.FC<Props> = () => {
             ))}
           </div>
         </section> */}
+
+        <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
+          <div className="flex justify-center">
+            <table width="90%" className="mb-10">
+              <tr>
+                <td>
+                  <hr style={{ opacity: "0.2" }} />
+                </td>
+                <td
+                  style={{
+                    width: "1px",
+                    padding: "0 25px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <h2 className="text-4xl">{t("Instagram")}</h2>
+                </td>
+                <td>
+                  <hr style={{ opacity: "0.2" }} />
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div className="recSection my-8 app-max-width app-x-padding">
+          <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
+          <Swiper
+            slidesPerView={4}
+            centeredSlides={true}
+            spaceBetween={10}
+            loop={true}
+            grabCursor={true}
+            // pagination={{
+            //   clickable: true,
+            //   type: "bullets",
+            // }}
+            className="mySwiper card-swiper"
+          >
+            {currentItems?.map((item) => (
+              <SwiperSlide key={item.id}>
+                <div className="mb-6">
+                  <Card key={item.id} item={item} />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+     
+        </div>
+        </section>
 
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-24 mb-20">
