@@ -26,9 +26,10 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 type Props = {
   item: itemType;
   outStock?: boolean;
+  isInsta?: boolean;
 };
 
-const Card: FC<Props> = ({ item, outStock = false }) => {
+const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
 
@@ -178,7 +179,9 @@ const Card: FC<Props> = ({ item, outStock = false }) => {
 
   return (
     <div className={styles.card}>
-      <div className={styles.imageContainer}>
+      <div
+        className={isInsta ? styles.imageContainerInsta : styles.imageContainer}
+      >
         <Link href={itemLink}>
           <a
             tabIndex={-1}

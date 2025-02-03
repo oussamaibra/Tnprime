@@ -162,9 +162,8 @@ const Home: React.FC<Props> = () => {
           </div>
 
           <div className="recSection my-8 app-max-width app-x-padding">
-          <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
           <Swiper
-            slidesPerView={4}
+            slidesPerView={3}
             centeredSlides={true}
             spaceBetween={10}
             loop={true}
@@ -178,7 +177,7 @@ const Home: React.FC<Props> = () => {
             {currentItems?.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="mb-6">
-                  <Card key={item.id} item={item} />
+                  <Card isInsta key={item.id} item={item} />
                 </div>
               </SwiperSlide>
             ))}
