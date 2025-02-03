@@ -38,9 +38,9 @@ const ShoppingCart = () => {
 
   let deliFee = 0;
   if (deli === "Yangon") {
-    deliFee = 2.0;
+    deliFee = 0;
   } else if (deli === "Others") {
-    deliFee = 7.0;
+    deliFee = 0;
   }
 
   return (
@@ -195,13 +195,13 @@ const ShoppingCart = () => {
                         {"Livraison à domicile"}
                       </label>
                     </div>
-                    <span> 8.00 {currency} </span>
+                    <span> 0 {currency} </span>
                   </div>
                 </div>
               </div>
               <div className="flex justify-between py-3">
                 <span>{t("grand_total")}</span>
-                <span> {roundDecimal(subtotal + 8)} {currency}</span>
+                <span> {roundDecimal(subtotal + 0)} {currency}</span>
               </div>
               <Button
                 value={t("proceed_to_checkout")}
