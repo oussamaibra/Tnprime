@@ -180,7 +180,7 @@ const ShoppingCart = () => {
         ville: postcode?.value,
         gouvernorat: adrname?.value,
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
-        deliveryDate: new Date().setDate(new Date().getDate() + 8),
+        deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: deli,
         products,
@@ -224,7 +224,7 @@ const ShoppingCart = () => {
   if (deli === "POINT_RELE") {
     deliFee = 2.0;
   } else if (deli === "DOMICILE") {
-    deliFee = 8.0;
+    deliFee = 0.0;
   }
 
   const stripe: any = useStripe();
@@ -873,10 +873,10 @@ const ShoppingCart = () => {
                           onChange={() => setDeli("DOMICILE")}
                         />{" "}
                         <label htmlFor="DOMICILE" className="cursor-pointer">
-                          {"Livraison à domicile"}
+                          {"Livraison à domicile gratuite"}
                         </label>
                       </div>
-                      <span> 8 {currency} </span>
+                      <span> 0 {currency} </span>
                     </div>
                   </div>
                 </div>
