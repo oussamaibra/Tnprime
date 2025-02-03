@@ -89,7 +89,7 @@ const ShoppingCart = () => {
     option: item?.option,
     size: item?.size,
   }));
-
+  console.log("testttttttttttttt----------", products);
   const [location, setlocation] = useState(null);
   const [currency, setcurrency] = useState("TND");
 
@@ -180,7 +180,7 @@ const ShoppingCart = () => {
         ville: postcode?.value,
         gouvernorat: adrname?.value,
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
-        deliveryDate: new Date().setDate(new Date().getDate() + 2),
+        deliveryDate: new Date().setDate(new Date().getDate() + 8),
         paymentType: "OTHERS",
         deliveryType: deli,
         products,
@@ -224,7 +224,7 @@ const ShoppingCart = () => {
   if (deli === "POINT_RELE") {
     deliFee = 2.0;
   } else if (deli === "DOMICILE") {
-    deliFee = 0.0;
+    deliFee = 8.0;
   }
 
   const stripe: any = useStripe();
@@ -769,7 +769,7 @@ const ShoppingCart = () => {
                     </label>
 
                     <Select
-                      className="w-full focus:border-gray500 mb-4"
+                      className="w-full focus:border-gray500 mb-4 z-50"
                       value={adrname}
                       onChange={(e: any) => {
                         setadrname(e);
@@ -786,7 +786,7 @@ const ShoppingCart = () => {
                     </label>
 
                     <Select
-                      className="w-full focus:border-gray500 mb-4"
+                      className="w-full focus:border-gray500 mb-4 z-50"
                       value={postcode}
                       onChange={(e: any) => {
                         setpostcode(e);
@@ -873,10 +873,10 @@ const ShoppingCart = () => {
                           onChange={() => setDeli("DOMICILE")}
                         />{" "}
                         <label htmlFor="DOMICILE" className="cursor-pointer">
-                          {"Livraison à domicile gratuite"}
+                          {"Livraison à domicile"}
                         </label>
                       </div>
-                      <span> 0 {currency} </span>
+                      <span> 8 {currency} </span>
                     </div>
                   </div>
                 </div>
