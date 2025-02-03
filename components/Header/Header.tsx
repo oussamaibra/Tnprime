@@ -30,7 +30,7 @@ type Props = {
 };
 type LinkProps = {
   href: string;
-  locale: "fr" | "ar" | "it";
+  locale: "fr" | "ar" | "it" | "an";
   active: boolean;
 };
 const MyLink: React.FC<LinkProps> = ({
@@ -330,6 +330,17 @@ const Header: React.FC<Props> = ({ title }) => {
                           locale="it"
                         >
                           {t("it")}
+                        </MyLink>
+                      )}
+                    </Mheadlessui.Item>
+                    <Mheadlessui.Item>
+                      {({ active }) => (
+                        <MyLink
+                          active={locale === "an" ? true : active}
+                          href={asPath}
+                          locale="an"
+                        >
+                          {t("an")}
                         </MyLink>
                       )}
                     </Mheadlessui.Item>

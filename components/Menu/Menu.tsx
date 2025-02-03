@@ -296,6 +296,19 @@ export default function Menu() {
                             </a>
                           </Link>
                         </HMenu.Item>
+                        <HMenu.Item>
+                          <Link href={asPath} locale="an">
+                            <a
+                              className={`${
+                                locale === "an"
+                                  ? "bg-gray200 text-gray500"
+                                  : "bg-white text-gray500"
+                              } py-2 px-4 text-center focus:outline-none`}
+                            >
+                              {t("an")}
+                            </a>
+                          </Link>
+                        </HMenu.Item>
                       </HMenu.Items>
                     </HMenu>
 

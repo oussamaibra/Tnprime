@@ -10,7 +10,7 @@ import styles from "./Header.module.css";
 
 type LinkProps = {
   href: string;
-  locale: "fr" | "ar" | "it";
+  locale: "fr" | "ar" | "it" | "an";
   active: boolean;
 };
 
