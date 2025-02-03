@@ -575,6 +575,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         option: el?.option[0]?.id,
         size: el?.option[0].size.split(",")[0],
       })),
+      messages: (await import(`../../../messages/common/${locale}.json`)).default,
+
     },
   };
 };
