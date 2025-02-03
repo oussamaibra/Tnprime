@@ -192,7 +192,7 @@ const Header: React.FC<Props> = ({ title }) => {
       </a>
 
       {/* ===== Top Navigation ===== */}
-      {/* <TopNav /> */}
+      <TopNav />
 
       {/* ===== Main Navigation ===== */}
       <nav

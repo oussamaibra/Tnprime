@@ -41,15 +41,15 @@ const TopNav = () => {
   const t = useTranslations("Navigation");
 
   return (
-    <div className="bg-white text-black hidden lg:block">
+    <div className="bg-gray200 text-black">
       <div className="text-center app-max-width p-2 ">
         <p
           className=" decoration-sky-500 "
-          style={{ fontWeight: "500", fontSize: "12px" }}
+          style={{ fontWeight: "600", fontSize: "12px" }}
         >
-          Découvrez la nouvelle marque
+          {t("topnavContent")}
         </p>
-        <ul className={`flex ${styles.topRightMenu}`}>
+        {/* <ul className={`flex ${styles.topRightMenu}`}>
           <li>
             <Menu as="div" className="relative">
               <Menu.Button as="a" href="#" className="flex">
@@ -76,7 +76,7 @@ const TopNav = () => {
               </Menu.Items>
             </Menu>
           </li>
-        </ul>
+        </ul> */}
         {/* <ul className={`flex ${styles.topLeftMenu}`}>
           <li>
             <a href="#" aria-label="TN PrimeFashion Facebook Page">
