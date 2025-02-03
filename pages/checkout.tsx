@@ -180,7 +180,7 @@ const ShoppingCart = () => {
         ville: postcode?.value,
         gouvernorat: adrname?.value,
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
-        deliveryDate: new Date().setDate(new Date().getDate() + 8),
+        deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: deli,
         products,
@@ -248,7 +248,7 @@ const ShoppingCart = () => {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_CREATEPAYMENT_MODULE}`,
       {
-        totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+        totalPrice: Number(roundDecimal(+subtotal + 0)),
         email: email,
         name: name,
       }
@@ -887,7 +887,7 @@ const ShoppingCart = () => {
                     <span>{t("grand_total")}</span>
                     <span>
                       {" "}
-                      {roundDecimal(+subtotal + deliFee)} {currency}{" "}
+                      {roundDecimal(+subtotal + 0)} {currency}{" "}
                     </span>
                   </div>
 
