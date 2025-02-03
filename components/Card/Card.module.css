@@ -1,12 +1,12 @@
-.card {
+/* .card {
   @apply w-full;
-}
+} */
 
 .imageContainer {
   @apply relative overflow-hidden mb-1 h-96;
 }
 .imageContainerInsta {
-  @apply relative overflow-hidden mb-1 h-96 w-96;
+  @apply relative overflow-hidden mb-1;
 }
 .lazy-image {
   @apply w-full h-full object-cover;

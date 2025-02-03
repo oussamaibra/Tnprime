@@ -19,6 +19,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ourShop from "../public/bg-img/ourshop.png";
 import moment from "moment";
 import _ from "lodash";
+import CardIG from "../components/Card/CardIG";
 
 type Props = {
   products: itemType[];
@@ -52,6 +53,7 @@ const Home: React.FC<Props> = () => {
         qty: 1,
         description: el?.description,
         detail: el?.detail,
+        collectionId: el.collectionId,
         img1: el?.option[0].images.split(",")[0],
         img2:
           el?.option[0].images.split(",").length > 1
@@ -139,51 +141,58 @@ const Home: React.FC<Props> = () => {
         </section> */}
 
         <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-10">
             <table width="90%" className="mb-10">
               <tr>
-                <td>
-                  <hr style={{ opacity: "0.2" }} />
-                </td>
                 <td
                   style={{
                     width: "1px",
-                    padding: "0 25px",
-                    whiteSpace: "nowrap",
+                    padding: "25px",
+                    whiteSpace: "wrap",
+                    textAlign: "center",
+                    background: "#000",
+                    fontWeight: "bolder",
+                    color: "#fff",
                   }}
                 >
-                  <h2 className="text-4xl">{t("Instagram")}</h2>
-                </td>
-                <td>
-                  <hr style={{ opacity: "0.2" }} />
+                  {t("topnavContent")}
                 </td>
               </tr>
             </table>
           </div>
 
-          <div className="recSection my-8 app-max-width app-x-padding">
-          <Swiper
-            slidesPerView={3}
-            centeredSlides={true}
-            spaceBetween={10}
-            loop={true}
-            grabCursor={true}
-            // pagination={{
-            //   clickable: true,
-            //   type: "bullets",
-            // }}
-            className="mySwiper card-swiper"
-          >
-            {currentItems?.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className="mb-6">
-                  <Card isInsta key={item.id} item={item} />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-     
-        </div>
+          <div >
+            <Swiper
+              // slidesPerView={3}
+              centeredSlides={true}
+              breakpoints={{
+                320: { slidesPerView: 2, spaceBetween: 20 },
+                480: { slidesPerView: 2, spaceBetween: 20 },
+                768: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 20 },
+              }}
+
+              // spaceBetween={20}
+              loop={true}
+              grabCursor={true}
+              freeMode
+              // pagination={{
+              //   clickable: true,
+              //   type: "bullets",
+              // }}
+
+            >
+              {currentItems
+                ?.filter((el) => el.collectionId === 2)
+                .map((item) => (
+                  <SwiperSlide key={item.id}>
+        
+                      <CardIG  key={item.id} item={item} />
+              
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          </div>
         </section>
 
         {/* ===== Best Selling Section ===== */}
@@ -203,12 +212,14 @@ const Home: React.FC<Props> = () => {
                 >
                   <h2 className="text-4xl">{t("ListDesProduits")}</h2>
                 </td>
+
                 <td>
                   <hr style={{ opacity: "0.2" }} />
                 </td>
               </tr>
             </table>
           </div>
+
           {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 lg:gap-x-12 gap-y-6 mb-10 app-x-padding">
             {currentItems[0] && (
               <Card key={currentItems[0]?.id} item={currentItems[0]} />
@@ -224,9 +235,11 @@ const Home: React.FC<Props> = () => {
           {/* ===== Main Content Section ===== */}
           <div className="app-x-padding app-max-width mt-10 mb-14 ">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
-              {currentItems?.map((item) => (
-                <Card key={item.id} item={item} />
-              ))}
+              {currentItems
+                ?.filter((el) => el.collectionId === 1)
+                ?.map((item) => (
+                  <Card key={item.id} item={item} />
+                ))}
             </div>
             {/* {categorie !== "new-arrivals" && <Pagination currentPage={page} lastPage={lastPage} orderby={orderby} />} */}
           </div>

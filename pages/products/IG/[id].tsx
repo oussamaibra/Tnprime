@@ -3,39 +3,38 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { iphoneimg } from "../../public/bg-img/iphone.png";
 import { Disclosure } from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-import Heart from "../../public/icons/Heart";
-import DownArrow from "../../public/icons/DownArrow";
-import FacebookLogo from "../../public/icons/FacebookLogo";
-import InstagramLogo from "../../public/icons/InstagramLogo";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import GhostButton from "../../components/Buttons/GhostButton";
-import Button from "../../components/Buttons/Button";
-import Card from "../../components/Card/Card";
+import Heart from "../../../public/icons/Heart";
+import DownArrow from "../../../public/icons/DownArrow";
+import FacebookLogo from "../../../public/icons/FacebookLogo";
+import InstagramLogo from "../../../public/icons/InstagramLogo";
+import Header from "../../../components/Header/Header";
+import Footer from "../../../components/Footer/Footer";
+import GhostButton from "../../../components/Buttons/GhostButton";
+import Button from "../../../components/Buttons/Button";
+import Card from "../../../components/Card/Card";
 import Circle from "@uiw/react-color-circle";
 import _, { isEmpty, isNil, values } from "lodash";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-
 
 // swiperjs
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // import Swiper core and required modules
 import SwiperCore, { Pagination } from "swiper/core";
-import { apiProductsType, itemType } from "../../context/cart/cart-types";
-import { useWishlist } from "../../context/wishlist/WishlistProvider";
-import { useCart } from "../../context/cart/CartProvider";
-import HeartSolid from "../../public/icons/HeartSolid";
+import { apiProductsType, itemType } from "../../../context/cart/cart-types";
+import { useWishlist } from "../../../context/wishlist/WishlistProvider";
+import { useCart } from "../../../context/cart/CartProvider";
+import HeartSolid from "../../../public/icons/HeartSolid";
 import { EasyZoomOnMove } from "easy-magnify";
 import copy from "copy-to-clipboard";
 import Select from "react-select";
-import Input from "../../components/Input/Input";
+import Input from "../../../components/Input/Input";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import CardIG from "../../../components/Card/CardIG";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -64,7 +63,7 @@ type Props = {
   products: any[];
 };
 
-const Product: React.FC<Props> = ({ product, products, url }) => {
+const ProductIG: React.FC<Props> = ({ product, products, url }) => {
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
 
@@ -246,17 +245,16 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               <>
                 <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
                   {productOption?.images?.split(",").map((el: any) => (
-                    <Image
+                    <LazyLoadImage
                       className={`cursor-pointer ${
                         mainImg === el
                           ? "opacity-100 border border-gray300"
                           : "opacity-50"
                       }`}
+                      effect="blur"
                       onClick={() => setMainImg(el)}
                       src={el as string}
                       alt={product.name}
-                      width={1000}
-                      height={1482}
                     />
                   ))}
                 </div>
@@ -268,19 +266,12 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     paddingRight: "4rem",
                   }}
                 >
-                  <EasyZoomOnMove
-                    loadingIndicator
-                    mainImage={{
-                      src: mainImg,
-                      alt: "My Product",
-                      width: 600,
-                      height: 700,
-                    }}
-                    zoomImage={{
-                      src: mainImg,
-                      alt: "My Product",
-                    }}
-                  />
+                   <LazyLoadImage
+                      effect="blur"
+                      src={mainImg}
+                      className="lazy-image"
+                      alt={product?.name}
+                    />
                 </div>
               </>
             ) : (
@@ -526,14 +517,14 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
             {products.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="mb-6">
-                  <Card key={item.id} item={item} />
+                  <CardIG key={item.id} item={item} />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
           <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
             {products.map((item) => (
-              <Card key={item.id} item={item} />
+              <CardIG key={item.id} item={item} />
             ))}
           </div>
         </div>
@@ -584,10 +575,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         option: el?.option[0]?.id,
         size: el?.option[0].size.split(",")[0],
       })),
-      messages: (await import(`../../messages/common/${locale}.json`)).default,
-      url: req?.headers?.host + req?.url,
     },
   };
 };
 
-export default Product;
+export default ProductIG;
