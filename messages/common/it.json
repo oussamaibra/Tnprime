@@ -144,7 +144,7 @@
     "your_order_received": "Il tuo ordine è stato ricevuto.",
     "bank_transfer_note": "Si prega di inviare lo screenshot della ricevuta bancaria via email (satnaingdev@gmail.com) o tramite la nostra messaggistica Facebook dopo aver trasferito l'importo sul nostro conto bancario.",
     "cash_delivery_note": "Gli articoli acquistati saranno consegnati nella settimana.",
-    "store_pickup_note": "Puoi ritirare i tuoi articoli acquistati nel nostro negozio entro 7 giorni.",
+    "store_pickup_note": "Puoi ritirare i tuoi articoli acquistati nel nostro negozio entro 2 giorni.",
     "thank_you_for_purchasing": "Grazie per aver acquistato da noi.",
     "our_banking_details": "I nostri dettagli bancari",
     "send_order_email": "Invia i dettagli dell'ordine alla mia email"
@@ -250,7 +250,7 @@
     "your_order_received": "Il tuo ordine è stato ricevuto.",
     "bank_transfer_note": "Si prega di inviare lo screenshot della ricevuta bancaria via email (satnaingdev@gmail.com) o tramite la nostra messaggistica Facebook dopo aver trasferito l'importo sul nostro conto bancario.",
     "cash_delivery_note": "Gli articoli acquistati saranno consegnati nella settimana.",
-    "store_pickup_note": "Puoi ritirare i tuoi articoli acquistati nel nostro negozio entro 7 giorni.",
+    "store_pickup_note": "Puoi ritirare i tuoi articoli acquistati nel nostro negozio entro 2 giorni.",
     "thank_you_for_purchasing": "Grazie per aver acquistato da noi.",
     "our_banking_details": "I nostri dettagli bancari",
     "send_order_email": "Invia i dettagli dell'ordine alla mia email"
