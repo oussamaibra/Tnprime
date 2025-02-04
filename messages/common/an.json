@@ -144,7 +144,7 @@
     "your_order_received": "Your order has been received.",
     "bank_transfer_note": "Please send the bank receipt screenshot via email (satnaingdev@gmail.com) or our Facebook Messenger after transferring the amount to our bank account.",
     "cash_delivery_note": "Purchased items will be delivered within the week.",
-    "store_pickup_note": "You can pick up your purchased items at our store within 7 days.",
+    "store_pickup_note": "You can pick up your purchased items at our store within 2 days.",
     "thank_you_for_purchasing": "Thank you for purchasing from us.",
     "our_banking_details": "Our Banking Details",
     "send_order_email": "Send order details to my email"
@@ -250,7 +250,7 @@
     "your_order_received": "Your order has been received.",
     "bank_transfer_note": "Please send a screenshot of the bank receipt via email (satnaingdev@gmail.com) or through our Facebook messaging after transferring the amount to our bank account.",
     "cash_delivery_note": "Purchased items will be delivered within the week.",
-    "store_pickup_note": "You can pick up your purchased items at our store within 7 days.",
+    "store_pickup_note": "You can pick up your purchased items at our store within 2 days.",
     "thank_you_for_purchasing": "Thank you for purchasing from us.",
     "our_banking_details": "Our Banking Details",
     "send_order_email": "Send order details to my email"
