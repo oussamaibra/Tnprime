@@ -60,7 +60,7 @@ const Slideshow = () => {
             delay: 5000,
             disableOnInteraction: false,
           }}
-          navigation={true}
+          // navigation={true}
           pagination={{
             clickable: true,
             type: "fraction",

@@ -174,6 +174,18 @@ const ShoppingCart = () => {
     if (!auth.user) registerUser();
 
     const makeOrder = async () => {
+      console.log("makeOrdermakeOrder", {
+        customerId: auth!.user!.id,
+        shippingAddress: shippingAddress,
+        ville: postcode?.value,
+        gouvernorat: adrname?.value,
+        totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+        deliveryDate: new Date().setDate(new Date().getDate() + 2),
+        paymentType: "OTHERS",
+        deliveryType: deli,
+        products,
+        sendEmail,
+      });
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerId: auth!.user!.id,
         shippingAddress: shippingAddress,
@@ -221,11 +233,11 @@ const ShoppingCart = () => {
   );
 
   let deliFee = 0;
-  if (deli === "POINT_RELE") {
-    deliFee = 2.0;
-  } else if (deli === "DOMICILE") {
-    deliFee = 8.0;
-  }
+  // if (deli === "POINT_RELE") {
+  //   deliFee = 2.0;
+  // } else if (deli === "DOMICILE") {
+  //   deliFee = 8.0;
+  // }
 
   const stripe: any = useStripe();
   const elements = useElements();
@@ -877,7 +889,6 @@ const ShoppingCart = () => {
                         </label>
                       </div>
                       <span> 0 {currency} </span>
-                      
                     </div>
                   </div>
                 </div>

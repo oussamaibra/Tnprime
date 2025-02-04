@@ -20,6 +20,8 @@ import ourShop from "../public/bg-img/ourshop.png";
 import moment from "moment";
 import _ from "lodash";
 import CardIG from "../components/Card/CardIG";
+import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
+SwiperCore.use([Pagination, Navigation, Autoplay]);
 
 type Props = {
   products: itemType[];
@@ -176,9 +178,11 @@ const Home: React.FC<Props> = () => {
               loop={true}
               grabCursor={true}
               freeMode
+              navigation={true}
               // pagination={{
               //   clickable: true,
-              //   type: "bullets",
+              //   type: "progressbar",
+              //   dynamicBullets: true,
               // }}
 
             >
