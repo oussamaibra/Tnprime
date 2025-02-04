@@ -355,7 +355,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                             ? "https://www.tnprime.shop:6443" +
                               "/images/" +
                               "sam.png"
-                            : "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/oppo-a3-pro-5g-en/featured/640_640-purple.png.thumb.webp"
+                            : "https://i.pinimg.com/564x/97/6a/0f/976a0ffd77349036329064a231504f7f.jpg"
                         }
                         height={100}
                         width={100}
