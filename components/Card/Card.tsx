@@ -201,6 +201,7 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
                 effect="blur"
                 src={img1 as string}
                 className="lazy-image"
+                placeholderSrc="/bg-img/skeleton-loading.gif"
               />
             )}
             {isHovered && (

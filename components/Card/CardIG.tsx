@@ -67,6 +67,7 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
               effect="blur"
               src={img1 as string}
               className="lazy-image"
+              placeholderSrc="/bg-img/loader1.gif"
             />
           </a>
         </Link>
