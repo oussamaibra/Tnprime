@@ -300,6 +300,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       src={el}
                       className="lazy-image"
                       alt={product?.name}
+                      placeholderSrc="/bg-img/skeleton-loading.gif"
+
                     />
                   </SwiperSlide>
                 ))}

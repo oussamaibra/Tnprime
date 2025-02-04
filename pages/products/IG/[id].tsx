@@ -255,6 +255,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       onClick={() => setMainImg(el)}
                       src={el as string}
                       alt={product.name}
+                      placeholderSrc="/bg-img/skeleton-loading.gif"
+
                     />
                   ))}
                 </div>
@@ -271,6 +273,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       src={mainImg}
                       className="lazy-image"
                       alt={product?.name}
+                      placeholderSrc="/bg-img/skeleton-loading.gif"
+
                     />
                 </div>
               </>
@@ -291,6 +295,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       src={el}
                       className="lazy-image"
                       alt={product?.name}
+                      placeholderSrc="/bg-img/skeleton-loading.gif"
+
                     />
                   </SwiperSlide>
                 ))}
