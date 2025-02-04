@@ -14,6 +14,7 @@ import Input from "../components/Input/Input";
 import { itemType } from "../context/wishlist/wishlist-type";
 import { useAuth } from "../context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
+import emailjs from "@emailjs/browser";
 import {
   PaymentElement,
   Elements,
@@ -149,6 +150,88 @@ const ShoppingCart = () => {
   //   if (auth.user) makeOrder();
   // }, [isOrdering]);
   const Ordering = () => {
+    console.log("ssssssssssssssss", products);
+    let HTMT = `<table
+        style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
+        role="presentation">
+
+        <tbody>
+
+        <tr>
+
+        <td style="padding:20px; color: #000; background:#00aaa8;"> Name of Client
+        </td> 
+
+         <td style="padding:20px; color: #000; background:#00aaa8;"> Email of Client
+        </td> 
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> Phone of Client
+        </td> 
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> Product Link
+        </td> 
+
+               <td style="padding:20px; color: #000; background:#00aaa8;"> Product QTY
+        </td> 
+
+                <td style="padding:20px; color: #000; background:#00aaa8;"> Product Size
+        </td>
+        
+        
+        </tr>`;
+
+    cart.forEach((el) => {
+      HTMT = `${HTMT} 
+          
+           <tr>
+
+        <td style="padding:20px; color: #000; background:#00aaa8;"> ${name}
+        </td> 
+
+         <td style="padding:20px; color: #000; background:#00aaa8;"> ${email}
+        </td> 
+
+          <td style="padding:20px; color: #000; background:#00aaa8;">${phone} - ${phone2}
+        </td> 
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> 
+          <div>
+          <img src=${el?.img1} alt="IMAGE" width={50} height={50}/>
+          <div/>
+        </td> 
+
+               <td style="padding:20px; color: #000; background:#00aaa8;"> ${el.qty}
+        </td> 
+
+                <td style="padding:20px; color: #000; background:#00aaa8;"> ${el?.size}
+        </td>
+        
+        
+        </tr>
+          `;
+    });
+
+    HTMT = `${HTMT}   
+    </tbody>
+   <table />`;
+
+    const templateParams = {
+      email: email,
+      subject: "NEW ORDER TN PRIME ",
+      message: HTMT,
+    };
+
+    const serviceID = "service_5rvhhwc";
+    const templateID = "template_0c9155n";
+    const publicKey = "Utk0-Oe1c_AqSjQmN";
+
+    emailjs
+      .send(serviceID, templateID, templateParams, publicKey)
+      .then(() => {})
+      .catch((res) => {
+        console.error(res.message);
+      });
+
     setErrorMsg("");
 
     // if not logged in, register the user
