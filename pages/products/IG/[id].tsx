@@ -7,7 +7,6 @@ import { Disclosure } from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import { useRouter } from "next/router";
-
 import Heart from "../../../public/icons/Heart";
 import DownArrow from "../../../public/icons/DownArrow";
 import FacebookLogo from "../../../public/icons/FacebookLogo";
@@ -19,7 +18,8 @@ import Button from "../../../components/Buttons/Button";
 import Card from "../../../components/Card/Card";
 import Circle from "@uiw/react-color-circle";
 import _, { isEmpty, isNil, values } from "lodash";
-
+import emailjs from "@emailjs/browser";
+import { Toaster,toast  } from "react-hot-toast";
 // swiperjs
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -35,6 +35,8 @@ import Select from "react-select";
 import Input from "../../../components/Input/Input";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import CardIG from "../../../components/Card/CardIG";
+import { useAuth } from "../../../context/AuthContext";
+import { roundDecimal } from "../../../components/Util/utilFunc";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -64,8 +66,10 @@ type Props = {
 };
 
 const ProductIG: React.FC<Props> = ({ product, products, url }) => {
+  const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
+  const auth = useAuth();
 
   const checkLocation = async () => {
     const loc = JSON.parse(localStorage.getItem("location") ?? "");
@@ -75,6 +79,27 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
   useEffect(() => {
     checkLocation();
   }, []);
+
+  // Form Fields
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [isOrdering, setIsOrdering] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  // const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
+  const [orderError, setOrderError] = useState("");
+  const [sendEmail, setSendEmail] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [paymentSuccess, setpaymentSuccess] = useState(false);
+
+  // const products = cart.map((item) => ({
+  //   id: Number(_.uniqueId()),
+  //   quantity: item.qty,
+  //   option: item?.option,
+  //   size: item?.size,
+  // }));
 
   const isMobile = useMobileDetection();
   const router = useRouter();
@@ -185,6 +210,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
     { value: "Samsung Galaxy F14", label: "Samsung Galaxy F14" },
   ];
   const t = useTranslations("Category");
+  const t2 = useTranslations("CartWishlist");
 
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === product.id).length > 0;
@@ -215,8 +241,144 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
       : addToWishlist!(currentItem);
   };
 
+  const Ordering = () => {
+  
+  
+    let HTMT = `<table
+          style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
+          role="presentation">
+
+          <tbody>
+
+          <tr>
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> Name of Client
+          </td>
+
+           <td style="padding:20px; color: #000; background:#00aaa8;"> Email of Client
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;"> Phone of Client
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;"> Product Link
+          </td>
+
+                 <td style="padding:20px; color: #000; background:#00aaa8;"> Product QTY
+          </td>
+
+                  <td style="padding:20px; color: #000; background:#00aaa8;"> Product Size
+          </td>
+
+          </tr>`;
+
+    HTMT = `${HTMT}
+
+             <tr>
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> ${name}
+          </td>
+
+           <td style="padding:20px; color: #000; background:#00aaa8;">
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;">${phone}
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;">
+            <div>
+            <img src=${
+              productOption?.images?.split(",")[0]
+            } alt="IMAGE" width={50} height={50}/>
+            <div/>
+          </td>
+
+                 <td style="padding:20px; color: #000; background:#00aaa8;"> ${currentQty}
+          </td>
+
+                  <td style="padding:20px; color: #000; background:#00aaa8;"> ${size}
+          </td>
+
+          </tr>
+            `;
+
+    HTMT = `${HTMT}
+      </tbody>
+     <table />`;
+
+    const templateParams = {
+      email: "client@client.com",
+      subject: "NEW ORDER TN PRIME ",
+      message: HTMT,
+    };
+
+    const serviceID = "service_5rvhhwc";
+    const templateID = "template_0c9155n";
+    const publicKey = "Utk0-Oe1c_AqSjQmN";
+
+    emailjs
+      .send(serviceID, templateID, templateParams, publicKey)
+      .then(() => {})
+      .catch((res) => {
+        console.error(res.message);
+      });
+
+    // if not logged in, register the user
+    const registerUser = async () => {
+      const regResponse = await auth.register!(
+        `client${Date.now()}@client.com`,
+        name,
+        "12345667889",
+        shippingAddress,
+        phone,
+        phone
+      );
+      if (!regResponse.success) {
+        return false;
+      }
+    };
+
+    registerUser();
+
+    const products = [
+      {
+        id: Number(_.uniqueId()),
+        quantity: currentQty,
+        option: productOption.id,
+        size: model?.value,
+      },
+    ];
+
+
+    const makeOrder = async () => {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
+        customerId: auth!.user!.id,
+        shippingAddress: shippingAddress,
+        ville: "NA",
+        gouvernorat: "NA",
+        totalPrice: Number(
+          roundDecimal(Number(currentItem?.price) * Number(currentQty))
+        ),
+        deliveryDate: new Date().setDate(new Date().getDate() + 2),
+        paymentType: "OTHERS",
+        deliveryType: "DOMICILE",
+        products,
+        sendEmail,
+      });
+      if (res?.data?.success) {
+        toast.success(t('Order Passed')); // Displays a success message
+
+      }
+    };
+
+    makeOrder();
+  };
+
   return (
     <div>
+
+<Toaster position="top-center" />
+
       {/* ===== Head Section ===== */}
       <Header title={`${product.name} - TN Prime`} />
 
@@ -256,7 +418,6 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       src={el as string}
                       alt={product.name}
                       placeholderSrc="/bg-img/skeleton-loading.gif"
-
                     />
                   ))}
                 </div>
@@ -268,14 +429,13 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                     paddingRight: "4rem",
                   }}
                 >
-                   <LazyLoadImage
-                      effect="blur"
-                      src={mainImg}
-                      className="lazy-image"
-                      alt={product?.name}
-                      placeholderSrc="/bg-img/skeleton-loading.gif"
-
-                    />
+                  <LazyLoadImage
+                    effect="blur"
+                    src={mainImg}
+                    className="lazy-image"
+                    alt={product?.name}
+                    placeholderSrc="/bg-img/skeleton-loading.gif"
+                  />
                 </div>
               </>
             ) : (
@@ -296,7 +456,6 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       className="lazy-image"
                       alt={product?.name}
                       placeholderSrc="/bg-img/skeleton-loading.gif"
-
                     />
                   </SwiperSlide>
                 ))}
@@ -452,6 +611,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       +
                     </div>
                   </div>
+
                   <div className="flex h-12 space-x-4 w-full">
                     <Button
                       value={t("add_to_cart")}
@@ -460,17 +620,121 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                       onClick={() => size && addItem!(currentItem)}
                     />
-                    <Button
-                      value={t("PlacerVotreCommande")}
-                      size="lg"
-                      disabled={isEmpty(model) || isNil(model)}
-                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                      onClick={() => {
-                        size && addItem!(currentItem);
-                        router.push(`/checkout`);
-                      }}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {model && (
+              <div
+                style={{
+                  //  border:"1px solid",
+                  //  padding:"10px",
+                  marginBottom: "20px",
+                }}
+              >
+                <div className="mb-2">
+                  <div className="my-4">
+                    <label htmlFor="name" className="text-lg">
+                      {t2("NometPrénom")}
+                    </label>
+                    <Input
+                      name="name"
+                      type="text"
+                      extraClass="w-full mt-1 mb-2"
+                      border="border-2 border-gray400"
+                      value={name}
+                      onChange={(e) =>
+                        setName((e.target as HTMLInputElement).value)
+                      }
+                      required
                     />
                   </div>
+
+                  <div className="my-4">
+                    <label htmlFor="phone" className="text-lg">
+                      {t2("phone")}
+                    </label>
+                    <Input
+                      name="phone"
+                      type="number"
+                      extraClass="w-full mt-1 mb-2"
+                      border="border-2 border-gray400"
+                      value={phone}
+                      onChange={(e) =>
+                        setPhone((e.target as HTMLInputElement).value)
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="my-4">
+                    <label htmlFor="shipping_address" className="text-lg">
+                      {t2("shipping_address")}
+                    </label>
+
+                    <textarea
+                      id="shipping_address"
+                      aria-label="shipping address"
+                      className="w-full mt-1 mb-2 border-2 border-gray400 p-4 outline-none"
+                      rows={4}
+                      value={shippingAddress}
+                      onChange={(e) =>
+                        setShippingAddress(
+                          (e.target as HTMLTextAreaElement).value
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="py-3 flex justify-between">
+                  <span className="uppercase">{t2("subtotal")}</span>
+                  <span>
+                    {" "}
+                    {Number(
+                      roundDecimal(
+                        Number(currentItem?.price) * Number(currentQty)
+                      )
+                    )}{" "}
+                    {currency}{" "}
+                  </span>
+                </div>
+
+                <div className="py-3 flex justify-between">
+                  <span className="uppercase">{"Livraison gratuite"}</span>
+                  <span>
+                    {" "}
+                    {0} {currency}
+                  </span>
+                </div>
+
+                <hr />
+                <div>
+                  <div className="flex justify-between py-3">
+                    <span>{t2("grand_total")}</span>
+                    <span>
+                      {" "}
+                      {Number(
+                        roundDecimal(
+                          Number(currentItem?.price) * Number(currentQty)
+                        )
+                      )}{" "}
+                      {currency}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex h-12 space-x-4 w-full">
+                  <Button
+                    value={t("PlacerVotreCommande")}
+                    size="lg"
+                    disabled={isEmpty(model) || isNil(model)}
+                    extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
+                    onClick={() => {
+                      Ordering();
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -581,8 +845,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         option: el?.option[0]?.id,
         size: el?.option[0].size.split(",")[0],
       })),
-      messages: (await import(`../../../messages/common/${locale}.json`)).default,
-
+      messages: (await import(`../../../messages/common/${locale}.json`))
+        .default,
     },
   };
 };
