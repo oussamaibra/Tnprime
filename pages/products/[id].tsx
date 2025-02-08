@@ -40,6 +40,7 @@ import Select from "react-select";
 import Input from "../../components/Input/Input";
 import { roundDecimal } from "../../components/Util/utilFunc";
 import { useAuth } from "../../context/AuthContext";
+import moment from "moment";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -449,8 +450,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerId: auth!.user!.id,
         shippingAddress: shippingAddress,
-        ville: "NA",
-        gouvernorat: "NA",
+        ville: moment().format("YYYY-MM-DD HH:mm"),
+        gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice: Number(
           roundDecimal(Number(currentItem?.price) * Number(currentQty))
         ),

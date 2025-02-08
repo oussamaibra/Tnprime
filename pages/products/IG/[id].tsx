@@ -19,7 +19,7 @@ import Card from "../../../components/Card/Card";
 import Circle from "@uiw/react-color-circle";
 import _, { isEmpty, isNil, values } from "lodash";
 import emailjs from "@emailjs/browser";
-import { Toaster,toast  } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 // swiperjs
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -37,6 +37,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import CardIG from "../../../components/Card/CardIG";
 import { useAuth } from "../../../context/AuthContext";
 import { roundDecimal } from "../../../components/Util/utilFunc";
+import moment from "moment";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -226,7 +227,10 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
     { value: "Samsung Galaxy S20+", label: "Samsung Galaxy S20+" },
     { value: "Samsung Galaxy S20 Ultra", label: "Samsung Galaxy S20 Ultra" },
     { value: "Samsung Galaxy Note 20", label: "Samsung Galaxy Note 20" },
-    { value: "Samsung Galaxy Note 20 Ultra", label: "Samsung Galaxy Note 20 Ultra" },
+    {
+      value: "Samsung Galaxy Note 20 Ultra",
+      label: "Samsung Galaxy Note 20 Ultra",
+    },
     { value: "Samsung Galaxy A01", label: "Samsung Galaxy A01" },
     { value: "Samsung Galaxy A11", label: "Samsung Galaxy A11" },
     { value: "Samsung Galaxy A21", label: "Samsung Galaxy A21" },
@@ -300,8 +304,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
     { value: "Samsung Galaxy Z Fold 6", label: "Samsung Galaxy Z Fold 6" },
     { value: "Samsung Galaxy S25", label: "Samsung Galaxy S25" },
     { value: "Samsung Galaxy S25+", label: "Samsung Galaxy S25+" },
-    { value: "Samsung Galaxy S25 Ultra", label: "Samsung Galaxy S25 Ultra" }
-  ]
+    { value: "Samsung Galaxy S25 Ultra", label: "Samsung Galaxy S25 Ultra" },
+  ];
   const t = useTranslations("Category");
   const t2 = useTranslations("CartWishlist");
 
@@ -335,8 +339,6 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
   };
 
   const Ordering = () => {
-  
-  
     let HTMT = `<table
           style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
           role="presentation">
@@ -415,7 +417,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
         console.error("zszzzzzzzz");
       })
       .catch((res) => {
-        console.error("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",res.message);
+        console.error("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res.message);
       });
 
     // if not logged in, register the user
@@ -444,13 +446,12 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
       },
     ];
 
-
     const makeOrder = async () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerId: auth!.user!.id,
         shippingAddress: shippingAddress,
-        ville: "NA",
-        gouvernorat: "NA",
+        ville: moment().format("YYYY-MM-DD HH:mm"),
+        gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice: Number(
           roundDecimal(Number(currentItem?.price) * Number(currentQty))
         ),
@@ -461,12 +462,12 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
         sendEmail,
       });
       if (res?.data?.success) {
-        toast.success(t('Order Passed')); // Displays a success message
-        router.push('/coming-soon')
+        toast.success(t("Order Passed")); // Displays a success message
+        router.push("/coming-soon");
         setName("");
         setPhone("");
         setShippingAddress("");
-      }else{
+      } else {
         setName("");
         setPhone("");
         setShippingAddress("");
@@ -478,8 +479,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
   return (
     <div>
-
-<Toaster position="top-center" />
+      <Toaster position="top-center" />
 
       {/* ===== Head Section ===== */}
       <Header title={`${product.name} - TN Prime`} />
