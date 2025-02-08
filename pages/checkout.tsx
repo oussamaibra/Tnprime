@@ -23,6 +23,7 @@ import {
 } from "@stripe/react-stripe-js";
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
 import _, { isEmpty, isNil } from "lodash";
+import moment from "moment";
 
 // this type will prevent typescript warnings
 
@@ -267,8 +268,8 @@ const ShoppingCart = () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerId: auth!.user!.id,
         shippingAddress: shippingAddress,
-        ville: "NA",
-        gouvernorat: 'NA',
+        ville: moment().format("YYYY-MM-DD HH:mm"),
+        gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
