@@ -215,7 +215,7 @@ const ShoppingCart = () => {
    <table />`;
 
     const templateParams = {
-      email: email,
+      email: "iskande.mtir112@gmail.com",
       subject: "NEW ORDER TN PRIME ",
       message: HTMT,
     };

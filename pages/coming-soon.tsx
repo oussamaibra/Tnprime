@@ -6,16 +6,16 @@ import AppHeader from "../components/Header/AppHeader";
 import { GetStaticProps } from "next";
 
 const ComingSoon = () => {
-  const t = useTranslations("Others");
+  const t = useTranslations("CartWishlist");
   return (
     <>
       <AppHeader title="Coming Soon!" />
       <div className="flex flex-col h-screen justify-center items-center">
-        <h1 className="text-3xl tracking-wider leading-10">
+        {/* <h1 className="text-3xl tracking-wider leading-10">
           {t("coming_soon")}
-        </h1>
-        <h2 className="text-2xl text-gray500 mt-2">
-          {t("page_not_created_msg")}
+        </h1> */}
+        <h2 className="text-2xl text-gray500 mt-2 p-2 text-center">
+          {t("thank_you_note")}
         </h2>
         <Image
           src="/bg-img/coding.svg"
@@ -23,13 +23,11 @@ const ComingSoon = () => {
           width={400}
           height={400}
         />
-        <span className="text-gray400">
-          {t("go_back_to")}{" "}
-          <Link href="/">
-            <a className="underline font-bold hover:text-gray500">home page</a>
-          </Link>
-          ?
-        </span>
+        <span className="text-gray400">{t("thank_you_for_purchasing")}</span>
+
+        <Link href="/">
+          <a className="underline font-bold hover:text-gray500">home page</a>
+        </Link>
       </div>
     </>
   );
