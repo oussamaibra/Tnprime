@@ -343,11 +343,11 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       <img
                         src={
                           el === "IPHONE"
-                            ? "https://www.tnprime.shop:6443" +
+                            ? "http://localhost:6443" +
                               "/images/" +
                               "ap.png"
                             : el === "SAMSUNG"
-                            ? "https://www.tnprime.shop:6443" +
+                            ? "http://localhost:6443" +
                               "/images/" +
                               "sam.png"
                             : "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/oppo-a3-pro-5g-en/featured/640_640-purple.png.thumb.webp"
