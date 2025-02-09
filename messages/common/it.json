@@ -178,6 +178,8 @@
   },
 
   "Category": {
+    "Order Passed":"Ordine passato",
+
     "PlacerVotreCommande": "Effettua il tuo ordine",
     "SelectionnerVotreModeldeTélephone": "Seleziona il tuo modello di telefono",
     "SelectionnerVotreMarquedeTélephone": "Seleziona la tua marca di telefono",

@@ -23,6 +23,7 @@ import {
 } from "@stripe/react-stripe-js";
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
 import _, { isEmpty, isNil } from "lodash";
+import moment from "moment";
 
 // this type will prevent typescript warnings
 
@@ -90,7 +91,7 @@ const ShoppingCart = () => {
     option: item?.option,
     size: item?.size,
   }));
-  console.log("testttttttttttttt----------", products);
+
   const [location, setlocation] = useState(null);
   const [currency, setcurrency] = useState("TND");
 
@@ -150,7 +151,6 @@ const ShoppingCart = () => {
   //   if (auth.user) makeOrder();
   // }, [isOrdering]);
   const Ordering = () => {
-    console.log("ssssssssssssssss", products);
     let HTMT = `<table
         style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
         role="presentation">
@@ -216,7 +216,7 @@ const ShoppingCart = () => {
    <table />`;
 
     const templateParams = {
-      email: email,
+      email: "iskande.mtir112@gmail.com",
       subject: "NEW ORDER TN PRIME ",
       message: HTMT,
     };
@@ -235,45 +235,41 @@ const ShoppingCart = () => {
     setErrorMsg("");
 
     // if not logged in, register the user
+    // if not logged in, register the user
     const registerUser = async () => {
       const regResponse = await auth.register!(
-        email,
+        `client${Date.now()}@client.com`,
         name,
-        password,
-        context,
+        "12345667889",
+        shippingAddress,
         phone,
-        phone2
+        phone
       );
       if (!regResponse.success) {
-        setIsOrdering(false);
-        if (regResponse?.message === "alreadyExists") {
-          setErrorMsg("email_already_exists try to login with this Email !!");
-        } else {
-          setErrorMsg("error_occurs");
-        }
         return false;
       }
     };
-    if (!auth.user) registerUser();
+
+    registerUser();
 
     const makeOrder = async () => {
-      console.log("makeOrdermakeOrder", {
-        customerId: auth!.user!.id,
-        shippingAddress: shippingAddress,
-        ville: postcode?.value,
-        gouvernorat: adrname?.value,
-        totalPrice: Number(roundDecimal(+subtotal + deliFee)),
-        deliveryDate: new Date().setDate(new Date().getDate() + 2),
-        paymentType: "OTHERS",
-        deliveryType: deli,
-        products,
-        sendEmail,
-      });
+      // console.log("makeOrdermakeOrder", {
+      //   customerId: auth!.user!.id,
+      //   shippingAddress: shippingAddress,
+      //   ville: postcode?.value,
+      //   gouvernorat: adrname?.value,
+      //   totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+      //   deliveryDate: new Date().setDate(new Date().getDate() + 2),
+      //   paymentType: "OTHERS",
+      //   deliveryType: deli,
+      //   products,
+      //   sendEmail,
+      // });
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerId: auth!.user!.id,
         shippingAddress: shippingAddress,
-        ville: postcode?.value,
-        gouvernorat: adrname?.value,
+        ville: moment().format("YYYY-MM-DD HH:mm"),
+        gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
@@ -289,7 +285,7 @@ const ShoppingCart = () => {
         setOrderError("error_occurs");
       }
     };
-    if (auth.user) makeOrder();
+    makeOrder();
   };
 
   useEffect(() => {
@@ -381,16 +377,13 @@ const ShoppingCart = () => {
   if (!auth.user) {
     disableOrder =
       name !== "" &&
-      email !== "" &&
       phone !== "" &&
-      password !== "" &&
       shippingAddress !== "";
   } else {
     disableOrder =
-      name !== "" && email !== "" && phone !== "" && shippingAddress !== "";
+      name !== "" && phone !== "" && shippingAddress !== "";
   }
 
-  console.log("disableOrder", disableOrder, !disableOrder);
 
   const lista = [
     {
@@ -776,45 +769,8 @@ const ShoppingCart = () => {
                 />
               </div>
 
-              <div className="my-4">
-                <label htmlFor="email" className="text-lg mb-1">
-                  {t("email_address")}
-                </label>
-                <Input
-                  name="email"
-                  type="email"
-                  readOnly={auth.user ? true : false}
-                  extraClass={`w-full mt-1 mb-2 ${
-                    auth.user ? "bg-gray100 cursor-not-allowed" : ""
-                  }`}
-                  border="border-2 border-gray400"
-                  value={email}
-                  onChange={(e) =>
-                    setEmail((e.target as HTMLInputElement).value)
-                  }
-                  required
-                />
-              </div>
 
-              {!auth.user && (
-                <div className="my-4">
-                  <label htmlFor="password" className="text-lg">
-                    {t("password")}
-                  </label>
-                  <Input
-                    name="password"
-                    type="password"
-                    extraClass="w-full mt-1 mb-2"
-                    border="border-2 border-gray400"
-                    value={password}
-                    onChange={(e) =>
-                      setPassword((e.target as HTMLInputElement).value)
-                    }
-                    required
-                  />
-                </div>
-              )}
-
+     
               <div className="my-4">
                 <label htmlFor="phone" className="text-lg">
                   {t("phone")}
@@ -832,70 +788,9 @@ const ShoppingCart = () => {
                 />
               </div>
 
-              <div className="my-4">
-                <label htmlFor="phone" className="text-lg">
-                  {t("phone")} 2
-                </label>
-                <Input
-                  name="phone2"
-                  type="number"
-                  extraClass="w-full mt-1 mb-2"
-                  border="border-2 border-gray400"
-                  value={phone2}
-                  onChange={(e) =>
-                    setPhone2((e.target as HTMLInputElement).value)
-                  }
-                  required
-                />
-              </div>
 
-              {/* <label htmlFor="toggle" className="text-lg text-gray-700">
-                {"Adresse Livraison"}
-              </label> */}
 
-              {location && !location?.country?.includes("Tunisia") ? (
-                <></>
-              ) : (
-                <>
-                  {" "}
-                  <div className="my-4">
-                    <label htmlFor="shipping_address" className="text-lg">
-                      {t("Gouvernorat")}
-                    </label>
 
-                    <Select
-                      className="w-full focus:border-gray500 mb-4 z-50"
-                      value={adrname}
-                      onChange={(e: any) => {
-                        setadrname(e);
-                      }}
-                      options={lista.map((el) => ({
-                        label: el?.label,
-                        value: el?.value,
-                      }))}
-                    />
-                  </div>
-                  <div className="my-4">
-                    <label htmlFor="shipping_address" className="text-lg">
-                      {t("Ville")} {""}
-                    </label>
-
-                    <Select
-                      className="w-full focus:border-gray500 mb-4 z-10"
-                      value={postcode}
-                      onChange={(e: any) => {
-                        setpostcode(e);
-                      }}
-                      options={lista
-                        .filter((elm) => elm?.value === adrname?.value)[0]
-                        ?.villes?.map((el) => ({
-                          label: el,
-                          value: el,
-                        }))}
-                    />
-                  </div>
-                </>
-              )}
 
               <div className="my-4">
                 <label htmlFor="shipping_address" className="text-lg">
@@ -986,79 +881,7 @@ const ShoppingCart = () => {
                   </div>
 
                   <div className="grid gap-4 mt-2 mb-4">
-                    {/* <label
-                      htmlFor="plan-cash"
-                      className="relative flex flex-col bg-white p-5 rounded-lg shadow-md border border-gray300 cursor-pointer"
-                    >
-                      <span className="font-semibold text-gray-500 text-base leading-tight capitalize">
-                        {t("cash_on_delivery")}
-                      </span>
-                      <input
-                        type="radio"
-                        name="plan"
-                        id="plan-cash"
-                        value="CASH_ON_DELIVERY"
-                        className="absolute h-0 w-0 appearance-none"
-                        onChange={() => setPaymentMethod("CASH_ON_DELIVERY")}
-                      />
-                      <span
-                        aria-hidden="true"
-                        className={`${
-                          paymentMethod === "CASH_ON_DELIVERY" ? "block" : "hidden"
-                        } absolute inset-0 border-2 border-gray500 bg-opacity-10 rounded-lg`}
-                      >
-                        <span className="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-gray100">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            className="h-5 w-5 text-green-600"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                      </span>
-                    </label>
-                    <label
-                      htmlFor="plan-bank"
-                      className="relative flex flex-col bg-white p-5 rounded-lg shadow-md border border-gray300 cursor-pointer"
-                    >
-                      <span className="font-semibold text-gray-500 leading-tight capitalize">{t("bank_transfer")}</span>
-                      <span className="text-gray400 text-sm mt-1">{t("bank_transfer_desc")}</span>
-                      <input
-                        type="radio"
-                        name="plan"
-                        id="plan-bank"
-                        value="BANK_TRANSFER"
-                        className="absolute h-0 w-0 appearance-none"
-                        onChange={() => setPaymentMethod("BANK_TRANSFER")}
-                      />
-                      <span
-                        aria-hidden="true"
-                        className={`${
-                          paymentMethod === "BANK_TRANSFER" ? "block" : "hidden"
-                        } absolute inset-0 border-2 border-gray500 bg-opacity-10 rounded-lg`}
-                      >
-                        <span className="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-gray100">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            className="h-5 w-5 text-green-600"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                      </span>
-                    </label> */}
+           
 
                     {location && !location?.country?.includes("Tunisia") && (
                       <form onSubmit={handleSubmit}>
@@ -1072,7 +895,6 @@ const ShoppingCart = () => {
                           disabled={
                             (!stripe || !elements) &&
                             name !== "" &&
-                            email !== "" &&
                             phone !== ""
                           }
                         />
@@ -1108,7 +930,7 @@ const ShoppingCart = () => {
 
                 {location && location?.country?.includes("Tunisia") ? (
                   <Button
-                    value={!auth.user ? "Register" : t("place_order")}
+                    value={t("place_order")}
                     size="xl"
                     extraClass={`w-full`}
                     onClick={() => Ordering()}
@@ -1116,7 +938,7 @@ const ShoppingCart = () => {
                   />
                 ) : (
                   <Button
-                    value={!auth.user ? "Register" : t("place_order")}
+                    value={t("place_order")}
                     size="xl"
                     extraClass={`w-full`}
                     onClick={() => Ordering()}

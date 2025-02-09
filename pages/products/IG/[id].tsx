@@ -7,7 +7,6 @@ import { Disclosure } from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import { useRouter } from "next/router";
-
 import Heart from "../../../public/icons/Heart";
 import DownArrow from "../../../public/icons/DownArrow";
 import FacebookLogo from "../../../public/icons/FacebookLogo";
@@ -19,7 +18,8 @@ import Button from "../../../components/Buttons/Button";
 import Card from "../../../components/Card/Card";
 import Circle from "@uiw/react-color-circle";
 import _, { isEmpty, isNil, values } from "lodash";
-
+import emailjs from "@emailjs/browser";
+import { Toaster, toast } from "react-hot-toast";
 // swiperjs
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -35,6 +35,9 @@ import Select from "react-select";
 import Input from "../../../components/Input/Input";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import CardIG from "../../../components/Card/CardIG";
+import { useAuth } from "../../../context/AuthContext";
+import { roundDecimal } from "../../../components/Util/utilFunc";
+import moment from "moment";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -64,8 +67,10 @@ type Props = {
 };
 
 const ProductIG: React.FC<Props> = ({ product, products, url }) => {
+  const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
+  const auth = useAuth();
 
   const checkLocation = async () => {
     const loc = JSON.parse(localStorage.getItem("location") ?? "");
@@ -75,6 +80,27 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
   useEffect(() => {
     checkLocation();
   }, []);
+
+  // Form Fields
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const [shippingAddress, setShippingAddress] = useState("");
+  const [isOrdering, setIsOrdering] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  // const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
+  const [orderError, setOrderError] = useState("");
+  const [sendEmail, setSendEmail] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [paymentSuccess, setpaymentSuccess] = useState(false);
+
+  // const products = cart.map((item) => ({
+  //   id: Number(_.uniqueId()),
+  //   quantity: item.qty,
+  //   option: item?.option,
+  //   size: item?.size,
+  // }));
 
   const isMobile = useMobileDetection();
   const router = useRouter();
@@ -137,54 +163,151 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
     { value: "iPhone 7 Plus", label: "iPhone 7 Plus" },
   ];
   const listSam = [
-    { value: "Samsung Galaxy S24 Ultra", label: "Samsung Galaxy S24 Ultra" },
-    { value: "Samsung Galaxy S24", label: "Samsung Galaxy S24" },
-    { value: "Samsung Galaxy S23 Ultra", label: "Samsung Galaxy S23 Ultra" },
-    { value: "Samsung Galaxy S23+", label: "Samsung Galaxy S23+" },
-    { value: "Samsung Galaxy S23", label: "Samsung Galaxy S23" },
-    { value: "Samsung Galaxy S22 Ultra", label: "Samsung Galaxy S22 Ultra" },
-    { value: "Samsung Galaxy S22+", label: "Samsung Galaxy S22+" },
-    { value: "Samsung Galaxy S22", label: "Samsung Galaxy S22" },
-    { value: "Samsung Galaxy S21 Ultra", label: "Samsung Galaxy S21 Ultra" },
-    { value: "Samsung Galaxy S21+", label: "Samsung Galaxy S21+" },
-    { value: "Samsung Galaxy S21", label: "Samsung Galaxy S21" },
-    { value: "Samsung Galaxy S21 FE", label: "Samsung Galaxy S21 FE" },
-    { value: "Samsung Galaxy Z Fold 5", label: "Samsung Galaxy Z Fold 5" },
-    { value: "Samsung Galaxy Z Fold 4", label: "Samsung Galaxy Z Fold 4" },
-    { value: "Samsung Galaxy Z Fold 3", label: "Samsung Galaxy Z Fold 3" },
-    { value: "Samsung Galaxy Z Flip 5", label: "Samsung Galaxy Z Flip 5" },
-    { value: "Samsung Galaxy Z Flip 4", label: "Samsung Galaxy Z Flip 4" },
-    { value: "Samsung Galaxy Z Flip 3", label: "Samsung Galaxy Z Flip 3" },
+    { value: "Samsung Galaxy S6", label: "Samsung Galaxy S6" },
+    { value: "Samsung Galaxy S6 Edge", label: "Samsung Galaxy S6 Edge" },
+    { value: "Samsung Galaxy Note 5", label: "Samsung Galaxy Note 5" },
+    { value: "Samsung Galaxy A3 (2015)", label: "Samsung Galaxy A3 (2015)" },
+    { value: "Samsung Galaxy A5 (2015)", label: "Samsung Galaxy A5 (2015)" },
+    { value: "Samsung Galaxy A7 (2015)", label: "Samsung Galaxy A7 (2015)" },
+    { value: "Samsung Galaxy J1", label: "Samsung Galaxy J1" },
+    { value: "Samsung Galaxy J5", label: "Samsung Galaxy J5" },
+    { value: "Samsung Galaxy J7", label: "Samsung Galaxy J7" },
+    { value: "Samsung Galaxy S7", label: "Samsung Galaxy S7" },
+    { value: "Samsung Galaxy S7 Edge", label: "Samsung Galaxy S7 Edge" },
+    { value: "Samsung Galaxy Note 7", label: "Samsung Galaxy Note 7" },
+    { value: "Samsung Galaxy A3 (2016)", label: "Samsung Galaxy A3 (2016)" },
+    { value: "Samsung Galaxy A5 (2016)", label: "Samsung Galaxy A5 (2016)" },
+    { value: "Samsung Galaxy A7 (2016)", label: "Samsung Galaxy A7 (2016)" },
+    { value: "Samsung Galaxy A8 (2016)", label: "Samsung Galaxy A8 (2016)" },
+    { value: "Samsung Galaxy J2", label: "Samsung Galaxy J2" },
+    { value: "Samsung Galaxy J3", label: "Samsung Galaxy J3" },
+    { value: "Samsung Galaxy J5 (2016)", label: "Samsung Galaxy J5 (2016)" },
+    { value: "Samsung Galaxy J7 (2016)", label: "Samsung Galaxy J7 (2016)" },
+    { value: "Samsung Galaxy S8", label: "Samsung Galaxy S8" },
+    { value: "Samsung Galaxy S8+", label: "Samsung Galaxy S8+" },
+    { value: "Samsung Galaxy Note 8", label: "Samsung Galaxy Note 8" },
+    { value: "Samsung Galaxy A3 (2017)", label: "Samsung Galaxy A3 (2017)" },
+    { value: "Samsung Galaxy A5 (2017)", label: "Samsung Galaxy A5 (2017)" },
+    { value: "Samsung Galaxy A7 (2017)", label: "Samsung Galaxy A7 (2017)" },
+    { value: "Samsung Galaxy A8 (2018)", label: "Samsung Galaxy A8 (2018)" },
+    { value: "Samsung Galaxy J3 (2017)", label: "Samsung Galaxy J3 (2017)" },
+    { value: "Samsung Galaxy J5 (2017)", label: "Samsung Galaxy J5 (2017)" },
+    { value: "Samsung Galaxy J7 (2017)", label: "Samsung Galaxy J7 (2017)" },
+    { value: "Samsung Galaxy S9", label: "Samsung Galaxy S9" },
+    { value: "Samsung Galaxy S9+", label: "Samsung Galaxy S9+" },
+    { value: "Samsung Galaxy Note 9", label: "Samsung Galaxy Note 9" },
+    { value: "Samsung Galaxy A6", label: "Samsung Galaxy A6" },
+    { value: "Samsung Galaxy A6+", label: "Samsung Galaxy A6+" },
+    { value: "Samsung Galaxy A7 (2018)", label: "Samsung Galaxy A7 (2018)" },
+    { value: "Samsung Galaxy A8 (2018)", label: "Samsung Galaxy A8 (2018)" },
+    { value: "Samsung Galaxy A8+ (2018)", label: "Samsung Galaxy A8+ (2018)" },
+    { value: "Samsung Galaxy A9 (2018)", label: "Samsung Galaxy A9 (2018)" },
+    { value: "Samsung Galaxy J4", label: "Samsung Galaxy J4" },
+    { value: "Samsung Galaxy J6", label: "Samsung Galaxy J6" },
+    { value: "Samsung Galaxy J8", label: "Samsung Galaxy J8" },
+    { value: "Samsung Galaxy S10e", label: "Samsung Galaxy S10e" },
+    { value: "Samsung Galaxy S10", label: "Samsung Galaxy S10" },
+    { value: "Samsung Galaxy S10+", label: "Samsung Galaxy S10+" },
+    { value: "Samsung Galaxy S10 5G", label: "Samsung Galaxy S10 5G" },
+    { value: "Samsung Galaxy Note 10", label: "Samsung Galaxy Note 10" },
+    { value: "Samsung Galaxy Note 10+", label: "Samsung Galaxy Note 10+" },
+    { value: "Samsung Galaxy A10", label: "Samsung Galaxy A10" },
+    { value: "Samsung Galaxy A20", label: "Samsung Galaxy A20" },
+    { value: "Samsung Galaxy A30", label: "Samsung Galaxy A30" },
+    { value: "Samsung Galaxy A40", label: "Samsung Galaxy A40" },
+    { value: "Samsung Galaxy A50", label: "Samsung Galaxy A50" },
+    { value: "Samsung Galaxy A60", label: "Samsung Galaxy A60" },
+    { value: "Samsung Galaxy A70", label: "Samsung Galaxy A70" },
+    { value: "Samsung Galaxy A80", label: "Samsung Galaxy A80" },
+    { value: "Samsung Galaxy A90 5G", label: "Samsung Galaxy A90 5G" },
+    { value: "Samsung Galaxy M10", label: "Samsung Galaxy M10" },
+    { value: "Samsung Galaxy M20", label: "Samsung Galaxy M20" },
+    { value: "Samsung Galaxy M30", label: "Samsung Galaxy M30" },
+    { value: "Samsung Galaxy S20", label: "Samsung Galaxy S20" },
+    { value: "Samsung Galaxy S20+", label: "Samsung Galaxy S20+" },
+    { value: "Samsung Galaxy S20 Ultra", label: "Samsung Galaxy S20 Ultra" },
+    { value: "Samsung Galaxy Note 20", label: "Samsung Galaxy Note 20" },
     {
       value: "Samsung Galaxy Note 20 Ultra",
       label: "Samsung Galaxy Note 20 Ultra",
     },
-    { value: "Samsung Galaxy Note 20", label: "Samsung Galaxy Note 20" },
-    { value: "Samsung Galaxy Note 10+", label: "Samsung Galaxy Note 10+" },
-    { value: "Samsung Galaxy Note 10", label: "Samsung Galaxy Note 10" },
-    { value: "Samsung Galaxy A73", label: "Samsung Galaxy A73" },
-    { value: "Samsung Galaxy A72", label: "Samsung Galaxy A72" },
+    { value: "Samsung Galaxy A01", label: "Samsung Galaxy A01" },
+    { value: "Samsung Galaxy A11", label: "Samsung Galaxy A11" },
+    { value: "Samsung Galaxy A21", label: "Samsung Galaxy A21" },
+    { value: "Samsung Galaxy A31", label: "Samsung Galaxy A31" },
+    { value: "Samsung Galaxy A41", label: "Samsung Galaxy A41" },
+    { value: "Samsung Galaxy A51", label: "Samsung Galaxy A51" },
     { value: "Samsung Galaxy A71", label: "Samsung Galaxy A71" },
-    { value: "Samsung Galaxy A54", label: "Samsung Galaxy A54" },
-    { value: "Samsung Galaxy A53", label: "Samsung Galaxy A53" },
-    { value: "Samsung Galaxy A52", label: "Samsung Galaxy A52" },
-    { value: "Samsung Galaxy A34", label: "Samsung Galaxy A34" },
-    { value: "Samsung Galaxy A33", label: "Samsung Galaxy A33" },
-    { value: "Samsung Galaxy A32", label: "Samsung Galaxy A32" },
-    { value: "Samsung Galaxy A14", label: "Samsung Galaxy A14" },
-    { value: "Samsung Galaxy A13", label: "Samsung Galaxy A13" },
+    { value: "Samsung Galaxy A81", label: "Samsung Galaxy A81" },
+    { value: "Samsung Galaxy A91", label: "Samsung Galaxy A91" },
+    { value: "Samsung Galaxy M21", label: "Samsung Galaxy M21" },
+    { value: "Samsung Galaxy M31", label: "Samsung Galaxy M31" },
+    { value: "Samsung Galaxy M51", label: "Samsung Galaxy M51" },
+    { value: "Samsung Galaxy Z Flip", label: "Samsung Galaxy Z Flip" },
+    { value: "Samsung Galaxy Z Fold 2", label: "Samsung Galaxy Z Fold 2" },
+    { value: "Samsung Galaxy S21", label: "Samsung Galaxy S21" },
+    { value: "Samsung Galaxy S21+", label: "Samsung Galaxy S21+" },
+    { value: "Samsung Galaxy S21 Ultra", label: "Samsung Galaxy S21 Ultra" },
+    { value: "Samsung Galaxy A02", label: "Samsung Galaxy A02" },
     { value: "Samsung Galaxy A12", label: "Samsung Galaxy A12" },
-    { value: "Samsung Galaxy M54", label: "Samsung Galaxy M54" },
-    { value: "Samsung Galaxy M53", label: "Samsung Galaxy M53" },
-    { value: "Samsung Galaxy M52", label: "Samsung Galaxy M52" },
-    { value: "Samsung Galaxy M14", label: "Samsung Galaxy M14" },
-    { value: "Samsung Galaxy M13", label: "Samsung Galaxy M13" },
+    { value: "Samsung Galaxy A22", label: "Samsung Galaxy A22" },
+    { value: "Samsung Galaxy A32", label: "Samsung Galaxy A32" },
+    { value: "Samsung Galaxy A42", label: "Samsung Galaxy A42" },
+    { value: "Samsung Galaxy A52", label: "Samsung Galaxy A52" },
+    { value: "Samsung Galaxy A72", label: "Samsung Galaxy A72" },
     { value: "Samsung Galaxy M12", label: "Samsung Galaxy M12" },
-    { value: "Samsung Galaxy F54", label: "Samsung Galaxy F54" },
-    { value: "Samsung Galaxy F23", label: "Samsung Galaxy F23" },
-    { value: "Samsung Galaxy F14", label: "Samsung Galaxy F14" },
+    { value: "Samsung Galaxy M22", label: "Samsung Galaxy M22" },
+    { value: "Samsung Galaxy M32", label: "Samsung Galaxy M32" },
+    { value: "Samsung Galaxy M52", label: "Samsung Galaxy M52" },
+    { value: "Samsung Galaxy Z Flip 3", label: "Samsung Galaxy Z Flip 3" },
+    { value: "Samsung Galaxy Z Fold 3", label: "Samsung Galaxy Z Fold 3" },
+    { value: "Samsung Galaxy S22", label: "Samsung Galaxy S22" },
+    { value: "Samsung Galaxy S22+", label: "Samsung Galaxy S22+" },
+    { value: "Samsung Galaxy S22 Ultra", label: "Samsung Galaxy S22 Ultra" },
+    { value: "Samsung Galaxy A13", label: "Samsung Galaxy A13" },
+    { value: "Samsung Galaxy A23", label: "Samsung Galaxy A23" },
+    { value: "Samsung Galaxy A33", label: "Samsung Galaxy A33" },
+    { value: "Samsung Galaxy A53", label: "Samsung Galaxy A53" },
+    { value: "Samsung Galaxy A73", label: "Samsung Galaxy A73" },
+    { value: "Samsung Galaxy M13", label: "Samsung Galaxy M13" },
+    { value: "Samsung Galaxy M23", label: "Samsung Galaxy M23" },
+    { value: "Samsung Galaxy M33", label: "Samsung Galaxy M33" },
+    { value: "Samsung Galaxy M53", label: "Samsung Galaxy M53" },
+    { value: "Samsung Galaxy Z Flip 4", label: "Samsung Galaxy Z Flip 4" },
+    { value: "Samsung Galaxy Z Fold 4", label: "Samsung Galaxy Z Fold 4" },
+    { value: "Samsung Galaxy S23", label: "Samsung Galaxy S23" },
+    { value: "Samsung Galaxy S23+", label: "Samsung Galaxy S23+" },
+    { value: "Samsung Galaxy S23 Ultra", label: "Samsung Galaxy S23 Ultra" },
+    { value: "Samsung Galaxy A14", label: "Samsung Galaxy A14" },
+    { value: "Samsung Galaxy A24", label: "Samsung Galaxy A24" },
+    { value: "Samsung Galaxy A34", label: "Samsung Galaxy A34" },
+    { value: "Samsung Galaxy A54", label: "Samsung Galaxy A54" },
+    { value: "Samsung Galaxy A74", label: "Samsung Galaxy A74" },
+    { value: "Samsung Galaxy M14", label: "Samsung Galaxy M14" },
+    { value: "Samsung Galaxy M24", label: "Samsung Galaxy M24" },
+    { value: "Samsung Galaxy M34", label: "Samsung Galaxy M34" },
+    { value: "Samsung Galaxy M54", label: "Samsung Galaxy M54" },
+    { value: "Samsung Galaxy Z Flip 5", label: "Samsung Galaxy Z Flip 5" },
+    { value: "Samsung Galaxy Z Fold 5", label: "Samsung Galaxy Z Fold 5" },
+    { value: "Samsung Galaxy S24", label: "Samsung Galaxy S24" },
+    { value: "Samsung Galaxy S24+", label: "Samsung Galaxy S24+" },
+    { value: "Samsung Galaxy S24 Ultra", label: "Samsung Galaxy S24 Ultra" },
+    { value: "Samsung Galaxy A15", label: "Samsung Galaxy A15" },
+    { value: "Samsung Galaxy A25", label: "Samsung Galaxy A25" },
+    { value: "Samsung Galaxy A35", label: "Samsung Galaxy A35" },
+    { value: "Samsung Galaxy A55", label: "Samsung Galaxy A55" },
+    { value: "Samsung Galaxy M15", label: "Samsung Galaxy M15" },
+    { value: "Samsung Galaxy M25", label: "Samsung Galaxy M25" },
+    { value: "Samsung Galaxy M35", label: "Samsung Galaxy M35" },
+    { value: "Samsung Galaxy M55", label: "Samsung Galaxy M55" },
+    { value: "Samsung Galaxy Z Flip 6", label: "Samsung Galaxy Z Flip 6" },
+    { value: "Samsung Galaxy Z Fold 6", label: "Samsung Galaxy Z Fold 6" },
+    { value: "Samsung Galaxy S25", label: "Samsung Galaxy S25" },
+    { value: "Samsung Galaxy S25+", label: "Samsung Galaxy S25+" },
+    { value: "Samsung Galaxy S25 Ultra", label: "Samsung Galaxy S25 Ultra" },
   ];
   const t = useTranslations("Category");
+  const t2 = useTranslations("CartWishlist");
 
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === product.id).length > 0;
@@ -215,8 +338,149 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
       : addToWishlist!(currentItem);
   };
 
+  const Ordering = () => {
+    let HTMT = `<table
+          style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
+          role="presentation">
+
+          <tbody>
+
+          <tr>
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> Name of Client
+          </td>
+
+           <td style="padding:20px; color: #000; background:#00aaa8;"> Email of Client
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;"> Phone of Client
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;"> Product Link
+          </td>
+
+                 <td style="padding:20px; color: #000; background:#00aaa8;"> Product QTY
+          </td>
+
+                  <td style="padding:20px; color: #000; background:#00aaa8;"> Product Size
+          </td>
+
+          </tr>`;
+
+    HTMT = `${HTMT}
+
+             <tr>
+
+          <td style="padding:20px; color: #000; background:#00aaa8;"> ${name}
+          </td>
+
+           <td style="padding:20px; color: #000; background:#00aaa8;">
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;">${phone}
+          </td>
+
+            <td style="padding:20px; color: #000; background:#00aaa8;">
+            <div>
+            <img src=${
+              productOption?.images?.split(",")[0]
+            } alt="IMAGE" width={50} height={50}/>
+            <div/>
+          </td>
+
+                 <td style="padding:20px; color: #000; background:#00aaa8;"> ${currentQty}
+          </td>
+
+                  <td style="padding:20px; color: #000; background:#00aaa8;"> ${size}
+          </td>
+
+          </tr>
+            `;
+
+    HTMT = `${HTMT}
+      </tbody>
+     <table />`;
+
+    const templateParams = {
+      email: "iskande.mtir112@gmail.com",
+      subject: "NEW ORDER TN PRIME ",
+      message: HTMT,
+    };
+
+    const serviceID = "service_5rvhhwc";
+    const templateID = "template_0c9155n";
+    const publicKey = "Utk0-Oe1c_AqSjQmN";
+
+    emailjs
+      .send(serviceID, templateID, templateParams, publicKey)
+      .then(() => {
+        console.error("zszzzzzzzz");
+      })
+      .catch((res) => {
+        console.error("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res.message);
+      });
+
+    // if not logged in, register the user
+    const registerUser = async () => {
+      const regResponse = await auth.register!(
+        `client${Date.now()}@client.com`,
+        name,
+        "12345667889",
+        shippingAddress,
+        phone,
+        phone
+      );
+      if (!regResponse.success) {
+        return false;
+      }
+    };
+
+    registerUser();
+
+    const products = [
+      {
+        id: Number(_.uniqueId()),
+        quantity: currentQty,
+        option: productOption.id,
+        size: model?.value,
+      },
+    ];
+
+    const makeOrder = async () => {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
+        customerId: auth!.user!.id,
+        shippingAddress: shippingAddress,
+        ville: moment().format("YYYY-MM-DD HH:mm"),
+        gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
+        totalPrice: Number(
+          roundDecimal(Number(currentItem?.price) * Number(currentQty))
+        ),
+        deliveryDate: new Date().setDate(new Date().getDate() + 2),
+        paymentType: "OTHERS",
+        deliveryType: "DOMICILE",
+        products,
+        sendEmail,
+      });
+      if (res?.data?.success) {
+        toast.success(t("Order Passed")); // Displays a success message
+        router.push("/coming-soon");
+        setName("");
+        setPhone("");
+        setShippingAddress("");
+      } else {
+        setName("");
+        setPhone("");
+        setShippingAddress("");
+      }
+    };
+
+    makeOrder();
+  };
+
   return (
     <div>
+      <Toaster position="top-center" />
+
       {/* ===== Head Section ===== */}
       <Header title={`${product.name} - TN Prime`} />
 
@@ -256,7 +520,6 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       src={el as string}
                       alt={product.name}
                       placeholderSrc="/bg-img/skeleton-loading.gif"
-
                     />
                   ))}
                 </div>
@@ -268,14 +531,13 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                     paddingRight: "4rem",
                   }}
                 >
-                   <LazyLoadImage
-                      effect="blur"
-                      src={mainImg}
-                      className="lazy-image"
-                      alt={product?.name}
-                      placeholderSrc="/bg-img/skeleton-loading.gif"
-
-                    />
+                  <LazyLoadImage
+                    effect="blur"
+                    src={mainImg}
+                    className="lazy-image"
+                    alt={product?.name}
+                    placeholderSrc="/bg-img/skeleton-loading.gif"
+                  />
                 </div>
               </>
             ) : (
@@ -296,7 +558,6 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       className="lazy-image"
                       alt={product?.name}
                       placeholderSrc="/bg-img/skeleton-loading.gif"
-
                     />
                   </SwiperSlide>
                 ))}
@@ -350,7 +611,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                             ? "http://localhost:6443" +
                               "/images/" +
                               "sam.png"
-                            : "https://image.oppo.com/content/dam/oppo/common/mkt/v2-2/oppo-a3-pro-5g-en/featured/640_640-purple.png.thumb.webp"
+                            : "https://i.pinimg.com/564x/97/6a/0f/976a0ffd77349036329064a231504f7f.jpg"
                         }
                         height={100}
                         width={100}
@@ -452,6 +713,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       +
                     </div>
                   </div>
+
                   <div className="flex h-12 space-x-4 w-full">
                     <Button
                       value={t("add_to_cart")}
@@ -460,17 +722,121 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                       onClick={() => size && addItem!(currentItem)}
                     />
-                    <Button
-                      value={t("PlacerVotreCommande")}
-                      size="lg"
-                      disabled={isEmpty(model) || isNil(model)}
-                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                      onClick={() => {
-                        size && addItem!(currentItem);
-                        router.push(`/checkout`);
-                      }}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {model && (
+              <div
+                style={{
+                  //  border:"1px solid",
+                  //  padding:"10px",
+                  marginBottom: "20px",
+                }}
+              >
+                <div className="mb-2">
+                  <div className="my-4">
+                    <label htmlFor="name" className="text-lg">
+                      {t2("NometPrénom")}
+                    </label>
+                    <Input
+                      name="name"
+                      type="text"
+                      extraClass="w-full mt-1 mb-2"
+                      border="border-2 border-gray400"
+                      value={name}
+                      onChange={(e) =>
+                        setName((e.target as HTMLInputElement).value)
+                      }
+                      required
                     />
                   </div>
+
+                  <div className="my-4">
+                    <label htmlFor="phone" className="text-lg">
+                      {t2("phone")}
+                    </label>
+                    <Input
+                      name="phone"
+                      type="number"
+                      extraClass="w-full mt-1 mb-2"
+                      border="border-2 border-gray400"
+                      value={phone}
+                      onChange={(e) =>
+                        setPhone((e.target as HTMLInputElement).value)
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="my-4">
+                    <label htmlFor="shipping_address" className="text-lg">
+                      {t2("shipping_address")}
+                    </label>
+
+                    <textarea
+                      id="shipping_address"
+                      aria-label="shipping address"
+                      className="w-full mt-1 mb-2 border-2 border-gray400 p-4 outline-none"
+                      rows={4}
+                      value={shippingAddress}
+                      onChange={(e) =>
+                        setShippingAddress(
+                          (e.target as HTMLTextAreaElement).value
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div className="py-3 flex justify-between">
+                  <span className="uppercase">{t2("subtotal")}</span>
+                  <span>
+                    {" "}
+                    {Number(
+                      roundDecimal(
+                        Number(currentItem?.price) * Number(currentQty)
+                      )
+                    )}{" "}
+                    {currency}{" "}
+                  </span>
+                </div>
+
+                <div className="py-3 flex justify-between">
+                  <span className="uppercase">{"Livraison gratuite"}</span>
+                  <span>
+                    {" "}
+                    {0} {currency}
+                  </span>
+                </div>
+
+                <hr />
+                <div>
+                  <div className="flex justify-between py-3">
+                    <span>{t2("grand_total")}</span>
+                    <span>
+                      {" "}
+                      {Number(
+                        roundDecimal(
+                          Number(currentItem?.price) * Number(currentQty)
+                        )
+                      )}{" "}
+                      {currency}{" "}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex h-12 space-x-4 w-full">
+                  <Button
+                    value={t("PlacerVotreCommande")}
+                    size="lg"
+                    disabled={isEmpty(model) || isNil(model)}
+                    extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
+                    onClick={() => {
+                      Ordering();
+                    }}
+                  />
                 </div>
               </div>
             )}
@@ -581,8 +947,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         option: el?.option[0]?.id,
         size: el?.option[0].size.split(",")[0],
       })),
-      messages: (await import(`../../../messages/common/${locale}.json`)).default,
-
+      messages: (await import(`../../../messages/common/${locale}.json`))
+        .default,
     },
   };
 };

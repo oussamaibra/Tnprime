@@ -120,7 +120,7 @@ export default function CartItem() {
               >
                 <div className="bg-lightgreen flex justify-between items-center p-6">
                   <h3 className="text-xl">
-                    {t("cart")} ({noOfItems})
+                    {t("cart")} ({noOfItems}) 
                   </h3>
                   <button
                     type="button"
@@ -165,7 +165,9 @@ export default function CartItem() {
                     </LinkButton>
                     <Button
                       value={t("checkout")}
-                      onClick={() => router.push(`/checkout`)}
+                      onClick={() =>{ router.push(`/checkout`)
+                        closeModal()
+                      }}
                       disabled={cart.length < 1 ? true : false}
                       extraClass="text-center"
                       size="lg"
