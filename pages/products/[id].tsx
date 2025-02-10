@@ -611,11 +611,11 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       <img
                         src={
                           el === "IPHONE"
-                            ? "https://www.tnprime.shop:6443" +
+                            ? "http://localhost:6443" +
                               "/images/" +
                               "ap.png"
                             : el === "SAMSUNG"
-                            ? "https://www.tnprime.shop:6443" +
+                            ? "http://localhost:6443" +
                               "/images/" +
                               "sam.png"
                             : "https://i.pinimg.com/564x/97/6a/0f/976a0ffd77349036329064a231504f7f.jpg"
