@@ -239,7 +239,7 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
         >
           {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />}
         </button>
-        {isHovered && (
+        {/* {isHovered && (
           <button
             type="button"
             className="h-10 w-10 flex items-center justify-center hover:bg-gray200 transition-transform transform hover:scale-220 duration-2000 absolute top-12 right-1 p-1 rounded-full"
@@ -248,7 +248,7 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
           >
             <Resize />
           </button>
-        )}
+        )} */}
         {/* <button
           type="button"
           onClick={() => addOne!(item)}
@@ -361,11 +361,11 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
                     <img
                       src={
                         el === "IPHONE"
-                          ? "http://localhost:6443" +
+                          ? "https://www.tnprime.shop:6443" +
                             "/images/" +
                             "ap.png"
                           : el === "SAMSUNG"
-                          ? "http://localhost:6443" +
+                          ? "https://www.tnprime.shop:6443" +
                             "/images/" +
                             "sam.png"
                           : "https://i.pinimg.com/564x/97/6a/0f/976a0ffd77349036329064a231504f7f.jpg"
