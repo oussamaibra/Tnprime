@@ -441,14 +441,15 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
       {
         id: Number(_.uniqueId()),
         quantity: currentQty,
-        option: productOption.id,
+        image: productOption?.images?.split(",")[0],
         size: model?.value,
       },
     ];
 
     const makeOrder = async () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
-        customerId: auth!.user!.id,
+        customerName: name,
+        customerPhone:phone,
         shippingAddress: shippingAddress,
         ville: moment().format("YYYY-MM-DD HH:mm"),
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
@@ -458,6 +459,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: "DOMICILE",
+        orderDate:moment().format("YYYY-MM-DD HH:mm"),
         products,
         sendEmail,
       });

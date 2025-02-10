@@ -88,9 +88,11 @@ const ShoppingCart = () => {
   const products = cart.map((item) => ({
     id: Number(_.uniqueId()),
     quantity: item.qty,
-    option: item?.option,
+    image: item?.img1,
     size: item?.size,
   }));
+
+  console.log("eeeeeeeeeeeeeeeeeeeeeee", cart);
 
   const [location, setlocation] = useState(null);
   const [currency, setcurrency] = useState("TND");
@@ -253,39 +255,36 @@ const ShoppingCart = () => {
     registerUser();
 
     const makeOrder = async () => {
-      // console.log("makeOrdermakeOrder", {
-      //   customerId: auth!.user!.id,
-      //   shippingAddress: shippingAddress,
-      //   ville: postcode?.value,
-      //   gouvernorat: adrname?.value,
-      //   totalPrice: Number(roundDecimal(+subtotal + deliFee)),
-      //   deliveryDate: new Date().setDate(new Date().getDate() + 2),
-      //   paymentType: "OTHERS",
-      //   deliveryType: deli,
-      //   products,
-      //   sendEmail,
-      // });
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
-        customerId: auth!.user!.id,
+        customerName: name,
+        customerPhone: phone,
         shippingAddress: shippingAddress,
         ville: moment().format("YYYY-MM-DD HH:mm"),
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice: Number(roundDecimal(+subtotal + deliFee)),
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
-        deliveryType: deli,
+        deliveryType: "DOMICILE",
+        orderDate: moment().format("YYYY-MM-DD HH:mm"),
         products,
         sendEmail,
       });
       if (res?.data?.success) {
+        toast.success(t("Order Passed")); 
         setCompletedOrder(res.data.data);
         clearCart!();
-        setIsOrdering(false);
+        setIsOrdering(false);// Displays a success message
+        setName("");
+        setPhone("");
+        setShippingAddress("");
       } else {
-        setOrderError("error_occurs");
+        setName("");
+        setPhone("");
+        setShippingAddress("");
       }
     };
-    makeOrder();
+
+    makeOrder()
   };
 
   useEffect(() => {
@@ -375,15 +374,10 @@ const ShoppingCart = () => {
   let disableOrder = true;
 
   if (!auth.user) {
-    disableOrder =
-      name !== "" &&
-      phone !== "" &&
-      shippingAddress !== "";
+    disableOrder = name !== "" && phone !== "" && shippingAddress !== "";
   } else {
-    disableOrder =
-      name !== "" && phone !== "" && shippingAddress !== "";
+    disableOrder = name !== "" && phone !== "" && shippingAddress !== "";
   }
-
 
   const lista = [
     {
@@ -769,8 +763,6 @@ const ShoppingCart = () => {
                 />
               </div>
 
-
-     
               <div className="my-4">
                 <label htmlFor="phone" className="text-lg">
                   {t("phone")}
@@ -787,10 +779,6 @@ const ShoppingCart = () => {
                   required
                 />
               </div>
-
-
-
-
 
               <div className="my-4">
                 <label htmlFor="shipping_address" className="text-lg">
@@ -881,8 +869,6 @@ const ShoppingCart = () => {
                   </div>
 
                   <div className="grid gap-4 mt-2 mb-4">
-           
-
                     {location && !location?.country?.includes("Tunisia") && (
                       <form onSubmit={handleSubmit}>
                         <PaymentElement />
