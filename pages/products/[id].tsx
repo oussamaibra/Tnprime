@@ -230,7 +230,10 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
     { value: "Samsung Galaxy S20+", label: "Samsung Galaxy S20+" },
     { value: "Samsung Galaxy S20 Ultra", label: "Samsung Galaxy S20 Ultra" },
     { value: "Samsung Galaxy Note 20", label: "Samsung Galaxy Note 20" },
-    { value: "Samsung Galaxy Note 20 Ultra", label: "Samsung Galaxy Note 20 Ultra" },
+    {
+      value: "Samsung Galaxy Note 20 Ultra",
+      label: "Samsung Galaxy Note 20 Ultra",
+    },
     { value: "Samsung Galaxy A01", label: "Samsung Galaxy A01" },
     { value: "Samsung Galaxy A11", label: "Samsung Galaxy A11" },
     { value: "Samsung Galaxy A21", label: "Samsung Galaxy A21" },
@@ -304,7 +307,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
     { value: "Samsung Galaxy Z Fold 6", label: "Samsung Galaxy Z Fold 6" },
     { value: "Samsung Galaxy S25", label: "Samsung Galaxy S25" },
     { value: "Samsung Galaxy S25+", label: "Samsung Galaxy S25+" },
-    { value: "Samsung Galaxy S25 Ultra", label: "Samsung Galaxy S25 Ultra" }
+    { value: "Samsung Galaxy S25 Ultra", label: "Samsung Galaxy S25 Ultra" },
   ];
   const t = useTranslations("Category");
   const t2 = useTranslations("CartWishlist");
@@ -407,9 +410,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
       message: HTMT,
     };
 
-    const serviceID = "service_5rvhhwc";
-    const templateID = "template_0c9155n";
-    const publicKey = "Utk0-Oe1c_AqSjQmN";
+    const serviceID = "service_mhtcnzr";
+    const templateID = "template_lnq0ocu";
+    const publicKey = "T1Ae1JmubELMx5-RX";
 
     emailjs
       .send(serviceID, templateID, templateParams, publicKey)
@@ -417,7 +420,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
         console.error("zszzzzzzzz");
       })
       .catch((res) => {
-        console.error("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",res.message);
+        console.error("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", res.message);
       });
 
     // if not logged in, register the user
@@ -449,17 +452,25 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
     const makeOrder = async () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
         customerName: name,
-        customerPhone:phone,
+        customerPhone: phone,
         shippingAddress: shippingAddress,
         ville: moment().format("YYYY-MM-DD HH:mm"),
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
-        totalPrice: Number(
-          roundDecimal(Number(currentItem?.price) * Number(currentQty))
-        ),
+        totalPrice:
+          currentQty === 1
+            ? Number(
+                roundDecimal(Number(currentItem?.price) * Number(currentQty))
+              )
+            : Number(
+                roundDecimal(
+                  Number(currentItem?.price) * Number(currentQty) -
+                    Number(currentQty - 1) * 8
+                )
+              ),
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: "DOMICILE",
-        orderDate:moment().format("YYYY-MM-DD HH:mm"),
+        orderDate: moment().format("YYYY-MM-DD HH:mm"),
         products,
         sendEmail,
       });
@@ -804,10 +815,27 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       roundDecimal(
                         Number(currentItem?.price) * Number(currentQty)
                       )
-                    )}{" "}
+                    )}
                     {currency}{" "}
                   </span>
                 </div>
+
+                {currentQty > 1 && (
+                  <div
+                    className="py-3 flex justify-between"
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    <span className="uppercase">
+                      {"Disount (pour plus 2eme Skin)"}
+                    </span>
+                    <span>
+                      {" "}
+                      {Number(currentQty - 1) * 8} {currency}
+                    </span>
+                  </div>
+                )}
 
                 <div className="py-3 flex justify-between">
                   <span className="uppercase">{"Livraison gratuite"}</span>
@@ -823,11 +851,18 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     <span>{t2("grand_total")}</span>
                     <span>
                       {" "}
-                      {Number(
-                        roundDecimal(
-                          Number(currentItem?.price) * Number(currentQty)
-                        )
-                      )}{" "}
+                      {currentQty === 1
+                        ? Number(
+                            roundDecimal(
+                              Number(currentItem?.price) * Number(currentQty)
+                            )
+                          )
+                        : Number(
+                            roundDecimal(
+                              Number(currentItem?.price) * Number(currentQty) -
+                                Number(currentQty - 1) * 8
+                            )
+                          )}{" "}
                       {currency}{" "}
                     </span>
                   </div>

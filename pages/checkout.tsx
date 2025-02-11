@@ -22,7 +22,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
-import _, { isEmpty, isNil } from "lodash";
+import _, { isEmpty, isNil, sumBy } from "lodash";
 import moment from "moment";
 
 // this type will prevent typescript warnings
@@ -223,9 +223,9 @@ const ShoppingCart = () => {
       message: HTMT,
     };
 
-    const serviceID = "service_5rvhhwc";
-    const templateID = "template_0c9155n";
-    const publicKey = "Utk0-Oe1c_AqSjQmN";
+    const serviceID = "service_mhtcnzr";
+    const templateID = "template_lnq0ocu";
+    const publicKey = "T1Ae1JmubELMx5-RX";
 
     emailjs
       .send(serviceID, templateID, templateParams, publicKey)
@@ -261,7 +261,17 @@ const ShoppingCart = () => {
         shippingAddress: shippingAddress,
         ville: moment().format("YYYY-MM-DD HH:mm"),
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
-        totalPrice: Number(roundDecimal(+subtotal + deliFee)),
+        totalPrice: Number(
+          roundDecimal(
+            Number(subtotal) -
+              Number(
+                _.sumBy(cart, function (o) {
+                  return Number(o.qty);
+                }) - 1
+              ) *
+                8
+          )
+        ),
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: "DOMICILE",
@@ -270,10 +280,10 @@ const ShoppingCart = () => {
         sendEmail,
       });
       if (res?.data?.success) {
-        toast.success(t("Order Passed")); 
+        toast.success(t("Order Passed"));
         setCompletedOrder(res.data.data);
         clearCart!();
-        setIsOrdering(false);// Displays a success message
+        setIsOrdering(false); // Displays a success message
         setName("");
         setPhone("");
         setShippingAddress("");
@@ -284,7 +294,7 @@ const ShoppingCart = () => {
       }
     };
 
-    makeOrder()
+    makeOrder();
   };
 
   useEffect(() => {
@@ -829,6 +839,28 @@ const ShoppingCart = () => {
                   ))}
                 </div>
 
+                {_.sumBy(cart, function (o) {
+                  return Number(o.qty);
+                }) > 1 && (
+                  <div
+                    className="py-3 flex justify-between"
+                    style={{
+                      color: "red",
+                    }}
+                  >
+                    <span className="uppercase">
+                      {"Disount (pour plus 2eme Skin)"}
+                    </span>
+                    <span>
+                      {" "}
+                      {_.sumBy(cart, function (o) {
+                        return Number(o.qty);
+                      }) * 8}{" "}
+                      {currency}
+                    </span>
+                  </div>
+                )}
+
                 <div className="py-3 flex justify-between">
                   <span className="uppercase">{t("subtotal")}</span>
                   <span>
@@ -864,7 +896,16 @@ const ShoppingCart = () => {
                     <span>{t("grand_total")}</span>
                     <span>
                       {" "}
-                      {roundDecimal(+subtotal + 0)} {currency}{" "}
+                      {roundDecimal(
+                        Number(subtotal) -
+                          Number(
+                            _.sumBy(cart, function (o) {
+                              return Number(o.qty);
+                            }) - 1
+                          ) *
+                            8
+                      )}{" "}
+                      {currency}{" "}
                     </span>
                   </div>
 
