@@ -85,6 +85,7 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
           </strong>
         </div>
       </div>
+
     </div>
   );
 };

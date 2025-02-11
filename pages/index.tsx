@@ -21,6 +21,8 @@ import moment from "moment";
 import _ from "lodash";
 import CardIG from "../components/Card/CardIG";
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
+import Modal from "@leafygreen-ui/modal";
+
 SwiperCore.use([Pagination, Navigation, Autoplay]);
 
 type Props = {
@@ -32,18 +34,16 @@ const Home: React.FC<Props> = () => {
   const t = useTranslations("Index");
   const [currentItems, setCurrentItems] = useState<Array<any>>();
   const [isFetching, setIsFetching] = useState(false);
+  const [open, setopen] = useState(true);
   const [products, setproducts] = useState<Array<any>>();
+
   useEffect(() => {
     (async () => {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`);
 
-      const sortedArray = _.orderBy(
-        res.data.data,
-        (o: any) => {
-          return moment(o.createdAt).format("YYYY-MM-DD");
-        },
-        ["desc"]
-      );
+      const sortedArray = _.orderBy(res.data.data, (o: any) => {
+        return o.id;
+      });
 
       const nouveateArray = sortedArray;
       const products: any[] = nouveateArray.map((el) => ({
@@ -52,6 +52,7 @@ const Home: React.FC<Props> = () => {
         size: el?.option[0].size.split(",")[0],
         name: el?.name,
         price: el?.option[0].price,
+        discount: el?.option[0]?.discount,
         qty: 1,
         description: el?.description,
         detail: el?.detail,
@@ -163,39 +164,15 @@ const Home: React.FC<Props> = () => {
             </table>
           </div>
 
-          <div >
-            <Swiper
-              // slidesPerView={3}
-              centeredSlides={true}
-              breakpoints={{
-                320: { slidesPerView: 2, spaceBetween: 20 },
-                480: { slidesPerView: 2, spaceBetween: 20 },
-                768: { slidesPerView: 2, spaceBetween: 20 },
-                1024: { slidesPerView: 3, spaceBetween: 20 },
-              }}
-
-              // spaceBetween={20}
-              loop={true}
-              grabCursor={true}
-              freeMode
-              navigation={true}
-              // pagination={{
-              //   clickable: true,
-              //   type: "progressbar",
-              //   dynamicBullets: true,
-              // }}
-
-            >
+          <div className="app-x-padding app-max-width mt-10 mb-14 ">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
               {currentItems
                 ?.filter((el) => el.collectionId === 2)
-                .map((item) => (
-                  <SwiperSlide key={item.id}>
-        
-                      <CardIG  key={item.id} item={item} />
-              
-                  </SwiperSlide>
+                ?.map((item) => (
+                  <CardIG key={item.id} item={item} />
                 ))}
-            </Swiper>
+            </div>
+            {/* {categorie !== "new-arrivals" && <Pagination currentPage={page} lastPage={lastPage} orderby={orderby} />} */}
           </div>
         </section>
 
@@ -250,6 +227,16 @@ const Home: React.FC<Props> = () => {
         </section>
       </main>
       <Footer />
+
+      <Modal
+        open={open}
+        setOpen={() => {
+          setopen(false);
+        }}
+        className="z-50 p-0 text-center"
+      >
+        <img src="https://www.tnprime.shop:6443/images/25pro.jpg" />
+      </Modal>
     </>
   );
 };

@@ -239,16 +239,6 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
         >
           {isWLHovered || alreadyWishlisted ? <HeartSolid /> : <Heart />}
         </button>
-        {/* {isHovered && (
-          <button
-            type="button"
-            className="h-10 w-10 flex items-center justify-center hover:bg-gray200 transition-transform transform hover:scale-220 duration-2000 absolute top-12 right-1 p-1 rounded-full"
-            aria-label="Wishlist"
-            onClick={handleModal}
-          >
-            <Resize />
-          </button>
-        )} */}
         {/* <button
           type="button"
           onClick={() => addOne!(item)}
