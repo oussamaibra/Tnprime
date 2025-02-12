@@ -260,9 +260,9 @@ const Header: React.FC<Props> = ({ title }) => {
 
             {/* Right Nav */}
             <ul className={`flex-1 flex justify-end ${styles.rightMenu}`}>
-              {/* <li>
+              <li>
                 <SearchForm />
-              </li> */}
+              </li>
               {/* <li>
                 <AuthForm>
                   <UserIcon />

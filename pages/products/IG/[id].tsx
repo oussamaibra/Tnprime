@@ -861,11 +861,33 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                   </div>
                 </div>
 
+                {(isEmpty(name) ||
+                  isEmpty(phone) ||
+                  isEmpty(shippingAddress)) && (
+                  <div
+                    className="text-center"
+                    style={{
+                      color: "red",
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <strong>
+                      Saisir tous les données (Nom et Prénom ,Téléphone, Adresse
+                      ) SVP
+                    </strong>
+                  </div>
+                )}
+
                 <div className="flex h-12 space-x-4 w-full">
                   <Button
                     value={t("PlacerVotreCommande")}
                     size="lg"
-                    disabled={isEmpty(model) || isNil(model)}
+                    disabled={
+                      isEmpty(name) ||
+                      isEmpty(phone) ||
+                      isEmpty(shippingAddress)
+                    }
                     extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                     onClick={() => {
                       Ordering();

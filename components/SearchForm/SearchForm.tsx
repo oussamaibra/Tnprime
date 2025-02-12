@@ -99,9 +99,9 @@ export default function SearchForm() {
   return (
     <>
       <div className="">
-        <button type="button" aria-label="Search" onClick={openModal}>
+        {/* <button type="button" aria-label="Search" onClick={openModal}>
           <SearchIcon />
-        </button>
+        </button> */}
       </div>
       <Transition show={open} as={Fragment}>
         <Dialog
