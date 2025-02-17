@@ -41,7 +41,7 @@ import Input from "../../components/Input/Input";
 import { roundDecimal } from "../../components/Util/utilFunc";
 import { useAuth } from "../../context/AuthContext";
 import moment from "moment";
-import { fbPixelAddToCart, fbPixelPurchase } from "../../context/Util/Fb";
+import { fbPixelAddToCart, fbPixelPurchase } from "../../context/Util/fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);

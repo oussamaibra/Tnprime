@@ -38,7 +38,7 @@ import CardIG from "../../../components/Card/CardIG";
 import { useAuth } from "../../../context/AuthContext";
 import { roundDecimal } from "../../../components/Util/utilFunc";
 import moment from "moment";
-import { fbPixelAddToCart, fbPixelPurchase } from "../../../context/Util/Fb";
+import { fbPixelAddToCart, fbPixelPurchase } from "../../../context/Util/fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);

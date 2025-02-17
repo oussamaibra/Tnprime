@@ -26,7 +26,7 @@ import "swiper/components/scrollbar/scrollbar.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Script from "next/script";
-import { FacebookPixelEvents } from "../context/Util/Fb";
+import { FacebookPixelEvents } from "../context/Util/fb";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
