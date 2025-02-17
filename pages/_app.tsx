@@ -33,6 +33,16 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
+let ReactPixel: any = null;
+
+if (typeof window !== "undefined") {
+  import("react-facebook-pixel")
+    .then((x) => x.default)
+    .then((currReactPixel) => {
+      ReactPixel = currReactPixel;
+    });
+}
+
 type AppCustomProps = {
   Component: NextComponentType<NextPageContext, any, {}>;
   pageProps: any;
@@ -67,34 +77,29 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
     }
   };
 
-  // let ReactPixel: any = null;
-  // const router = useRouter();
-
-  // if (typeof window !== "undefined") {
-  //   import("react-facebook-pixel")
-  //     .then((x) => x.default)
-  //     .then((currReactPixel) => {
-  //       ReactPixel = currReactPixel;
-  //     });
-  // }
+  const router = useRouter();
 
   // FacebookPixelEvents()
   useEffect(() => {
     checkLocation();
-
-    // if (!ReactPixel) {
-    // import("react-facebook-pixel")
-    //   .then((x) => x.default)
-    //   .then((currReactPixel) => {
-    //     ReactPixel = currReactPixel;
-    //   });
-    // ReactPixel.init(`1302096797738899`);
-    // ReactPixel.pageView();
-    // } else {
-    //   ReactPixel.init(`1302096797738899`);
-    //   ReactPixel.pageView();
-    // }
   }, []);
+  
+  useEffect(() => {
+    if (!ReactPixel) {
+      (async () => {
+        await import("react-facebook-pixel")
+          .then((x) => x.default)
+          .then((currReactPixel) => {
+            ReactPixel = currReactPixel;
+          });
+        ReactPixel.init(`1302096797738899`);
+        ReactPixel.pageView();
+      })();
+    } else {
+      ReactPixel.init(`1302096797738899`);
+      ReactPixel.pageView();
+    }
+  }, [router.pathname]);
 
   return (
     <>
