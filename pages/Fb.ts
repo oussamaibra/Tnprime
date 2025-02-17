@@ -44,7 +44,7 @@ export const fbPixelAddToCart = async () => {
 
 export const fbPixelPurchase = async (total: number) => {
   if (ReactPixel)
-    ReactPixel.fbq("track", "PurchasePrime", {
+    ReactPixel.fbq("track", "Purchase", {
       currency: "USD",
       value: Number(total),
     });
