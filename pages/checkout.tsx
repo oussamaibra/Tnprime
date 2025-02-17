@@ -24,6 +24,7 @@ import {
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
 import _, { isEmpty, isNil, sumBy } from "lodash";
 import moment from "moment";
+import { fbPixelPurchase } from "./Fb";
 
 // this type will prevent typescript warnings
 
@@ -280,6 +281,19 @@ const ShoppingCart = () => {
         sendEmail,
       });
       if (res?.data?.success) {
+        fbPixelPurchase(
+          Number(
+            roundDecimal(
+              Number(subtotal) -
+                Number(
+                  _.sumBy(cart, function (o) {
+                    return Number(o.qty);
+                  }) - 1
+                ) *
+                  8
+            )
+          )
+        );
         toast.success(t("Order Passed"));
         setCompletedOrder(res.data.data);
         clearCart!();

@@ -41,6 +41,7 @@ import Input from "../../components/Input/Input";
 import { roundDecimal } from "../../components/Util/utilFunc";
 import { useAuth } from "../../context/AuthContext";
 import moment from "moment";
+import { fbPixelPurchase } from "../Fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -476,6 +477,20 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
       });
       if (res?.data?.success) {
         toast.success(t("Order Passed")); // Displays a success message
+
+        fbPixelPurchase(
+          currentQty === 1
+            ? Number(
+                roundDecimal(Number(currentItem?.price) * Number(currentQty))
+              )
+            : Number(
+                roundDecimal(
+                  Number(currentItem?.price) * Number(currentQty) -
+                    Number(currentQty - 1) * 8
+                )
+              )
+        );
+
         router.push("/coming-soon");
         setName("");
         setPhone("");
