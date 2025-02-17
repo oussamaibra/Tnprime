@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
-import { roundDecimal } from "../components/Util/utilFunc";
+import { roundDecimal } from "../../components/Util/utilFunc";
 import { useRouter } from "next/router";
 
 let ReactPixel: any = null;

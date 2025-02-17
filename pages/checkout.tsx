@@ -24,7 +24,7 @@ import {
 import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
 import _, { isEmpty, isNil, sumBy } from "lodash";
 import moment from "moment";
-import { fbPixelPurchase } from "./Fb";
+import { fbPixelPurchase } from "../context/Util/Fb";
 
 // this type will prevent typescript warnings
 
