@@ -22,13 +22,15 @@ export const FacebookPixelEvents = () => {
 
   useEffect(() => {
     if (!ReactPixel) {
-      import("react-facebook-pixel")
-        .then((x) => x.default)
-        .then((currReactPixel) => {
-          ReactPixel = currReactPixel;
-        });
-      ReactPixel.init(`1302096797738899`);
-      ReactPixel.pageView();
+      (async () => {
+        await import("react-facebook-pixel")
+          .then((x) => x.default)
+          .then((currReactPixel) => {
+            ReactPixel = currReactPixel;
+          });
+        ReactPixel.init(`1302096797738899`);
+        ReactPixel.pageView();
+      })();
     } else {
       ReactPixel.init(`1302096797738899`);
       ReactPixel.pageView();
