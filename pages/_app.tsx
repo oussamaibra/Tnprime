@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import NProgress from "nprogress";
 import { NextIntlProvider } from "next-intl";
 
@@ -26,7 +26,8 @@ import "swiper/components/scrollbar/scrollbar.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Script from "next/script";
-import { FacebookPixelEvents } from "../context/Util/fb";
+// import ReactPixel from "react-facebook-pixel";
+// import { FacebookPixelEvents } from "../context/Util/fb";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
@@ -66,10 +67,33 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
     }
   };
 
+  // let ReactPixel: any = null;
+  // const router = useRouter();
 
-  FacebookPixelEvents()
+  // if (typeof window !== "undefined") {
+  //   import("react-facebook-pixel")
+  //     .then((x) => x.default)
+  //     .then((currReactPixel) => {
+  //       ReactPixel = currReactPixel;
+  //     });
+  // }
+
+  // FacebookPixelEvents()
   useEffect(() => {
     checkLocation();
+
+    // if (!ReactPixel) {
+    // import("react-facebook-pixel")
+    //   .then((x) => x.default)
+    //   .then((currReactPixel) => {
+    //     ReactPixel = currReactPixel;
+    //   });
+    // ReactPixel.init(`1302096797738899`);
+    // ReactPixel.pageView();
+    // } else {
+    //   ReactPixel.init(`1302096797738899`);
+    //   ReactPixel.pageView();
+    // }
   }, []);
 
   return (
