@@ -41,7 +41,7 @@ import Input from "../../components/Input/Input";
 import { roundDecimal } from "../../components/Util/utilFunc";
 import { useAuth } from "../../context/AuthContext";
 import moment from "moment";
-import { fbPixelPurchase } from "../Fb";
+import { fbPixelAddToCart, fbPixelPurchase } from "../Fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -752,7 +752,10 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       size="lg"
                       disabled={isEmpty(model) || isNil(model)}
                       extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                      onClick={() => size && addItem!(currentItem)}
+                      onClick={() => {
+                        addItem!(currentItem);
+                        fbPixelAddToCart();
+                      }}
                     />
                   </div>
                 </div>
