@@ -502,6 +502,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
     makeOrder();
   };
 
+
+
   return (
     <div>
       <Toaster position="top-center" />
@@ -743,7 +745,11 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                     <Button
                       value={t("add_to_cart")}
                       size="lg"
-                      disabled={isEmpty(model) || isNil(model)}
+                      disabled={
+                        isEmpty(model) ||
+                        isNil(model) ||
+                        Number(productOption?.stock) <= 0
+                      }
                       extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                       onClick={() => {
                         addItem!(currentItem);
@@ -755,7 +761,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
               </div>
             )}
 
-            {model && (
+            {model && Number(productOption?.stock) > 0 && (
               <div
                 style={{
                   //  border:"1px solid",

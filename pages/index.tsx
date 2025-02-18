@@ -22,6 +22,7 @@ import _ from "lodash";
 import CardIG from "../components/Card/CardIG";
 import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper/core";
 import Modal from "@leafygreen-ui/modal";
+import ProductCard from "../components/Card/ProductCard";
 
 SwiperCore.use([Pagination, Navigation, Autoplay]);
 
@@ -77,6 +78,22 @@ const Home: React.FC<Props> = () => {
     e.preventDefault();
     setIsFetching(true);
   };
+
+  const productsTesT = [
+    {
+      name: "Product 1",
+      price: 29.99,
+      image: "https://www.tnprime.shop:6443/images/image000259.jpeg",
+      isBestSeller: true,
+    },
+    {
+      name: "Product 2",
+      price: 49.99,
+      image: "https://www.tnprime.shop:6443/images/image000259.jpeg",
+      isBestSeller: false,
+    },
+    // Add more products here
+  ];
 
   return (
     <>
@@ -142,6 +159,41 @@ const Home: React.FC<Props> = () => {
             ))}
           </div>
         </section> */}
+
+        {currentItems && currentItems?.filter((el) => Number(el.discount) === 1)?.length >0 && (
+          <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
+            <div className="flex justify-center mt-10">
+              <table width="90%" className="mb-10">
+                <tr>
+                  <td
+                    style={{
+                      width: "1px",
+                      padding: "25px",
+                      whiteSpace: "wrap",
+                      textAlign: "center",
+                      background: "#000",
+                      fontWeight: "bolder",
+                      color: "#fff",
+                    }}
+                  >
+                    {t("topnavContent")}
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div className="app-x-padding app-max-width mt-10 mb-14 ">
+              <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 p-8 bg-gray-50">
+                {currentItems
+                  ?.filter((el) => Number(el.discount) >= 1)
+                  ?.map((product, index) => (
+                    <ProductCard key={index} product={product} />
+                  ))}
+              </div>
+              {/* {categorie !== "new-arrivals" && <Pagination currentPage={page} lastPage={lastPage} orderby={orderby} />} */}
+            </div>
+          </section>
+        )}
 
         <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
           <div className="flex justify-center mt-10">

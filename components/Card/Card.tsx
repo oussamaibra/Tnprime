@@ -157,7 +157,8 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
   };
   const { id, name, price, img1, img2 } = item;
 
-  const itemLink = `/products/${encodeURIComponent(id)}`;
+  const itemLink =
+    Number(item?.stock) <= 0 ? "" : `/products/${encodeURIComponent(id)}`;
 
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === id).length > 0;
@@ -182,6 +183,17 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
       <div
         className={isInsta ? styles.imageContainerInsta : styles.imageContainer}
       >
+        {Number(item?.stock) <= 0 && (
+          <div
+            style={{
+              backgroundColor: "red",
+            }}
+            className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
+          >
+            Out Of Stock
+          </div>
+        )}
+
         <Link href={itemLink}>
           <a
             tabIndex={-1}
@@ -460,7 +472,9 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
                   <Button
                     value={t("add_to_cart")}
                     size="lg"
-                    disabled={isEmpty(model) || isNil(model)}
+                    disabled={
+                      isEmpty(model) || isNil(model) || Number(item?.stock) <= 0
+                    }
                     extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                     onClick={() => size && addItem!(currentItem)}
                   />

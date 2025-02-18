@@ -56,11 +56,23 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
 
   const { id, name, price, img1, img2 } = item;
 
-  const itemLink = `/products/IG/${encodeURIComponent(id)}`;
+  const itemLink =
+    Number(item?.stock) <= 0 ? "" : `/products/IG/${encodeURIComponent(id)}`;
 
   return (
     <div className={styles.card}>
       <div className="relative overflow-hidden mb-1 h-60 sm:h-80 md:h-96 lg:h-[32rem] flex justify-center items-center">
+        {Number(item?.stock) <= 0 && (
+          <div
+            style={{
+              backgroundColor: "red",
+            }}
+            className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
+          >
+            Out Of Stock
+          </div>
+        )}
+
         <Link href={itemLink}>
           <a tabIndex={-1}>
             <LazyLoadImage
@@ -85,7 +97,6 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
           </strong>
         </div>
       </div>
-
     </div>
   );
 };

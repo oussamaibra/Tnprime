@@ -750,7 +750,11 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     <Button
                       value={t("add_to_cart")}
                       size="lg"
-                      disabled={isEmpty(model) || isNil(model)}
+                      disabled={
+                        isEmpty(model) ||
+                        isNil(model) ||
+                        Number(productOption?.stock) <= 0
+                      }
                       extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                       onClick={() => {
                         addItem!(currentItem);
@@ -762,7 +766,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
               </div>
             )}
 
-            {model && (
+            {model && Number(productOption?.stock) > 0 && (
               <div
                 style={{
                   //  border:"1px solid",
