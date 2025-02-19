@@ -398,9 +398,17 @@ const ShoppingCart = () => {
   let disableOrder = true;
 
   if (!auth.user) {
-    disableOrder = name !== "" && phone !== "" && shippingAddress !== "";
+    disableOrder =
+      name !== "" &&
+      phone !== "" &&
+      phone.length === 8 &&
+      shippingAddress !== "";
   } else {
-    disableOrder = name !== "" && phone !== "" && shippingAddress !== "";
+    disableOrder =
+      name !== "" &&
+      phone !== "" &&
+      phone.length === 8 &&
+      shippingAddress !== "";
   }
 
   const lista = [

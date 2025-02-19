@@ -797,6 +797,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                       {t2("phone")}
                     </label>
                     <Input
+                      placeholder="exp : 99 999 999"
                       name="phone"
                       type="number"
                       extraClass="w-full mt-1 mb-2"
@@ -892,6 +893,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
 
                 {(isEmpty(name) ||
                   isEmpty(phone) ||
+                  phone.length > 8 ||
                   isEmpty(shippingAddress)) && (
                   <div
                     className="text-center"
@@ -902,8 +904,8 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     }}
                   >
                     <strong>
-                      Saisir tous les données (Nom et Prénom ,Téléphone, Adresse
-                      ) SVP
+                      Saisir tous les données : Nom et Prénom ,Téléphone (8
+                      chiffers), Adresse
                     </strong>
                   </div>
                 )}
@@ -915,6 +917,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     disabled={
                       isEmpty(name) ||
                       isEmpty(phone) ||
+                      phone.length > 8 ||
                       isEmpty(shippingAddress)
                     }
                     extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
