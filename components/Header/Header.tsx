@@ -226,7 +226,7 @@ const Header: React.FC<Props> = ({ title }) => {
                   <a className={styles.navBarItem}>{"Nos Collection"}</a>
                 </Dropdown>
               </li> */}
-              <li>
+              {/* <li>
                 <Dropdown
                   trigger={["hover", "click"]}
                   overlay={menuCat}
@@ -237,7 +237,7 @@ const Header: React.FC<Props> = ({ title }) => {
                 >
                   <a className={styles.navBarItem}>{t("Catalogue")}</a>
                 </Dropdown>
-              </li>
+              </li> */}
             </ul>
 
             {/* TN PrimeLogo */}

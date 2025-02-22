@@ -68,7 +68,6 @@ type Props = {
 };
 
 const ProductIG: React.FC<Props> = ({ product, products, url }) => {
-
   const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
@@ -595,8 +594,15 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
             <span className="text-2xl text-gray400 mb-2">
               {productOption.price} {currency}
             </span>
-            <span className="mb-2 text-justify break-words">
-              {product.description}
+            <span className="mb-2 mt-2 text-justify break-words">
+              {product.detail.split("✔").map(
+                (el, index) =>
+                  index > 0 && (
+                    <>
+                      <div> ✅ {el} </div> <br />
+                    </>
+                  )
+              )}
             </span>
             <span className="mb-2">
               {t("availability")}: {t("in_stock")}
@@ -937,7 +943,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                   <Disclosure.Panel
                     className={`text-gray400 animate__animated animate__bounceIn`}
                   >
-                    {product.detail}
+                    {product.description}
                   </Disclosure.Panel>
                 </>
               )}

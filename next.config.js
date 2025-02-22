@@ -7,7 +7,7 @@ const path = require("path");
 module.exports = {
   i18n: {
     locales: ["fr", "ar", "it" ,"an"],
-    defaultLocale: "fr",
+    defaultLocale: "ar",
   },
   reactStrictMode: true,
   // swcMinify: true,

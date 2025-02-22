@@ -192,7 +192,7 @@ export default function Menu() {
                       </div>
                     )} */}
 
-                    <a
+                    {/* <a
                       className="w-full text-xl hover:bg-gray100 text-left py-2"
                       onClick={() => setopenCat(!openCat)}
                     >
@@ -213,7 +213,7 @@ export default function Menu() {
                           </Link>
                         ))}
                       </div>
-                    )}
+                    )} */}
 
                     {/* <hr className="border border-gray300 w-full mt-2" />
                     <div className="w-full text-xl py-2 my-3 flex justify-between">
