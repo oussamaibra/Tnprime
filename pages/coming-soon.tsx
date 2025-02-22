@@ -1,7 +1,12 @@
+import Image from "next/image";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
-import React, { useEffect } from "react";
 
-const ComingSoon = ({ orderNumber }) => {
+import AppHeader from "../components/Header/AppHeader";
+import { GetStaticProps } from "next";
+import { useEffect } from "react";
+
+const ComingSoon = () => {
   const t = useTranslations("Navigation");
 
   useEffect(() => {
@@ -67,6 +72,7 @@ const ComingSoon = ({ orderNumber }) => {
     </div>
   );
 };
+
 
 const styles = {
   container: {
@@ -165,6 +171,15 @@ const styles = {
     borderRadius: "50%",
     zIndex: 0,
   },
+};
+
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: (await import(`../messages/common/${locale}.json`)).default,
+    },
+  };
 };
 
 export default ComingSoon;
