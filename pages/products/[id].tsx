@@ -636,9 +636,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     }}
                     className={`flex items-center justify-center border ${
                       size === el
-                        ? "border-gray500"
+                        ? "border-red"
                         : "border-gray300 text-gray400"
-                    } cursor-pointer hover:bg-gray500 hover:text-gray100`}
+                    } cursor-pointer `}
                   >
                     <div>
                       <img

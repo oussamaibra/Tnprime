@@ -83,7 +83,7 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
   useEffect(() => {
     checkLocation();
   }, []);
-  
+
   useEffect(() => {
     if (!ReactPixel) {
       (async () => {
@@ -101,9 +101,13 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
     }
   }, [router.pathname]);
 
+  const { asPath, locale } = router;
+
   return (
-    <>
-      <NextIntlProvider messages={pageProps?.messages}>
+    <div dir={locale === "ar" ? "rtl" : "ltr"}>
+      <NextIntlProvider
+        messages={pageProps?.messages}
+      >
         <ProvideAuth>
           <ProvideWishlist>
             <ProvideCart>
@@ -114,7 +118,7 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
           </ProvideWishlist>
         </ProvideAuth>
       </NextIntlProvider>
-    </>
+    </div>
   );
 };
 
