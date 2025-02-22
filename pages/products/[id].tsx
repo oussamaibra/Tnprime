@@ -911,8 +911,9 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
                     }}
                   >
                     <strong>
-                      Saisir tous les données : Nom et Prénom ,Téléphone (8
-                      chiffers), Adresse
+                      {t(
+                        "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse"
+                      )}
                     </strong>
                   </div>
                 )}

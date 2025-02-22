@@ -903,9 +903,10 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       marginBottom: "10px",
                     }}
                   >
-                    <strong>
-                      Saisir tous les données : Nom et Prénom ,Téléphone (8
-                      chiffers), Adresse
+                   <strong>
+                      {t(
+                        "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse"
+                      )}
                     </strong>
                   </div>
                 )}
