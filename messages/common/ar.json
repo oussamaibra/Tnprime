@@ -2,7 +2,8 @@
   "Navigation": {
 
 
-    "Order Confirmed!": "تأكيد خلال 24 ساعة",
+    "Order Confirmed!": "تم تأكيد الطلب!",
+    "24h Confirmation": "تأكيد خلال 24 ساعة",
     "We'll contact you shortly": "سنقوم بالتواصل معك قريبًا",
     "48h Delivery": "توصيل خلال 48 ساعة",
     "Maximum delivery time": "الحد الأقصى لوقت التوصيل",
