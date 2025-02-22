@@ -183,16 +183,21 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
       <div
         className={isInsta ? styles.imageContainerInsta : styles.imageContainer}
       >
-        {Number(item?.stock) <= 0 && (
+             {Number(item?.discount) !== 2 && Number(item?.discount) !== 0 && (
           <div
             style={{
               backgroundColor: "red",
             }}
             className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
           >
-            Out Of Stock
+            {Number(item?.discount) === 1
+              ? t("Out Of Stock")
+              : Number(item?.discount) === 3
+              ? t("New Collection")
+              : ""}
           </div>
         )}
+
 
         <Link href={itemLink}>
           <a

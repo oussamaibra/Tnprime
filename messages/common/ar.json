@@ -58,6 +58,9 @@
     "sort_by_price_desc": "الفرز حسب السعر: من الأعلى إلى الأقل"
   },
   "CartWishlist": {
+    "Out Of Stock":"غير متوفر",
+    "New Collection":"تشكيلة جديدة",
+    "MEILLEURE VENTE":"الأفضل مبيعاً",
     "Gouvernorat": "محافظة",
     "Ville": "مدينة",
     "copié!": "تم النسخ!",

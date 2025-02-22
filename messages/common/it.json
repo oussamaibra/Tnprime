@@ -59,7 +59,10 @@
   },
 
   "CartWishlist": {
+    "Out Of Stock":"Out Of Stock",
+    "New Collection":"Nouvelle collection",
     "Gouvernorat": "Gouvernorat",
+   " MEILLEURE VENTE":"MEILLEURE VENTE",
     "Ville": "Ville",
     "copié!": "Copiato!",
     "NometPrénom": "Nome e Cognome",

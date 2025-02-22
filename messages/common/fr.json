@@ -58,7 +58,10 @@
     "sort_by_price_desc": "Trier par prix : élevé à bas"
   },
   "CartWishlist": {
+    "Out Of Stock":"En rupture de stock",
+    "New Collection":"Nouvelle collection",
     "Gouvernorat": "Gouvernorat",
+    "MEILLEURE VENTE":"MEILLEURE VENTE",
     "Ville": "Ville",
     "copié!": "copié!",
     "NometPrénom": "Nom et Prénom",

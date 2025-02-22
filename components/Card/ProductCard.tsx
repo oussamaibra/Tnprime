@@ -1,8 +1,11 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 export default function ProductCard({ product }) {
+  const t = useTranslations("CartWishlist");
+
   return (
     <div className="relative bg-gradient-to-b from-gray-50 to-gray-100 p-4 shadow-lg hover:shadow-2xl transition-transform duration-500 hover:scale-105">
       {/* Badge Meilleure Vente */}
@@ -13,7 +16,7 @@ export default function ProductCard({ product }) {
         }}
         className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
       >
-        MEILLEURE VENTE
+        {t("MEILLEURE VENTE")}
       </div>
 
       {/* Image du produit */}

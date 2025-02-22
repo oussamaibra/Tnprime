@@ -62,14 +62,18 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
   return (
     <div className={styles.card}>
       <div className="relative overflow-hidden mb-1 h-60 sm:h-80 md:h-96 lg:h-[32rem] flex justify-center items-center">
-        {Number(item?.stock) <= 0 && (
+        {Number(item?.discount) !== 2 && Number(item?.discount) !== 0 && (
           <div
             style={{
               backgroundColor: "red",
             }}
             className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
           >
-            Out Of Stock
+            {Number(item?.discount) === 1
+              ? t("Out Of Stock")
+              : Number(item?.discount) === 3
+              ? t("New Collection")
+              : ""}
           </div>
         )}
 

@@ -44,7 +44,7 @@ const Home: React.FC<Props> = () => {
 
       const sortedArray = _.orderBy(res.data.data, (o: any) => {
         return o.id;
-      });
+      }).reverse();
 
       const nouveateArray = sortedArray;
       const products: any[] = nouveateArray.map((el) => ({
@@ -160,7 +160,7 @@ const Home: React.FC<Props> = () => {
           </div>
         </section> */}
 
-        {currentItems && currentItems?.filter((el) => Number(el.discount) === 1)?.length >0 && (
+        {currentItems && currentItems?.filter((el) => Number(el.discount) === 2)?.length >0 && (
           <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
             <div className="flex justify-center mt-10">
               <table width="90%" className="mb-10">
@@ -185,7 +185,7 @@ const Home: React.FC<Props> = () => {
             <div className="app-x-padding app-max-width mt-10 mb-14 ">
               <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-8 p-8 bg-gray-50">
                 {currentItems
-                  ?.filter((el) => Number(el.discount) >= 1)
+                  ?.filter((el) => Number(el.discount) === 2)
                   ?.map((product, index) => (
                     <ProductCard key={index} product={product} />
                   ))}

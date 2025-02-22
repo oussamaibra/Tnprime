@@ -59,6 +59,9 @@
   },
 
   "CartWishlist": {
+    "Out Of Stock":"Out Of Stock",
+    "New Collection":"New Collection",
+    "MEILLEURE VENTE":"BEST SELLER",
     "Gouvernorat": "Governorate",
     "Ville": "City",
     "copié!": "Copied!",

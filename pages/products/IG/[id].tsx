@@ -68,6 +68,7 @@ type Props = {
 };
 
 const ProductIG: React.FC<Props> = ({ product, products, url }) => {
+
   const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
