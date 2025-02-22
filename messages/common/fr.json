@@ -1,5 +1,14 @@
 {
   "Navigation": {
+
+    
+    "Order Confirmed!": "Commande confirmée !",
+    "24h Confirmation": "Confirmation sous 24h",
+    "We'll contact you shortly": "Nous vous contacterons sous peu",
+    "48h Delivery": "Livraison sous 48h",
+    "Maximum delivery time": "Délai de livraison maximum",
+    "Need help?": "Besoin d'aide ?",
+    
     "skip_to_main_content": "Passer au contenu principal",
     "topnavContent": "🚚 Livraison gratuite sur toutes les commandes ! Skins disponibles pour tous les modèles de téléphones.",
     "it": "Italien",
@@ -58,10 +67,10 @@
     "sort_by_price_desc": "Trier par prix : élevé à bas"
   },
   "CartWishlist": {
-    "Out Of Stock":"En rupture de stock",
-    "New Collection":"Nouvelle collection",
+    "Out Of Stock": "En rupture de stock",
+    "New Collection": "Nouvelle collection",
     "Gouvernorat": "Gouvernorat",
-    "MEILLEURE VENTE":"MEILLEURE VENTE",
+    "MEILLEURE VENTE": "MEILLEURE VENTE",
     "Ville": "Ville",
     "copié!": "copié!",
     "NometPrénom": "Nom et Prénom",
@@ -177,7 +186,7 @@
     "our_shop_desc": "Visitez nos magasins pour découvrir les histoires derrière nos produits, obtenir une session de stylisme personnelle ou acheter les dernières tendances en personne. Voir les emplacements de nos magasins."
   },
   "Category": {
-    "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse":"Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse",
+    "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse": "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse",
     "Order Passed": "Order passé ",
     "PlacerVotreCommande": "Placer Votre Commande",
     "SelectionnerVotreModeldeTélephone": "Selectionner Votre Model de Télephone",
