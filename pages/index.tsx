@@ -160,6 +160,42 @@ const Home: React.FC<Props> = () => {
           </div>
         </section> */}
 
+    
+
+        <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
+          <div className="flex justify-center mt-10">
+            <table width="90%" className="mb-10">
+              <tr>
+                <td
+                  style={{
+                    width: "1px",
+                    padding: "25px",
+                    whiteSpace: "wrap",
+                    textAlign: "center",
+                    background: "#000",
+                    fontWeight: "bolder",
+                    color: "#fff",
+                  }}
+                >
+                  {t("topnavContent")}
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div className="app-x-padding app-max-width mt-10 mb-14 ">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
+              {currentItems
+                ?.filter((el) => el.collectionId === 2)
+                ?.map((item) => (
+                  <CardIG key={item.id} item={item} />
+                ))}
+            </div>
+            {/* {categorie !== "new-arrivals" && <Pagination currentPage={page} lastPage={lastPage} orderby={orderby} />} */}
+          </div>
+        </section>
+
+
         {currentItems && currentItems?.filter((el) => Number(el.discount) === 2)?.length >0 && (
           <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
             <div className="flex justify-center mt-10">
@@ -194,39 +230,7 @@ const Home: React.FC<Props> = () => {
             </div>
           </section>
         )}
-
-        <section className="app-max-width w-full h-full justify-center mt-24 mb-20">
-          <div className="flex justify-center mt-10">
-            <table width="90%" className="mb-10">
-              <tr>
-                <td
-                  style={{
-                    width: "1px",
-                    padding: "25px",
-                    whiteSpace: "wrap",
-                    textAlign: "center",
-                    background: "#000",
-                    fontWeight: "bolder",
-                    color: "#fff",
-                  }}
-                >
-                  {t("topnavContent")}
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <div className="app-x-padding app-max-width mt-10 mb-14 ">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
-              {currentItems
-                ?.filter((el) => el.collectionId === 2)
-                ?.map((item) => (
-                  <CardIG key={item.id} item={item} />
-                ))}
-            </div>
-            {/* {categorie !== "new-arrivals" && <Pagination currentPage={page} lastPage={lastPage} orderby={orderby} />} */}
-          </div>
-        </section>
+        
 
         {/* ===== Best Selling Section ===== */}
         <section className="app-max-width w-full h-full flex flex-col justify-center mt-24 mb-20">
