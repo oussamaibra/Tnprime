@@ -25,9 +25,16 @@ const ComingSoon = () => {
         />
         <span className="text-gray400">{t("thank_you_for_purchasing")}</span>
 
+        <span className=" font-bold hover:text-gray500">
+          Info line : 📞 42 301 531
+        </span>
+
+        
         <Link href="/">
           <a className="underline font-bold hover:text-gray500">home page</a>
         </Link>
+
+    
       </div>
     </>
   );

@@ -25,6 +25,7 @@ import autocomplete, { AutocompleteItem, EventTrigger } from "autocompleter";
 import _, { isEmpty, isNil, sumBy } from "lodash";
 import moment from "moment";
 import { fbPixelPurchase } from "../context/Util/fb";
+import { useRouter } from "next/router";
 
 // this type will prevent typescript warnings
 
@@ -153,6 +154,8 @@ const ShoppingCart = () => {
   //   };
   //   if (auth.user) makeOrder();
   // }, [isOrdering]);
+
+    const router = useRouter();
   const Ordering = () => {
     let HTMT = `<table
         style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
@@ -301,6 +304,7 @@ const ShoppingCart = () => {
         setName("");
         setPhone("");
         setShippingAddress("");
+        router.push("/coming-soon");
       } else {
         setName("");
         setPhone("");
