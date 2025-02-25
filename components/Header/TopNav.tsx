@@ -47,7 +47,7 @@ const TopNav = () => {
           className=" decoration-sky-500 "
           style={{ fontWeight: "600", fontSize: "12px" }}
         >
-          {t("topnavContent")}
+          {t("topnavContent")} <span dir={"ltr"}>📞 42 301 531</span>
         </p>
         {/* <ul className={`flex ${styles.topRightMenu}`}>
           <li>

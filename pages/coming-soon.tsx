@@ -65,14 +65,15 @@ const ComingSoon = () => {
         <div style={styles.contactBox}>
           <p style={styles.contactText}>
             {t("Need help?")}
-            <span style={styles.contactHighlight}>📞 42 301 531</span>
+            <span style={styles.contactHighlight} dir={"ltr"}>
+              📞 42 301 531
+            </span>
           </p>
         </div>
       </div>
     </div>
   );
 };
-
 
 const styles = {
   container: {
@@ -172,7 +173,6 @@ const styles = {
     zIndex: 0,
   },
 };
-
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {

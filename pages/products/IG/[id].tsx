@@ -591,6 +591,13 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
           </div>
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
+
+            <span className="text-xl text-red mb-2 animate-pulse">
+              <Link href="/">
+                <a  className="animate-pulse"> 👉 {t("See more products click here")} 👉</a>
+              </Link>{" "}
+            </span>
+
             <span className="text-2xl text-gray400 mb-2">
               {productOption.price} {currency}
             </span>
@@ -627,9 +634,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       handleSize(el);
                     }}
                     className={`flex items-center justify-center border ${
-                      size === el
-                        ? "border-red"
-                        : "border-gray300 text-gray400"
+                      size === el ? "border-red" : "border-gray300 text-gray400"
                     } cursor-pointer `}
                   >
                     <div>
@@ -903,7 +908,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       marginBottom: "10px",
                     }}
                   >
-                   <strong>
+                    <strong>
                       {t(
                         "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse"
                       )}

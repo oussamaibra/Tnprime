@@ -1,7 +1,7 @@
 {
   "Navigation": {
     "skip_to_main_content": "Vai al contenuto principale",
-    "topnavContent": "🚚 Spedizione gratuita su tutti gli ordini! Skin disponibili per tutti i modelli di telefono. 📞 42 301 531",
+    "topnavContent": "🚚 Spedizione gratuita su tutti gli ordini! Skin disponibili per tutti i modelli di telefono.",
     "it": "Italiano",
     "an": "Anglais",
     "fr": "Francese",
@@ -182,7 +182,7 @@
 
   "Category": {
     "Order Passed":"Ordine passato",
-
+    "See more products click here":"See more products click here",
     "PlacerVotreCommande": "Effettua il tuo ordine",
     "SelectionnerVotreModeldeTélephone": "Seleziona il tuo modello di telefono",
     "SelectionnerVotreMarquedeTélephone": "Seleziona la tua marca di telefono",

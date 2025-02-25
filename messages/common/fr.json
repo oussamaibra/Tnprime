@@ -10,7 +10,7 @@
     "Need help?": "Besoin d'aide ?",
     
     "skip_to_main_content": "Passer au contenu principal",
-    "topnavContent": "🚚 Livraison gratuite sur toutes les commandes ! Skins disponibles pour tous les modèles de téléphones. 📞 42 301 531",
+    "topnavContent": "🚚 Livraison gratuite sur toutes les commandes ! Skins disponibles pour tous les modèles de téléphones.",
     "it": "Italien",
     "an": "Anglais",
     "fr": "Francais",
@@ -186,6 +186,7 @@
     "our_shop_desc": "Visitez nos magasins pour découvrir les histoires derrière nos produits, obtenir une session de stylisme personnelle ou acheter les dernières tendances en personne. Voir les emplacements de nos magasins."
   },
   "Category": {
+    "See more products click here":"Pour voir plus de produits cliquez ici",
     "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse": "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse",
     "Order Passed": "Order passé ",
     "PlacerVotreCommande": "Placer Votre Commande",
