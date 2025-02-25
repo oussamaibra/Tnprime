@@ -592,9 +592,9 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
 
-            <span className="text-xl text-red mb-2 animate-pulse">
+            <span className="text-2xl text-red mb-2 animate-pulse">
               <Link href="/">
-                <a  className="animate-pulse"> 👉 {t("See more products click here")} 👉</a>
+                <a  className="animate-pulse"> {t("See more products click here")}</a>
               </Link>{" "}
             </span>
 
