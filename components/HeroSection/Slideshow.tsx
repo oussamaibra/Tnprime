@@ -16,9 +16,9 @@ SwiperCore.use([Pagination, Navigation, Autoplay]);
 const sliders = [
   {
     id: 2,
-    image: "/bg-img/HomePage.jpg",
-    imageTablet: "/bg-img/HomePage.jpg",
-    imageMobile: "/bg-img/HomePage.jpg",
+    image: "/bg-img/image00001.png",
+    imageTablet: "/bg-img/image00001.png",
+    imageMobile: "/bg-img/image00001.png",
     subtitle: "50% off",
     titleUp: "New Cocktail",
     titleDown: "Dresses",
@@ -26,9 +26,9 @@ const sliders = [
   },
   {
     id: 1,
-    image: "/bg-img/HomePage2.jpg",
-    imageTablet: "/bg-img/HomePage2.jpg",
-    imageMobile: "/bg-img/HomePage2.jpg",
+    image: "/bg-img/image00002.png",
+    imageTablet: "/bg-img/image00002.png",
+    imageMobile: "/bg-img/image00002.png",
     subtitle: "Spring Revolution",
     titleUp: "Night Summer",
     titleDown: "Dresses",
@@ -36,9 +36,9 @@ const sliders = [
   },
   {
     id: 3,
-    image: "/bg-img/HomePage3.jpg",
-    imageTablet: "/bg-img/HomePage3.jpg",
-    imageMobile: "/bg-img/HomePage3.jpg",
+    image: "/bg-img/image00003.png",
+    imageTablet: "/bg-img/image00003.png",
+    imageMobile: "/bg-img/image00003.png",
     subtitle: "Spring promo",
     titleUp: "The Weekend",
     titleDown: "Promotions",
@@ -51,7 +51,7 @@ const Slideshow = () => {
 
   return (
     <>
-      <div className="relative -top-20 slide-container w-full z-20">
+      <div className="relative slide-container w-full z-20">
         <Swiper
           slidesPerView={1}
           spaceBetween={0}
