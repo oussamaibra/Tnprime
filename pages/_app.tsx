@@ -26,6 +26,7 @@ import "swiper/components/scrollbar/scrollbar.min.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Script from "next/script";
+import TagManager from "react-gtm-module";
 // import ReactPixel from "react-facebook-pixel";
 // import { FacebookPixelEvents } from "../context/Util/fb";
 
@@ -101,13 +102,18 @@ const MyApp = ({ Component, pageProps }: AppCustomProps) => {
     }
   }, [router.pathname]);
 
+  useEffect(() => {
+    const tagManagerArgs = {
+      gtmId: "G-2MVHRSRX6H",
+    };
+    TagManager.initialize(tagManagerArgs);
+  }, []);
+
   const { asPath, locale } = router;
 
   return (
     <div dir={locale === "ar" ? "rtl" : "ltr"}>
-      <NextIntlProvider
-        messages={pageProps?.messages}
-      >
+      <NextIntlProvider messages={pageProps?.messages}>
         <ProvideAuth>
           <ProvideWishlist>
             <ProvideCart>
