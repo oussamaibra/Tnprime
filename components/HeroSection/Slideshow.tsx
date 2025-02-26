@@ -70,7 +70,8 @@ const Slideshow = () => {
         >
           {sliders.map((slider) => (
             <SwiperSlide key={slider.id}>
-              <div className="hidden lg:block">
+              {/* <div className="hidden lg:block"> */}
+                  <div className=""> 
                 <Image
                   layout="responsive"
                   src={slider.image}
