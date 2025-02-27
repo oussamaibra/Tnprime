@@ -635,7 +635,11 @@ const ProductExternel: React.FC<Props> = () => {
             </span> */}
 
             <span className="text-2xl text-gray400 mb-2">
-              {productOption.price} {currency} <span className="text-xl text-red mb-2">  Livraison gratuite  🚚 </span>
+              {productOption.price} {currency}{" "}
+              <span className="text-xl text-red mb-2">
+                {" "}
+                Livraison gratuite 🚚{" "}
+              </span>
             </span>
             <span className="mb-2 mt-2 text-justify break-words">
               {product.detail.split("✔").map(
