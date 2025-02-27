@@ -214,6 +214,7 @@ const Header: React.FC<Props> = ({ title }) => {
                   <a className={styles.navBarItem}>{t("Accueil")}</a>
                 </Link>
               </li>
+
               {/* <li>
                 <Dropdown
                   trigger={["hover", "click"]}

@@ -7,15 +7,6 @@ import { Disclosure } from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import { useRouter } from "next/router";
-import Heart from "../../../public/icons/Heart";
-import DownArrow from "../../../public/icons/DownArrow";
-import FacebookLogo from "../../../public/icons/FacebookLogo";
-import InstagramLogo from "../../../public/icons/InstagramLogo";
-import Header from "../../../components/Header/Header";
-import Footer from "../../../components/Footer/Footer";
-import GhostButton from "../../../components/Buttons/GhostButton";
-import Button from "../../../components/Buttons/Button";
-import Card from "../../../components/Card/Card";
 import Circle from "@uiw/react-color-circle";
 import _, { isEmpty, isNil, values } from "lodash";
 import emailjs from "@emailjs/browser";
@@ -25,20 +16,34 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // import Swiper core and required modules
 import SwiperCore, { Pagination } from "swiper/core";
-import { apiProductsType, itemType } from "../../../context/cart/cart-types";
-import { useWishlist } from "../../../context/wishlist/WishlistProvider";
-import { useCart } from "../../../context/cart/CartProvider";
-import HeartSolid from "../../../public/icons/HeartSolid";
+
+// import { useWishlist } from "../../../context/wishlist/WishlistProvider";
+// import { useCart } from "../../../context/cart/CartProvider";
+// import HeartSolid from "../../../public/icons/HeartSolid";
 import { EasyZoomOnMove } from "easy-magnify";
 import copy from "copy-to-clipboard";
 import Select from "react-select";
-import Input from "../../../components/Input/Input";
+// import Input from "../../../components/Input/Input";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import CardIG from "../../../components/Card/CardIG";
-import { useAuth } from "../../../context/AuthContext";
-import { roundDecimal } from "../../../components/Util/utilFunc";
+// import CardIG from "../../../components/Card/CardIG";
+// import { useAuth } from "../../../context/AuthContext";
+// import { roundDecimal } from "../../../components/Util/utilFunc";
 import moment from "moment";
-import { fbPixelAddToCart, fbPixelPurchase } from "../../../context/Util/fb";
+import { useWishlist } from "../context/wishlist/WishlistProvider";
+import { useCart } from "../context/cart/CartProvider";
+import { roundDecimal } from "../components/Util/utilFunc";
+import { fbPixelAddToCart, fbPixelPurchase } from "../context/Util/fb";
+import Input from "../components/Input/Input";
+import HeartSolid from "../public/icons/HeartSolid";
+import Header from "../components/Header/Header";
+import Heart from "../public/icons/Heart";
+import GhostButton from "../components/Buttons/GhostButton";
+import Button from "../components/Buttons/Button";
+import DownArrow from "../public/icons/DownArrow";
+import CardIG from "../components/Card/CardIG";
+import Footer from "../components/Footer/Footer";
+import { useAuth } from "../context/AuthContext";
+// import { fbPixelAddToCart, fbPixelPurchase } from "../../../context/Util/fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -67,7 +72,44 @@ type Props = {
   products: any[];
 };
 
-const ProductIG: React.FC<Props> = ({ product, products, url }) => {
+const ProductExternel: React.FC<Props> = () => {
+  const product = {
+    id: 999999,
+    name: "Protecteur d'écran - Sans poussière et sans bulles",
+    description: "LA PROTECTION DE L'ÉCRAN N'A JAMAIS ÉTÉ AUSSI FACILE",
+    detail: `✔Installation rapide et sans bulles
+
+✔ Résistance aux rayures et aux chocs
+
+✔ Modèle fumé pour plus de confidentialité
+
+✔ Technologie anti-traces et auto-nettoyante
+
+✔ Étanche et ultra-fin
+✔ Résistant à l’eau et aux éclaboussures`,
+    categoryId: 2,
+    collectionId: 10,
+    createdAt: "2025-02-21T21:51:13.124Z",
+    updatedAt: "2025-02-24T14:26:43.144Z",
+    option: [
+      {
+        id: 101,
+        color: " ",
+        price: "39",
+        size: "",
+        stock: "50",
+        discount: "0",
+        images:
+          "https://quanduro.com/cdn/shop/files/15secoundsinstalling_3f7b07eb-8cfd-494b-ac22-ed1acf71e33e.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/GentlyPull_1_b562e2a8-9c28-4a2c-a9cc-8502e375c879.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/GentlyPull_2_26aff573-8d97-4ccd-b2cc-4b44407201c3.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/iPhone-_8_6daa4dd0-f548-42f0-823b-e818bdd2db4c.webp?v=1739880734&width=823",
+        productId: 999999,
+        createdAt: "2025-02-21T21:51:13.128Z",
+        updatedAt: null,
+      },
+    ],
+    mainImg:
+      "https://quanduro.com/cdn/shop/files/15secoundsinstalling_3f7b07eb-8cfd-494b-ac22-ed1acf71e33e.png?v=1739880734&width=823",
+  };
+
   const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
@@ -96,17 +138,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [paymentSuccess, setpaymentSuccess] = useState(false);
 
-  // const products = cart.map((item) => ({
-  //   id: Number(_.uniqueId()),
-  //   quantity: item.qty,
-  //   option: item?.option,
-  //   size: item?.size,
-  // }));
-
   const isMobile = useMobileDetection();
   const router = useRouter();
-  // const img1 = product?.option[0]?.images?.split(",")[0];
-  // const img2 = product?.option[1]?.images?.split(",")[0];
 
   const { addItem } = useCart();
   const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
@@ -119,7 +152,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
   const [model, setmodel] = useState(null);
 
-  const listMark = ["IPHONE", "SAMSUNG", "OTHERS"];
+  const listMark = ["IPHONE", "SAMSUNG"];
 
   const listIphone = [
     { value: "iPhone 16 Pro Max", label: "iPhone 16 Pro Max" },
@@ -507,11 +540,11 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
       <Toaster position="top-center" />
 
       {/* ===== Head Section ===== */}
-      <Header title={`${product.name} - TN Prime`} />
+      {/* <Header title={`${product.name} - TN Prime`} /> */}
 
       <main id="main-content">
         {/* ===== Breadcrumb Section ===== */}
-        <div className="bg-lightgreen h-16 w-full flex items-center border-t-2 border-gray200">
+        {/* <div className="bg-lightgreen h-16 w-full flex items-center border-t-2 border-gray200">
           <div className="app-x-padding app-max-width w-full">
             <div className="breadcrumb">
               <Link href="/">
@@ -526,7 +559,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
               / <span>{product.name}</span>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* ===== Main Content Section ===== */}
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           <div className="imgSection w-full md:w-1/2 h-full flex">
@@ -592,17 +625,17 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
 
-            <span className="text-2xl text-red mb-2 animate-pulse">
+            {/* <span className="text-2xl text-red mb-2 animate-pulse">
               <Link href="/">
                 <a className="animate-pulse">
                   {" "}
                   {t("See more products click here")}
                 </a>
               </Link>{" "}
-            </span>
+            </span> */}
 
             <span className="text-2xl text-gray400 mb-2">
-              {productOption.price} {currency}
+              {productOption.price} {currency} <span className="text-xl text-red mb-2">  Livraison gratuite  🚚 </span>
             </span>
             <span className="mb-2 mt-2 text-justify break-words">
               {product.detail.split("✔").map(
@@ -614,9 +647,9 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                   )
               )}
             </span>
-            <span className="mb-2">
+            {/* <span className="mb-2">
               {t("availability")}: {t("in_stock")}
-            </span>
+            </span> */}
 
             <div className="mb-2 mt-2">
               <strong
@@ -625,7 +658,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                 }}
               >
                 {" "}
-                1 - {t("SelectionnerVotreMarquedeTélephone")}
+                1 - Selectionner Votre Marque de Télephone
               </strong>
 
               <div className="sizeContainer flex space-x-4 text-sm mb-4">
@@ -660,7 +693,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                   </div>
                 ))}
 
-                <GhostButton
+                {/* <GhostButton
                   onClick={handleWishlist}
                   extraClass="hover:bg-gray200"
                   size="sm"
@@ -670,7 +703,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                   ) : (
                     <Heart extraClass="inline" />
                   )}
-                </GhostButton>
+                </GhostButton> */}
               </div>
             </div>
 
@@ -681,7 +714,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                     color: "#F14A00",
                   }}
                 >
-                  2 - {t("SelectionnerVotreModeldeTélephone")}
+                  2 - Selectionner Votre Model de Télephone
                 </strong>
 
                 {["IPHONE", "SAMSUNG"].includes(size) ? (
@@ -726,10 +759,10 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                     color: "#F14A00",
                   }}
                 >
-                  3 - {t("PlacerVotreCommande")}
+                  3 - Placer Votre Commande
                 </strong>
 
-                <div className="addToCart flex flex-col sm:flex-row md:flex-col lg:flex-row space-y-4 sm:space-y-0 mb-4">
+                {/* <div className="addToCart flex flex-col sm:flex-row md:flex-col lg:flex-row space-y-4 sm:space-y-0 mb-4">
                   <div className="plusOrMinus h-12 flex border justify-center border-gray300 divide-x-2 divide-gray300 mb-4 mr-0 sm:mr-4 md:mr-0 lg:mr-4">
                     <div
                       onClick={() =>
@@ -756,7 +789,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
                   <div className="flex h-12 space-x-4 w-full">
                     <Button
-                      value={t("add_to_cart")}
+                      value="Ajouter au panier"
                       size="lg"
                       disabled={
                         isEmpty(model) ||
@@ -770,7 +803,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                       }}
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
 
@@ -785,7 +818,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                 <div className="mb-2">
                   <div className="my-4">
                     <label htmlFor="name" className="text-lg">
-                      {t2("NometPrénom")}
+                      Nom et Prénom
                     </label>
                     <Input
                       name="name"
@@ -802,7 +835,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
                   <div className="my-4">
                     <label htmlFor="phone" className="text-lg">
-                      {t2("phone")}
+                      Télephone
                     </label>
                     <Input
                       placeholder="exp : 99 999 999"
@@ -820,7 +853,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
                   <div className="my-4">
                     <label htmlFor="shipping_address" className="text-lg">
-                      {t2("shipping_address")}
+                      Adresse de livraison
                     </label>
 
                     <textarea
@@ -839,7 +872,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                 </div>
 
                 <div className="py-3 flex justify-between">
-                  <span className="uppercase">{t2("subtotal")}</span>
+                  <span className="uppercase">Sous-total</span>
                   <span>
                     {" "}
                     {Number(
@@ -879,7 +912,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
                 <hr />
                 <div>
                   <div className="flex justify-between py-3">
-                    <span>{t2("grand_total")}</span>
+                    <span>Total général</span>
                     <span>
                       {" "}
                       {currentQty === 1
@@ -921,7 +954,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
 
                 <div className="flex h-12 space-x-4 w-full">
                   <Button
-                    value={t("PlacerVotreCommande")}
+                    value="Placer Votre Commande"
                     size="lg"
                     disabled={
                       isEmpty(name) ||
@@ -942,7 +975,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
               {({ open }) => (
                 <>
                   <Disclosure.Button className="py-2 focus:outline-none text-left mb-4 border-b-2 border-gray200 flex items-center justify-between">
-                    <span>{t("details")}</span>
+                    <span>Détails</span>
                     <DownArrow
                       extraClass={`${
                         open ? "" : "transform rotate-180"
@@ -966,10 +999,10 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
           </div>
         </div>
         {/* ===== Horizontal Divider ===== */}
-        <div className="border-b-2 border-gray200"></div>
+        {/* <div className="border-b-2 border-gray200"></div> */}
 
         {/* ===== You May Also Like Section ===== */}
-        <div className="recSection my-8 app-max-width app-x-padding">
+        {/* <div className="recSection my-8 app-max-width app-x-padding">
           <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
           <Swiper
             slidesPerView={2}
@@ -996,58 +1029,58 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
               <CardIG key={item.id} item={item} />
             ))}
           </div>
-        </div>
+        </div> */}
       </main>
 
       {/* ===== Footer Section ===== */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({
-  params,
-  locale,
-  req,
-}) => {
-  const paramId = params!.id as string;
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
-  );
+// export const getServerSideProps: GetServerSideProps = async ({
+//   params,
+//   locale,
+//   req,
+// }) => {
+//   // const paramId = params!.id as string;
+//   // const res = await axios.get(
+//   //   `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
+//   // );
 
-  const fetchedProduct: any = res.data.data;
+//   // const fetchedProduct: any = res.data.data;
 
-  const resProduct = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${fetchedProduct?.collectionId}`
-  );
+//   // const resProduct = await axios.get(
+//   //   `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${fetchedProduct?.collectionId}`
+//   // );
 
-  const products: any = resProduct.data.data;
+//   // const products: any = resProduct.data.data;
 
-  return {
-    props: {
-      product: {
-        ...fetchedProduct,
-        mainImg: fetchedProduct.option[0]?.images?.split(",")[0],
-      },
-      products: products.map((el: any) => ({
-        id: el?.id,
-        name: el?.name,
-        price: el?.option[0]?.price,
-        detail: el?.detail,
-        img1: el?.option[0]?.images?.split(",")[0],
-        img2:
-          el?.option[0]?.images?.split(",")?.length > 1
-            ? el?.option[0]?.images?.split(",")[1]
-            : el?.option[0]?.images?.split(",")[0],
-        // categoryName: "Shirts",
-        stock: el?.option[0]?.stock,
-        option: el?.option[0]?.id,
-        size: el?.option[0].size.split(",")[0],
-      })),
-      messages: (await import(`../../../messages/common/${locale}.json`))
-        .default,
-    },
-  };
-};
+//   return {
+//     props: {
+//       product: {
+//         ...fetchedProduct,
+//         mainImg: fetchedProduct.option[0]?.images?.split(",")[0],
+//       },
+//       products: products.map((el: any) => ({
+//         id: el?.id,
+//         name: el?.name,
+//         price: el?.option[0]?.price,
+//         detail: el?.detail,
+//         img1: el?.option[0]?.images?.split(",")[0],
+//         img2:
+//           el?.option[0]?.images?.split(",")?.length > 1
+//             ? el?.option[0]?.images?.split(",")[1]
+//             : el?.option[0]?.images?.split(",")[0],
+//         // categoryName: "Shirts",
+//         stock: el?.option[0]?.stock,
+//         option: el?.option[0]?.id,
+//         size: el?.option[0].size.split(",")[0],
+//       })),
+//       messages: (await import(`../../../messages/common/${locale}.json`))
+//         .default,
+//     },
+//   };
+// };
 
-export default ProductIG;
+export default ProductExternel;

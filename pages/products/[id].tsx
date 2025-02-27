@@ -320,7 +320,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
     setMainImg(product?.mainImg);
     setcolor(product?.option[0]?.color);
     setproductOption(product?.option[0]);
-  }, [product]);
+  }, []);
 
   const handleSize = (value: string) => {
     setSize(value);

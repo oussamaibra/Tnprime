@@ -33,56 +33,57 @@ export default function SearchForm() {
     setOpen(true);
   }
 
-  useEffect(() => {
-    if (!isFetching) return;
-    const fetchData = async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/search?q=`
-      );
-      const fetchedProducts: apiProductsType[] = res.data.data
-        .filter(
-          (el) =>
-            _.lowerCase(_.deburr(el.description)).includes(
-              _.lowerCase(_.deburr(searchValue))
-            ) ||
-            _.lowerCase(_.deburr(el.name)).includes(
-              _.lowerCase(_.deburr(searchValue))
-            ) ||
-            _.lowerCase(_.deburr(el.detail)).includes(
-              _.lowerCase(_.deburr(searchValue))
-            )
-        )
-        .map((product: any) => ({
-          id: product?.id,
-          name: product?.name,
-          price: product?.option[0].price,
-          qty: product?.option[0].stock,
-          description: product?.description,
-          detail: product?.detail,
-          img1: product?.option[0].images.split(",")[0],
-          img2:
-            product?.option[0].images.split(",").length > 1
-              ? product?.option[0].images.split(",")[1]
-              : product?.option[0].images.split(",")[0],
-          // categoryName: ,
-          stock: product?.option[0].stock,
-          option: product?.option[0].id,
-          size: product?.option[0].size.split(",")[0],
-          createdAt: product?.createdAt,
-        }));
-      if (fetchedProducts.length < 1) setNoResult(true);
-      fetchedProducts.map((product, index) => {
-        if (index < 4) {
-          setSearchItems((prevProduct) => [...prevProduct, product]);
-        } else {
-          setMoreThanFour(true);
-        }
-      });
-      setIsFetching(false);
-    };
-    fetchData();
-  }, [isFetching, searchValue]);
-  console.log("testtttttttt", searchItems);
+  // useEffect(() => {
+  //   if (!isFetching) return;
+  //   const fetchData = async () => {
+  //     const res = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/search?q=`
+  //     );
+  //     const fetchedProducts: apiProductsType[] = res.data.data
+  //       .filter(
+  //         (el) =>
+  //           _.lowerCase(_.deburr(el.description)).includes(
+  //             _.lowerCase(_.deburr(searchValue))
+  //           ) ||
+  //           _.lowerCase(_.deburr(el.name)).includes(
+  //             _.lowerCase(_.deburr(searchValue))
+  //           ) ||
+  //           _.lowerCase(_.deburr(el.detail)).includes(
+  //             _.lowerCase(_.deburr(searchValue))
+  //           )
+  //       )
+  //       .map((product: any) => ({
+  //         id: product?.id,
+  //         name: product?.name,
+  //         price: product?.option[0].price,
+  //         qty: product?.option[0].stock,
+  //         description: product?.description,
+  //         detail: product?.detail,
+  //         img1: product?.option[0].images.split(",")[0],
+  //         img2:
+  //           product?.option[0].images.split(",").length > 1
+  //             ? product?.option[0].images.split(",")[1]
+  //             : product?.option[0].images.split(",")[0],
+  //         // categoryName: ,
+  //         stock: product?.option[0].stock,
+  //         option: product?.option[0].id,
+  //         size: product?.option[0].size.split(",")[0],
+  //         createdAt: product?.createdAt,
+  //       }));
+  //     if (fetchedProducts.length < 1) setNoResult(true);
+  //     fetchedProducts.map((product, index) => {
+  //       if (index < 4) {
+  //         setSearchItems((prevProduct) => [...prevProduct, product]);
+  //       } else {
+  //         setMoreThanFour(true);
+  //       }
+  //     });
+  //     setIsFetching(false);
+  //   };
+  //   fetchData();
+  // }, [isFetching, searchValue]);
+
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSearchItems([]);
