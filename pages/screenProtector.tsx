@@ -75,16 +75,12 @@ type Props = {
 const ProductExternel: React.FC<Props> = () => {
   const product = {
     id: 999999,
-    name: "Protecteur d'écran - Sans poussière et sans bulles",
+    name: "Protection d’Écran – Modèle Fumé & Transparent",
     description: "LA PROTECTION DE L'ÉCRAN N'A JAMAIS ÉTÉ AUSSI FACILE",
-    detail: `✔Installation rapide et sans bulles
-
+    detail: `✔ Installation rapide et sans bulles
 ✔ Résistance aux rayures et aux chocs
-
 ✔ Modèle fumé pour plus de confidentialité
-
 ✔ Technologie anti-traces et auto-nettoyante
-
 ✔ Étanche et ultra-fin
 ✔ Résistant à l’eau et aux éclaboussures`,
     categoryId: 2,
@@ -136,6 +132,7 @@ const ProductExternel: React.FC<Props> = () => {
   const [sendEmail, setSendEmail] = useState(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [type, settype] = useState(null);
   const [paymentSuccess, setpaymentSuccess] = useState(false);
 
   const isMobile = useMobileDetection();
@@ -425,7 +422,9 @@ const ProductExternel: React.FC<Props> = () => {
                  <td style="padding:20px; color: #000; background:#00aaa8;"> ${currentQty}
           </td>
 
-                  <td style="padding:20px; color: #000; background:#00aaa8;"> ${size}
+                  <td style="padding:20px; color: #000; background:#00aaa8;"> ${size} ${
+      type?.label
+    }
           </td>
 
           </tr>
@@ -476,7 +475,7 @@ const ProductExternel: React.FC<Props> = () => {
         id: Number(_.uniqueId()),
         quantity: currentQty,
         image: productOption?.images?.split(",")[0],
-        size: model?.value,
+        size: `Model :${model?.value} | Type : ${type?.label}`,
       },
     ];
 
@@ -490,11 +489,15 @@ const ProductExternel: React.FC<Props> = () => {
         totalPrice:
           currentQty === 1
             ? Number(
-                roundDecimal(Number(currentItem?.price) * Number(currentQty))
+                roundDecimal(
+                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                    Number(currentQty)
+                )
               )
             : Number(
                 roundDecimal(
-                  Number(currentItem?.price) * Number(currentQty) -
+                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                    Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
               ),
@@ -511,11 +514,15 @@ const ProductExternel: React.FC<Props> = () => {
         fbPixelPurchase(
           currentQty === 1
             ? Number(
-                roundDecimal(Number(currentItem?.price) * Number(currentQty))
+                roundDecimal(
+                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                    Number(currentQty)
+                )
               )
             : Number(
                 roundDecimal(
-                  Number(currentItem?.price) * Number(currentQty) -
+                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                    Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
               )
@@ -635,7 +642,7 @@ const ProductExternel: React.FC<Props> = () => {
             </span> */}
 
             <span className="text-2xl text-gray400 mb-2">
-              {productOption.price} {currency}{" "}
+              {type ? (type.value === "1" ? 39 : 45) : 39} {currency}{" "}
               <span className="text-xl text-red mb-2">
                 {" "}
                 Livraison gratuite 🚚{" "}
@@ -822,6 +829,23 @@ const ProductExternel: React.FC<Props> = () => {
                 <div className="mb-2">
                   <div className="my-4">
                     <label htmlFor="name" className="text-lg">
+                      Modèle Fumé & Transparent
+                    </label>
+                    <Select
+                      className="w-full focus:border-gray500 mb-4 z-10"
+                      value={type}
+                      onChange={(e: any) => {
+                        settype(e);
+                      }}
+                      options={[
+                        { label: "Fumé", value: "2" },
+                        { label: "Transparent Normal", value: "1" },
+                      ]}
+                    />
+                  </div>
+
+                  <div className="my-4">
+                    <label htmlFor="name" className="text-lg">
                       Nom et Prénom
                     </label>
                     <Input
@@ -881,7 +905,8 @@ const ProductExternel: React.FC<Props> = () => {
                     {" "}
                     {Number(
                       roundDecimal(
-                        Number(currentItem?.price) * Number(currentQty)
+                        Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                          Number(currentQty)
                       )
                     )}
                     {currency}{" "}
@@ -922,12 +947,17 @@ const ProductExternel: React.FC<Props> = () => {
                       {currentQty === 1
                         ? Number(
                             roundDecimal(
-                              Number(currentItem?.price) * Number(currentQty)
+                              Number(
+                                type ? (type.value === "1" ? 39 : 45) : 39
+                              ) * Number(currentQty)
                             )
                           )
                         : Number(
                             roundDecimal(
-                              Number(currentItem?.price) * Number(currentQty) -
+                              Number(
+                                type ? (type.value === "1" ? 39 : 45) : 39
+                              ) *
+                                Number(currentQty) -
                                 Number(currentQty - 1) * 8
                             )
                           )}{" "}
@@ -962,6 +992,7 @@ const ProductExternel: React.FC<Props> = () => {
                     size="lg"
                     disabled={
                       isEmpty(name) ||
+                      isEmpty(type?.label) ||
                       isEmpty(phone) ||
                       phone.length > 8 ||
                       isEmpty(shippingAddress)
