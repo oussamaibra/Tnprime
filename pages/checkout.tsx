@@ -1090,8 +1090,6 @@ const ShoppingCart = () => {
                     <h2 className="text-xl font-bold">
                       {t("our_banking_details")}
                     </h2>
-                    <span className="uppercase block my-1">Sat Naing :</span>
-
                     <div className="flex justify-between w-full xl:w-1/2">
                       <span className="text-sm font-bold">AYA Bank</span>
                       <span className="text-base">20012345678</span>

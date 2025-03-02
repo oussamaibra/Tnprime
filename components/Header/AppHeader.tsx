@@ -9,9 +9,9 @@ type Props = {
 
 // "Discover affordable and fashionable men's and women's clothing online at TN PrimeFashion. Free Returns ✓ 1000+ New Arrivals Dropped Daily."
 const defaultDesc =
-  "TN PrimeFashion e-commerce developed with Next.JS. Coded with 🖤 by Sat Naing (satnaing.dev).";
+  "TN Prime";
 const defaultKeywords =
-  "TN PrimeFashion, Online Shop, E-commerce, Sat Naing, NextJS";
+  "TN Prime";
 
 const AppHeader: React.FC<Props> = ({
   title = "TN PRIME",

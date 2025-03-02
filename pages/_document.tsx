@@ -1,8 +1,8 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
-const title = "TN PrimeFashion";
-const desc = "TN PrimeFashion e-commerce developed with Next.JS. Coded with 🖤 by Sat Naing (satnaing.dev).";
-const keywords = "TN PrimeFashion, Online Shop, E-commerce, Sat Naing, NextJS";
+const title = "TN Prime";
+const desc = "TN Prime";
+const keywords = "TN Prime";
 
 export default function Document() {
   return (
@@ -24,17 +24,17 @@ export default function Document() {
         <link href="/favicons/site.webmanifest" rel="manifest" />
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" />
 
-        <meta property="og:url" content="https://haru-fashion.vercel.app" />
-        <link rel="canonical" href="https://haru-fashion.vercel.app" />
-        <meta property="og:site_name" content="TN PrimeFashion" />
+        <meta property="og:url" content="https://tnprime.shop/" />
+        <link rel="canonical" href="https://tnprime.shop/" />
+        <meta property="og:site_name" content="TN Prime" />
         <meta property="og:description" content={desc} key="og_description" />
         <meta property="og:title" content={title} key="og_title" />
-        <meta property="og:image" content="https://haru-fashion.vercel.app/og.png" />
+        <meta property="og:image" content="https://tnprime.shop/og.png" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@satnaing.dev" />
         <meta name="twitter:title" content={title} key="twitter_title" />
         <meta name="twitter:description" content={desc} key="twitter_description" />
-        <meta name="twitter:image" content="https://haru-fashion.vercel.app/og.png" />
+        <meta name="twitter:image" content="https://tnprime.shop/og.png" />
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
