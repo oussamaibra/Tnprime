@@ -980,7 +980,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
           <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
           <Swiper
             slidesPerView={2}
-            centeredSlides={true}
+            // centeredSlides={true}
             spaceBetween={10}
             loop={true}
             grabCursor={true}
