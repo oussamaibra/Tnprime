@@ -29,7 +29,7 @@ type Props = {
   isInsta?: boolean;
 };
 
-const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
+const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false , frompage}) => {
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
 
@@ -62,7 +62,7 @@ const CardIG: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
   return (
     <div className={styles.card}>
       <div className="relative overflow-hidden mb-1 h-60 sm:h-80 md:h-96 lg:h-[32rem] flex justify-center items-center">
-        {Number(item?.discount) !== 2 && Number(item?.discount) !== 0 && (
+        {!frompage && Number(item?.discount) !== 2 && Number(item?.discount) !== 0 && (
           <div
             style={{
               backgroundColor: "red",

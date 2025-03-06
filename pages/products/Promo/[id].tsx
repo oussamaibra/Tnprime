@@ -3,22 +3,22 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { iphoneimg } from "../../public/bg-img/iphone.png";
+import { iphoneimg } from "../../../public/bg-img/iphone.png";
 import { Disclosure } from "@headlessui/react";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import { useRouter } from "next/router";
 import emailjs from "@emailjs/browser";
 
-import Heart from "../../public/icons/Heart";
-import DownArrow from "../../public/icons/DownArrow";
-import FacebookLogo from "../../public/icons/FacebookLogo";
-import InstagramLogo from "../../public/icons/InstagramLogo";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import GhostButton from "../../components/Buttons/GhostButton";
-import Button from "../../components/Buttons/Button";
-import Card from "../../components/Card/Card";
+import Heart from "../../../public/icons/Heart";
+import DownArrow from "../../../public/icons/DownArrow";
+import FacebookLogo from "../../../public/icons/FacebookLogo";
+import InstagramLogo from "../../../public/icons/InstagramLogo";
+import Header from "../../../components/Header/Header";
+import Footer from "../../../components/Footer/Footer";
+import GhostButton from "../../../components/Buttons/GhostButton";
+import Button from "../../../components/Buttons/Button";
+import Card from "../../../components/Card/Card";
 import Circle from "@uiw/react-color-circle";
 import _, { isEmpty, isNil, values } from "lodash";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -30,18 +30,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // import Swiper core and required modules
 import SwiperCore, { Pagination } from "swiper/core";
-import { apiProductsType, itemType } from "../../context/cart/cart-types";
-import { useWishlist } from "../../context/wishlist/WishlistProvider";
-import { useCart } from "../../context/cart/CartProvider";
-import HeartSolid from "../../public/icons/HeartSolid";
+import { apiProductsType, itemType } from "../../../context/cart/cart-types";
+import { useWishlist } from "../../../context/wishlist/WishlistProvider";
+import { useCart } from "../../../context/cart/CartProvider";
+import HeartSolid from "../../../public/icons/HeartSolid";
 import { EasyZoomOnMove } from "easy-magnify";
 import copy from "copy-to-clipboard";
 import Select from "react-select";
-import Input from "../../components/Input/Input";
-import { roundDecimal } from "../../components/Util/utilFunc";
-import { useAuth } from "../../context/AuthContext";
+import Input from "../../../components/Input/Input";
+import { roundDecimal } from "../../../components/Util/utilFunc";
+import { useAuth } from "../../../context/AuthContext";
 import moment from "moment";
-import { fbPixelAddToCart, fbPixelPurchase } from "../../context/Util/fb";
+import { fbPixelAddToCart, fbPixelPurchase } from "../../../context/Util/fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -70,7 +70,7 @@ type Props = {
   products: any[];
 };
 
-const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
+const Product: React.FC<Props> = ({ product, products, url }) => {
   const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
@@ -320,7 +320,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
     setMainImg(product?.mainImg);
     setcolor(product?.option[0]?.color);
     setproductOption(product?.option[0]);
-  }, [paramId]);
+  }, []);
 
   const handleSize = (value: string) => {
     setSize(value);
@@ -461,13 +461,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
           currentQty === 1
             ? Number(
                 roundDecimal(Number(currentItem?.price) * Number(currentQty))
-              )
+              ) + 8
             : Number(
                 roundDecimal(
                   Number(currentItem?.price) * Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
-              ),
+              ) + 8,
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: "DOMICILE",
@@ -482,13 +482,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
           currentQty === 1
             ? Number(
                 roundDecimal(Number(currentItem?.price) * Number(currentQty))
-              )
+              ) + 8
             : Number(
                 roundDecimal(
                   Number(currentItem?.price) * Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
-              )
+              ) + 8
         );
 
         router.push("/coming-soon");
@@ -509,11 +509,11 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
     <div>
       <Toaster position="top-center" />
       {/* ===== Head Section ===== */}
-      <Header title={`${product.name} - TN Prime`} />
+      {/* <Header title={`${product.name} - TN Prime`} /> */}
 
       <main id="main-content">
         {/* ===== Breadcrumb Section ===== */}
-        <div className="bg-lightgreen h-16 w-full flex items-center border-t-2 border-gray200">
+        {/* <div className="bg-lightgreen h-16 w-full flex items-center border-t-2 border-gray200">
           <div className="app-x-padding app-max-width w-full">
             <div className="breadcrumb">
               <Link href="/">
@@ -528,7 +528,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
               / <span>{product.name}</span>
             </div>
           </div>
-        </div>
+        </div> */}
         {/* ===== Main Content Section ===== */}
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           <div className="imgSection w-full md:w-1/2 h-full flex">
@@ -600,14 +600,14 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
 
-            <span className="text-2xl text-red mb-2 animate-pulse">
+            {/* <span className="text-2xl text-red mb-2 animate-pulse">
               <Link href="/">
                 <a className="animate-pulse">
                   {" "}
                   {t("See more products click here")}
                 </a>
               </Link>{" "}
-            </span>
+            </span> */}
 
             <span className="text-2xl text-gray400 mb-2">
               {productOption.price} {currency}
@@ -761,7 +761,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                       +
                     </div>
                   </div>
-                  <div className="flex h-12 space-x-4 w-full">
+                  {/* <div className="flex h-12 space-x-4 w-full">
                     <Button
                       value={t("add_to_cart")}
                       size="lg"
@@ -776,7 +776,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                         fbPixelAddToCart();
                       }}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             )}
@@ -876,10 +876,10 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                 )}
 
                 <div className="py-3 flex justify-between">
-                  <span className="uppercase">{"Livraison gratuite"}</span>
+                  <span className="uppercase">{"Livraison"}</span>
                   <span>
                     {" "}
-                    {0} {currency}
+                    {8} {currency}
                   </span>
                 </div>
 
@@ -894,13 +894,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                             roundDecimal(
                               Number(currentItem?.price) * Number(currentQty)
                             )
-                          )
+                          ) + 8
                         : Number(
                             roundDecimal(
                               Number(currentItem?.price) * Number(currentQty) -
                                 Number(currentQty - 1) * 8
                             )
-                          )}{" "}
+                          ) + 8}{" "}
                       {currency}{" "}
                     </span>
                   </div>
@@ -976,7 +976,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
         <div className="border-b-2 border-gray200"></div>
 
         {/* ===== You May Also Like Section ===== */}
-        <div className="recSection my-8 app-max-width app-x-padding">
+        {/* <div className="recSection my-8 app-max-width app-x-padding">
           <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
           <Swiper
             slidesPerView={2}
@@ -993,21 +993,21 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
             {products.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="mb-6">
-                  <Card key={item.id} item={item} frompage={true} />
+                  <Card key={item.id} item={item} />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
           <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
             {products.map((item) => (
-              <Card key={item.id} item={item} frompage={true} />
+              <Card key={item.id} item={item} />
             ))}
           </div>
-        </div>
+        </div> */}
       </main>
 
       {/* ===== Footer Section ===== */}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
@@ -1051,8 +1051,8 @@ export const getServerSideProps: GetServerSideProps = async ({
         option: el?.option[0]?.id,
         size: el?.option[0].size.split(",")[0],
       })),
-      paramId: paramId,
-      messages: (await import(`../../messages/common/${locale}.json`)).default,
+      messages: (await import(`../../../messages/common/${locale}.json`))
+        .default,
       url: req?.headers?.host + req?.url,
     },
   };

@@ -67,7 +67,7 @@ type Props = {
   products: any[];
 };
 
-const ProductIG: React.FC<Props> = ({ product, products, url }) => {
+const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
   const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
@@ -317,7 +317,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
     setMainImg(product?.mainImg);
     setcolor(product?.option[0]?.color);
     setproductOption(product?.option[0]);
-  }, []);
+  }, [paramId]);
 
   const handleSize = (value: string) => {
     setSize(value);
@@ -986,14 +986,14 @@ const ProductIG: React.FC<Props> = ({ product, products, url }) => {
             {products.map((item) => (
               <SwiperSlide key={item.id}>
                 <div className="mb-6">
-                  <CardIG key={item.id} item={item} />
+                  <CardIG key={item.id} item={item} frompage={true} />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
           <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
             {products.map((item) => (
-              <CardIG key={item.id} item={item} />
+              <CardIG key={item.id} item={item} frompage={true} />
             ))}
           </div>
         </div>
@@ -1044,6 +1044,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         option: el?.option[0]?.id,
         size: el?.option[0].size.split(",")[0],
       })),
+      paramId,
       messages: (await import(`../../../messages/common/${locale}.json`))
         .default,
     },

@@ -29,7 +29,12 @@ type Props = {
   isInsta?: boolean;
 };
 
-const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
+const Card: FC<Props> = ({
+  item,
+  outStock = false,
+  isInsta = false,
+  frompage,
+}) => {
   const [location, setlocation] = useState({});
   const [currency, setcurrency] = useState("TND");
 
@@ -183,21 +188,22 @@ const Card: FC<Props> = ({ item, outStock = false, isInsta = false }) => {
       <div
         className={isInsta ? styles.imageContainerInsta : styles.imageContainer}
       >
-             {Number(item?.discount) !== 2 && Number(item?.discount) !== 0 && (
-          <div
-            style={{
-              backgroundColor: "red",
-            }}
-            className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
-          >
-            {Number(item?.discount) === 1
-              ? t("Out Of Stock")
-              : Number(item?.discount) === 3
-              ? t("New Collection")
-              : ""}
-          </div>
-        )}
-
+        {!frompage &&
+          Number(item?.discount) !== 2 &&
+          Number(item?.discount) !== 0 && (
+            <div
+              style={{
+                backgroundColor: "red",
+              }}
+              className="absolute top-2 left-2 from-orange-500 text-white text-xs font-bold px-3 py-1 z-10 shadow-md animate-pulse mt-5"
+            >
+              {Number(item?.discount) === 1
+                ? t("Out Of Stock")
+                : Number(item?.discount) === 3
+                ? t("New Collection")
+                : ""}
+            </div>
+          )}
 
         <Link href={itemLink}>
           <a
