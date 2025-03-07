@@ -461,13 +461,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
           currentQty === 1
             ? Number(
                 roundDecimal(Number(currentItem?.price) * Number(currentQty))
-              )
+              ) + 8
             : Number(
                 roundDecimal(
                   Number(currentItem?.price) * Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
-              ),
+              ) + 8,
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: "DOMICILE",
@@ -482,13 +482,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
           currentQty === 1
             ? Number(
                 roundDecimal(Number(currentItem?.price) * Number(currentQty))
-              )
+              ) + 8
             : Number(
                 roundDecimal(
                   Number(currentItem?.price) * Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
-              )
+              ) + 8
         );
 
         router.push("/coming-soon");
@@ -876,10 +876,10 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                 )}
 
                 <div className="py-3 flex justify-between">
-                  <span className="uppercase">{"Livraison gratuite"}</span>
+                  <span className="uppercase">{"Livraison "}</span>
                   <span>
                     {" "}
-                    {0} {currency}
+                    {8} {currency}
                   </span>
                 </div>
 
@@ -894,13 +894,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                             roundDecimal(
                               Number(currentItem?.price) * Number(currentQty)
                             )
-                          )
+                          ) + 8
                         : Number(
                             roundDecimal(
                               Number(currentItem?.price) * Number(currentQty) -
                                 Number(currentQty - 1) * 8
                             )
-                          )}{" "}
+                          ) + 8}{" "}
                       {currency}{" "}
                     </span>
                   </div>
