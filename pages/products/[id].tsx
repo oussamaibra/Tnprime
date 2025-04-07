@@ -908,7 +908,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
 
                 {(isEmpty(name) ||
                   isEmpty(phone) ||
-                  phone.length > 8 ||
+                  phone.length !== 8 ||
                   isEmpty(shippingAddress)) && (
                   <div
                     className="text-center"
@@ -932,8 +932,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                     size="lg"
                     disabled={
                       isEmpty(name) ||
-                      isEmpty(phone) ||
-                      phone.length > 8 ||
+                      phone.length !== 8 ||
                       isEmpty(shippingAddress)
                     }
                     extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}

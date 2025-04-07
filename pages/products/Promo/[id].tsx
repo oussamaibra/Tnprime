@@ -877,7 +877,7 @@ const Product: React.FC<Props> = ({ product, products, url }) => {
 
                 {(isEmpty(name) ||
                   isEmpty(phone) ||
-                  phone.length > 8 ||
+                  phone.length !== 8 ||
                   isEmpty(shippingAddress)) && (
                   <div
                     className="text-center"
