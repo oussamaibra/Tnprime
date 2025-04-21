@@ -110,6 +110,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
   const router = useRouter();
   // const img1 = product?.option[0]?.images?.split(",")[0];
   // const img2 = product?.option[1]?.images?.split(",")[0];
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const { addItem } = useCart();
   const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
@@ -937,9 +938,44 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                     }
                     extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                     onClick={() => {
-                      Ordering();
+                      setShowConfirmationModal(true);
                     }}
                   />
+                </div>
+              </div>
+            )}
+
+            {showConfirmationModal && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-8 rounded-lg max-w-md w-full">
+                  <h3 className="text-2xl font-bold text-center mb-4">
+                    تأكيد الطلب
+                  </h3>
+                  <p className="text-center mb-6" dir="rtl">
+                    مهم جدا!! ثبت روحك قبل متعدي كوموند، الكولي الراجع وراء
+                    خسارة كبيرة وبكيب كبير بخدم باش بسكراك كوموند... عارف روحك
+                    فما احتمال %1 متهزش الكولي مانعديش كوموند يعيشك غيرك بحب
+                    بشري ... شكرا على تفهمكم
+                  </p>
+                  <div className="flex justify-center space-x-4">
+                    <Button
+                      value={"إلغاء"}
+                      size="lg"
+                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-red`}
+                      onClick={() => {
+                        setShowConfirmationModal(false);
+                      }}
+                    />
+                    <Button
+                      value={"تأكيد الطلب"}
+                      size="lg"
+                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
+                      onClick={() => {
+                        setShowConfirmationModal(false);
+                        Ordering();
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             )}

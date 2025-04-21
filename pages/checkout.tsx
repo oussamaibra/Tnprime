@@ -155,7 +155,7 @@ const ShoppingCart = () => {
   //   if (auth.user) makeOrder();
   // }, [isOrdering]);
 
-    const router = useRouter();
+  const router = useRouter();
   const Ordering = () => {
     let HTMT = `<table
         style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
@@ -878,10 +878,11 @@ const ShoppingCart = () => {
                       {"Disount (pour plus 2eme Skin)"}
                     </span>
                     <span>
-                      {" "}
-                      {_.sumBy(cart, function (o) {
+                      {(_.sumBy(cart, function (o) {
                         return Number(o.qty);
-                      }) * 8}{" "}
+                      }) -
+                        1) *
+                        8}{" "}
                       {currency}
                     </span>
                   </div>
@@ -912,7 +913,7 @@ const ShoppingCart = () => {
                           {"Livraison à domicile"}
                         </label>
                       </div>
-                      <span> 0 {currency} </span>
+                      <span> 8 {currency} </span>
                     </div>
                   </div>
                 </div>
@@ -923,7 +924,8 @@ const ShoppingCart = () => {
                     <span>
                       {" "}
                       {roundDecimal(
-                        Number(subtotal) -
+                        Number(subtotal) +
+                          8 -
                           Number(
                             _.sumBy(cart, function (o) {
                               return Number(o.qty);
