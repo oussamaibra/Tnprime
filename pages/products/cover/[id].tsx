@@ -122,7 +122,7 @@ const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
     value: "iPhone 16 Pro Max",
     label: "iPhone 16 Pro Max",
   });
-  const [selectedColor, setselectedColor] = useState("#000");
+  const [selectedColor, setselectedColor] = useState("#77B5FE");
   const [images, setimages] = useState([
     "https://www.tnprime.shop:6443/images/newProd (6).jpeg",
     "https://www.tnprime.shop:6443/images/newProd (1).jpeg",
@@ -410,14 +410,14 @@ const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{"Peace Case 3D"}</h1>
 
-            <span className="text-2xl text-red mb-2 animate-pulse">
+            {/* <span className="text-2xl text-red mb-2 animate-pulse">
               <Link href="/">
                 <a className="animate-pulse">
                   {" "}
                   {t("See more products click here")}
                 </a>
               </Link>{" "}
-            </span>
+            </span> */}
 
             <span className="text-2xl text-gray400 mb-2">
               {49} {currency}
