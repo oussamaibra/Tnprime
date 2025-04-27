@@ -159,6 +159,15 @@ export default function Menu() {
                       </a>
                     </Link>
 
+                    <Link href="/products/cover/1">
+                      <a
+                        className="w-full text-xl hover:bg-gray100 text-left py-2"
+                        onClick={closeModal}
+                      >
+                        {"Peace Case 3D"}
+                      </a>
+                    </Link>
+
                     {/* <Link href="/product-category/women">
                       <a
                         className="w-full text-xl hover:bg-gray100 text-left py-2"

@@ -214,6 +214,11 @@ const Header: React.FC<Props> = ({ title }) => {
                   <a className={styles.navBarItem}>{t("Accueil")}</a>
                 </Link>
               </li>
+              <li>
+                <Link href={`/products/cover/1`}>
+                  <a className={styles.navBarItem}>Peace Case 3D</a>
+                </Link>
+              </li>
 
               {/* <li>
                 <Dropdown

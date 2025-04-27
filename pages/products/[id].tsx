@@ -1000,7 +1000,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                         size="lg"
                         extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
                         onClick={() => {
-                          setShowConfirmationModal(true);
+                          setShowConfirmationModal(false);
                         }}
                       />
 
