@@ -256,6 +256,7 @@ const ProductOptions = ({
                             اختر المنتج
                           </label>
                           <Select
+                            menuPortalTarget={document.body}
                             value={
                               pairSelections[index]?.product
                                 ? {
@@ -274,7 +275,7 @@ const ProductOptions = ({
                               image: el.img1,
                             }))}
                             formatOptionLabel={(option) => (
-                              <div className="flex items-center gap-4 py-2">
+                              <div className="flex items-center gap-4 py-2 z-10">
                                 <img
                                   src={option.image}
                                   alt={option.label}

@@ -103,76 +103,76 @@ const ProductOptions = ({
     setPairSelections(updatedSelections);
   };
 
-const customSelectStyles = {
-  control: (provided, state) => ({
-    ...provided,
-    borderColor: state.isFocused ? "#10b981" : "#d1d5db",
-    boxShadow: state.isFocused ? "0 0 0 3px rgba(16, 185, 129, 0.1)" : "none",
-    "&:hover": {
-      borderColor: "#10b981",
-    },
-    minHeight: "48px",
-    borderRadius: "0.5rem",
-    backgroundColor: "white",
-    fontSize: "14px",
-    cursor: "pointer",
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected
-      ? "#10b981"
-      : state.isFocused
-      ? "#f0fdf4"
-      : "white",
-    color: state.isSelected ? "white" : "#374151",
-    padding: "12px",
-    fontSize: "14px",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: !state.isSelected ? "#f0fdf4" : "#10b981",
-    },
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: "#9ca3af",
-    fontSize: "14px",
-  }),
-  dropdownIndicator: (provided) => ({
-    ...provided,
-    color: "#9ca3af",
-    "&:hover": {
-      color: "#6b7280",
-    },
-  }),
-  clearIndicator: (provided) => ({
-    ...provided,
-    color: "#9ca3af",
-    "&:hover": {
-      color: "#ef4444", // Red on hover for clear button
-    },
-  }),
-  indicatorSeparator: (provided) => ({
-    ...provided,
-    backgroundColor: "#e5e7eb", // Lighter separator
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: "#1f2937", // Darker text for selected value
-    fontWeight: "500",
-  }),
-  menu: (provided) => ({
-    ...provided,
-    borderRadius: "0.5rem",
-    boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-    border: "1px solid #e5e7eb",
-    zIndex: 9999, // Ensure dropdown appears above other elements
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: "#1f2937",
-    fontSize: "14px",
-  }),
-};
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      borderColor: state.isFocused ? "#10b981" : "#d1d5db",
+      boxShadow: state.isFocused ? "0 0 0 3px rgba(16, 185, 129, 0.1)" : "none",
+      "&:hover": {
+        borderColor: "#10b981",
+      },
+      minHeight: "48px",
+      borderRadius: "0.5rem",
+      backgroundColor: "white",
+      fontSize: "14px",
+      cursor: "pointer",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#10b981"
+        : state.isFocused
+        ? "#f0fdf4"
+        : "white",
+      color: state.isSelected ? "white" : "#374151",
+      padding: "12px",
+      fontSize: "14px",
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: !state.isSelected ? "#f0fdf4" : "#10b981",
+      },
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      fontSize: "14px",
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      "&:hover": {
+        color: "#6b7280",
+      },
+    }),
+    clearIndicator: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      "&:hover": {
+        color: "#ef4444", // Red on hover for clear button
+      },
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      backgroundColor: "#e5e7eb", // Lighter separator
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#1f2937", // Darker text for selected value
+      fontWeight: "500",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: "0.5rem",
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      border: "1px solid #e5e7eb",
+      zIndex: 9999, // Ensure dropdown appears above other elements
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: "#1f2937",
+      fontSize: "14px",
+    }),
+  };
 
   return (
     <div className="space-y-6">
@@ -268,6 +268,7 @@ const customSelectStyles = {
                             اختر المنتج
                           </label>
                           <Select
+                            menuPortalTarget={document.body}
                             value={
                               pairSelections[index]?.product
                                 ? {
@@ -286,7 +287,7 @@ const customSelectStyles = {
                               image: el.img1,
                             }))}
                             formatOptionLabel={(option) => (
-                              <div className="flex items-center gap-4 py-2">
+                              <div className="flex items-center gap-4 py-2 z-10">
                                 <img
                                   src={option.image}
                                   alt={option.label}
