@@ -71,6 +71,216 @@ type Props = {
   products: any[];
 };
 
+const ProductOptions = ({
+  product,
+  currency,
+  packageOptions,
+  pairSelections,
+  setPairSelections,
+  setSelectedPackage,
+  selectedPackage,
+  products,
+}) => {
+  const handleModelChange = (index, value) => {
+    const updatedSelections = {
+      ...pairSelections,
+      [index]: {
+        ...pairSelections[index],
+        model: value,
+      },
+    };
+    setPairSelections(updatedSelections);
+  };
+
+  const handleProductChange = (index, selectedOption) => {
+    const updatedSelections = {
+      ...pairSelections,
+      [index]: {
+        ...pairSelections[index],
+        product: selectedOption ? selectedOption.value : null,
+      },
+    };
+    setPairSelections(updatedSelections);
+  };
+
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      borderColor: state.isFocused ? "#10b981" : "#d1d5db",
+      boxShadow: state.isFocused ? "0 0 0 3px rgba(16, 185, 129, 0.1)" : "none",
+      "&:hover": {
+        borderColor: "#10b981",
+      },
+      minHeight: "48px",
+      borderRadius: "0.5rem",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#10b981"
+        : state.isFocused
+        ? "#f0fdf4"
+        : "white",
+      color: state.isSelected ? "white" : "#374151",
+      padding: "12px",
+      "&:hover": {
+        backgroundColor: state.isSelected ? "#10b981" : "#f0fdf4",
+      },
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      fontSize: "14px",
+    }),
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="space-y-4">
+        {packageOptions.map((option) => (
+          <div
+            key={option.id}
+            className={`relative border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 ${
+              selectedPackage === option.id
+                ? "border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 shadow-lg transform scale-[1.02]"
+                : "border-gray-200 hover:border-green-300 hover:shadow-md"
+            }`}
+          >
+            <div
+              className="flex items-center justify-between"
+              onClick={() => {
+                setSelectedPackage(option.id);
+                setPairSelections([
+                  {
+                    model: "",
+                    product: product,
+                  },
+                ]);
+              }}
+            >
+              <div className="flex items-center space-x-4">
+                <input
+                  type="radio"
+                  checked={selectedPackage === option.id}
+                  readOnly
+                  className="w-5 h-5 text-green-600 border-2 border-gray-300 focus:ring-green-500 focus:ring-2"
+                />
+                <div className="font-semibold text-gray-800">
+                  {option.label} {" "}
+                  {option.offer && (
+                    <span className="ml-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm animate-pulse">
+                      {option.description}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="font-bold text-xl text-green-600">
+                  {option.price.toFixed(3)} {currency}
+                </div>
+                {option.id > 1 && (
+                  <div className="text-sm text-gray-500">
+                    {option.description}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {selectedPackage === option.id && (
+              <div className="mt-8 animate-fadeIn">
+                {Array.from({ length: option.id === 3 ? 4 : option.id }).map(
+                  (_, index) => (
+                    <div
+                      key={index}
+                      className="mb-8 p-6 bg-white rounded-lg border border-gray-100 shadow-sm last:mb-0"
+                    >
+                      <div className="flex items-center justify-between mb-6">
+                        <h4 className="text-lg font-bold text-gray-800 flex items-center">
+                          {/* <span className="bg-green-100 text-green-800 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3">
+                          {index + 1}
+                        </span> */}
+                        </h4>
+                        {pairSelections[index]?.product && (
+                          <div className="text-sm text-green-600 font-medium">
+                            ✓ تم الاختيار
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            اكتب موديل الهاتف{" "}
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="(Iphone 16 pro , SAMSUNG s20) اكتب موديل الهاتف هنا..."
+                            value={pairSelections[index]?.model || ""}
+                            onChange={(e) =>
+                              handleModelChange(index, e.target.value)
+                            }
+                            className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-100 transition-all duration-200 text-right placeholder-gray-400"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            اختر المنتج
+                          </label>
+                          <Select
+                            value={
+                              pairSelections[index]?.product
+                                ? {
+                                    value: pairSelections[index].product,
+                                    label: pairSelections[index].product.name,
+                                    image: pairSelections[index].product.img1,
+                                  }
+                                : null
+                            }
+                            onChange={(selectedOption) =>
+                              handleProductChange(index, selectedOption)
+                            }
+                            options={products.map((el) => ({
+                              value: el,
+                              label: el.name,
+                              image: el.img1,
+                            }))}
+                            formatOptionLabel={(option) => (
+                              <div className="flex items-center gap-4 py-2">
+                                <img
+                                  src={option.image}
+                                  alt={option.label}
+                                  className="w-20 h-16 object-cover rounded-lg border-2 border-gray-100"
+                                />
+                                <div className="flex-1">
+                                  <span className="text-sm font-medium text-gray-800">
+                                    {option.label}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
+                            placeholder="اختر المنتج المناسب..."
+                            noOptionsMessage={() => "لا توجد خيارات متاحة"}
+                            styles={customSelectStyles}
+                            className="react-select-container z-999"
+                            classNamePrefix="react-select"
+                            isSearchable
+                            isClearable
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
   const { cart, clearCart } = useCart();
   const [location, setlocation] = useState({});
@@ -344,6 +554,35 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
       : addToWishlist!(currentItem);
   };
 
+  const [selectedPack, setSelectedPack] = useState<number | null>(null);
+  const [packSelections, setPackSelections] = useState<any>([]);
+
+  console.log("ssss", packSelections, Object.values(packSelections));
+
+  const packOptions = [
+    {
+      id: 1,
+      label: "اطلب 1",
+      description: "",
+      price: Number(productOption?.price),
+      offer: null,
+    },
+    {
+      id: 2,
+      label: "اطلب 2 واحصل توصيل مجاني",
+      description: "Free delivery",
+      price: Number(productOption?.price) * 2,
+      offer: "delivery",
+    },
+    {
+      id: 3,
+      label: "اطلب 3 واحصل على 1 مجاني",
+      description: "1 free item",
+      price: Number(productOption?.price) * 3,
+      offer: "1 free",
+    },
+  ];
+
   const Ordering = () => {
     let HTMT = `<table
           style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
@@ -443,14 +682,12 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
 
     registerUser();
 
-    const products = [
-      {
-        id: Number(_.uniqueId()),
-        quantity: currentQty,
-        image: productOption?.images?.split(",")[0],
-        size: model?.value,
-      },
-    ];
+    const products = Object.values(packSelections).map((el: any) => ({
+      id: Number(_.uniqueId()),
+      quantity: 1,
+      image: el.product.img1,
+      size: el.model,
+    }));
 
     const makeOrder = async () => {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_ORDERS_MODULE}`, {
@@ -460,16 +697,13 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
         ville: moment().format("YYYY-MM-DD HH:mm"),
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice:
-          currentQty === 1
-            ? Number(
-                roundDecimal(Number(currentItem?.price) * Number(currentQty))
-              ) + 8
-            : Number(
-                roundDecimal(
-                  Number(currentItem?.price) * Number(currentQty) -
-                    Number(currentQty - 1) * 8
-                )
-              ) + 8,
+          Object.values(packSelections).length === 1
+            ? Number(currentItem?.price) + 8
+            : Object.values(packSelections).length === 2
+            ? Number(currentItem?.price) * 2
+            : Object.values(packSelections).length >= 3
+            ? Number(currentItem?.price) * 3
+            : 0,
         deliveryDate: new Date().setDate(new Date().getDate() + 2),
         paymentType: "OTHERS",
         deliveryType: "DOMICILE",
@@ -506,7 +740,6 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
 
     makeOrder();
   };
-
   return (
     <div>
       <Toaster position="top-center" />
@@ -614,7 +847,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
             <span className="text-2xl text-gray400 mb-2">
               {productOption.price} {currency}
             </span>
-            <span className="mb-2 mt-2 text-justify break-words">
+            {/* <span className="mb-2 mt-2 text-justify break-words">
               {product.detail.split("✔").map(
                 (el, index) =>
                   index > 0 && (
@@ -623,12 +856,37 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                     </>
                   )
               )}
-            </span>
+            </span> */}
             <span className="mb-2">
               {t("availability")}: {t("in_stock")}
             </span>
 
-            <div className="mb-2 mt-2">
+            <ProductOptions
+              product={{
+                id: product?.id,
+                name: product?.name,
+                price: product?.option[0]?.price,
+                detail: product?.detail,
+                img1: product?.option[0]?.images?.split(",")[0],
+                img2:
+                  product?.option[0]?.images?.split(",")?.length > 1
+                    ? product?.option[0]?.images?.split(",")[1]
+                    : product?.option[0]?.images?.split(",")[0],
+                // categoryName: "Shirts",
+                stock: product?.option[0]?.stock,
+                option: product?.option[0]?.id,
+                size: product?.option[0].size.split(",")[0],
+              }}
+              currency={currency}
+              packageOptions={packOptions}
+              pairSelections={packSelections}
+              setPairSelections={setPackSelections}
+              setSelectedPackage={setSelectedPack}
+              selectedPackage={selectedPack}
+              products={products}
+            />
+
+            {/* <div className="mb-2 mt-2">
               <strong
                 style={{
                   color: "#F14A00",
@@ -639,7 +897,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
               </strong>
 
               <div className="sizeContainer flex space-x-4 text-sm mb-4">
-                {/* ["IPHONE", "SAMSUNG", "OTHERS"] */}
+
                 {listMark?.map((el: any) => (
                   <div
                     key={el}
@@ -682,9 +940,9 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                   )}
                 </GhostButton>
               </div>
-            </div>
+            </div> */}
 
-            {size && (
+            {/* {size && (
               <div className="mb-2 mt-2">
                 <strong
                   style={{
@@ -781,9 +1039,9 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
-            {model && Number(productOption?.stock) > 0 && (
+            {Number(productOption?.stock) > 0 && (
               <div
                 style={{
                   //  border:"1px solid",
@@ -945,6 +1203,7 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                 </div>
               </div>
             )}
+
             {showConfirmationModal && (
               <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 backdrop-blur-sm">
                 <div className="bg-white p-6 rounded-xl max-w-md w-full mx-4 shadow-2xl border border-gray-100">
@@ -1050,7 +1309,14 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                   <Disclosure.Panel
                     className={`text-gray400 animate__animated animate__bounceIn`}
                   >
-                    {product.description}
+                    {product.detail.split("✔").map(
+                      (el, index) =>
+                        index > 0 && (
+                          <>
+                            <div> ✅ {el} </div> <br />
+                          </>
+                        )
+                    )}
                   </Disclosure.Panel>
                 </>
               )}
