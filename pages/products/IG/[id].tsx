@@ -101,6 +101,9 @@ const ProductOptions = ({
       },
       minHeight: "48px",
       borderRadius: "0.5rem",
+      backgroundColor: "white",
+      fontSize: "14px",
+      cursor: "pointer",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -111,13 +114,50 @@ const ProductOptions = ({
         : "white",
       color: state.isSelected ? "white" : "#374151",
       padding: "12px",
+      fontSize: "14px",
+      cursor: "pointer",
       "&:hover": {
-        backgroundColor: state.isSelected ? "#10b981" : "#f0fdf4",
+        backgroundColor: !state.isSelected ? "#f0fdf4" : "#10b981",
       },
     }),
     placeholder: (provided) => ({
       ...provided,
       color: "#9ca3af",
+      fontSize: "14px",
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      "&:hover": {
+        color: "#6b7280",
+      },
+    }),
+    clearIndicator: (provided) => ({
+      ...provided,
+      color: "#9ca3af",
+      "&:hover": {
+        color: "#ef4444", // Red on hover for clear button
+      },
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      backgroundColor: "#e5e7eb", // Lighter separator
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#1f2937", // Darker text for selected value
+      fontWeight: "500",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: "0.5rem",
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+      border: "1px solid #e5e7eb",
+      zIndex: 9999, // Ensure dropdown appears above other elements
+    }),
+    input: (provided) => ({
+      ...provided,
+      color: "#1f2937",
       fontSize: "14px",
     }),
   };
