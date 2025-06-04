@@ -166,7 +166,7 @@ const ProductOptions = ({
                   className="w-5 h-5 text-green-600 border-2 border-gray-300 focus:ring-green-500 focus:ring-2"
                 />
                 <div className="font-semibold text-gray-800">
-                  {option.label} {" "}
+                  {option.label}{" "}
                   {option.offer && (
                     <span className="ml-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm animate-pulse">
                       {option.description}
@@ -1109,37 +1109,21 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                   <span className="uppercase">{t2("subtotal")}</span>
                   <span>
                     {" "}
-                    {Number(
-                      roundDecimal(
-                        Number(currentItem?.price) * Number(currentQty)
-                      )
-                    )}
+                    {Object.values(packSelections).length === 1
+                      ? Number(currentItem?.price) + 8
+                      : Object.values(packSelections).length === 2
+                      ? Number(currentItem?.price) * 2
+                      : Object.values(packSelections).length >= 3 &&
+                        Number(currentItem?.price) * 3}
                     {currency}{" "}
                   </span>
                 </div>
 
-                {currentQty > 1 && (
-                  <div
-                    className="py-3 flex justify-between"
-                    style={{
-                      color: "red",
-                    }}
-                  >
-                    <span className="uppercase">
-                      {"Disount (pour plus 2eme Skin)"}
-                    </span>
-                    <span>
-                      {" "}
-                      {Number(currentQty - 1) * 8} {currency}
-                    </span>
-                  </div>
-                )}
-
                 <div className="py-3 flex justify-between">
-                  <span className="uppercase">{"Livraison "}</span>
+                  <span className="uppercase">{"Livraison"}</span>
                   <span>
                     {" "}
-                    {8} {currency}
+                    {Object.values(packSelections).length === 1 ? 8 : 0}
                   </span>
                 </div>
 
@@ -1149,19 +1133,14 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                     <span>{t2("grand_total")}</span>
                     <span>
                       {" "}
-                      {currentQty === 1
-                        ? Number(
-                            roundDecimal(
-                              Number(currentItem?.price) * Number(currentQty)
-                            )
-                          ) + 8
-                        : Number(
-                            roundDecimal(
-                              Number(currentItem?.price) * Number(currentQty) -
-                                Number(currentQty - 1) * 8
-                            )
-                          ) + 8}{" "}
-                      {currency}{" "}
+                      {Object.values(packSelections).length === 1
+                        ? Number(currentItem?.price) + 8
+                        : Object.values(packSelections).length === 2
+                        ? Number(currentItem?.price) * 2
+                        : Object.values(packSelections).length >= 3
+                        ? Number(currentItem?.price) * 3
+                        : 0}{" "}
+                      {currency}
                     </span>
                   </div>
                 </div>
@@ -1169,6 +1148,9 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                 {(isEmpty(name) ||
                   isEmpty(phone) ||
                   phone.length !== 8 ||
+                  Object.values(packSelections).filter(
+                    (el) => el?.model?.length > 1
+                  ).length < 0 ||
                   isEmpty(shippingAddress)) && (
                   <div
                     className="text-center"
@@ -1192,6 +1174,10 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
                     size="lg"
                     disabled={
                       isEmpty(name) ||
+                      isEmpty(phone) ||
+                      !Object.values(packSelections).every(
+                        (el) => el?.model?.length > 1
+                      ) ||
                       phone.length !== 8 ||
                       isEmpty(shippingAddress)
                     }

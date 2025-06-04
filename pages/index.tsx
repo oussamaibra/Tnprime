@@ -284,7 +284,7 @@ const Home: React.FC<Props> = () => {
       </main>
       <Footer />
 
-      <Modal
+      {/* <Modal
         open={open}
         setOpen={() => {
           setopen(false);
@@ -292,7 +292,7 @@ const Home: React.FC<Props> = () => {
         className="z-50 p-0 text-center"
       >
         <img src="https://www.tnprime.shop:6443/images/25pro.jpg" />
-      </Modal>
+      </Modal> */}
     </>
   );
 };

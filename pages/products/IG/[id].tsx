@@ -553,7 +553,11 @@ const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
   const [selectedPack, setSelectedPack] = useState<number | null>(null);
   const [packSelections, setPackSelections] = useState<any>([]);
 
-  console.log("ssss", packSelections, Object.values(packSelections));
+  console.log(
+    "ssss",
+    packSelections,
+    Object.values(packSelections).every((el) => el?.model?.length > 1)
+  );
 
   const packOptions = [
     {
@@ -1301,8 +1305,8 @@ const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
                       : Object.values(packSelections).length === 2
                       ? Number(currentItem?.price) * 2
                       : Object.values(packSelections).length >= 3 &&
-                        Number(currentItem?.price) * 3}
-                    {currency}{" "}
+                        Number(currentItem?.price) * 3}{" "}
+                    {currency}
                   </span>
                 </div>
 
@@ -1335,7 +1339,9 @@ const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
                 {(isEmpty(name) ||
                   isEmpty(phone) ||
                   phone.length !== 8 ||
-                  Object.values(packSelections).length < 0 ||
+                  !Object.values(packSelections).every(
+                    (el) => el?.model?.length > 1
+                  ) ||
                   isEmpty(shippingAddress)) && (
                   <div
                     className="text-center"
@@ -1360,6 +1366,9 @@ const ProductIG: React.FC<Props> = ({ product, products, url, paramId }) => {
                     disabled={
                       isEmpty(name) ||
                       isEmpty(phone) ||
+                      !Object.values(packSelections).every(
+                        (el) => el?.model?.length > 1
+                      ) ||
                       phone.length !== 8 ||
                       isEmpty(shippingAddress)
                     }
