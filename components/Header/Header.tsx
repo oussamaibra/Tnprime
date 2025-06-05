@@ -223,7 +223,7 @@ const Header: React.FC<Props> = ({ title }) => {
 
               <li>
                 <Link href={`/screenProtector`}>
-                  <a className={styles.navBarItem}>protecteur d'écran</a>
+                  <a className={styles.navBarItem}>Protecteur d'écran</a>
                 </Link>
               </li>
             </ul>
