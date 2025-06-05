@@ -208,42 +208,24 @@ const Header: React.FC<Props> = ({ title }) => {
             </div>
 
             {/* Left Nav */}
-            <ul className={`flex-0 lg:flex-1 flex ${styles.leftMenu}`}>
+            <ul className={`flex-0 lg:flex-1 flex ${styles.leftMenu} flex justify-between`}>
               <li>
                 <Link href={`/`}>
                   <a className={styles.navBarItem}>{t("Accueil")}</a>
                 </Link>
               </li>
+
               <li>
                 <Link href={`/products/cover/1`}>
                   <a className={styles.navBarItem}>Peace Case 3D</a>
                 </Link>
               </li>
 
-              {/* <li>
-                <Dropdown
-                  trigger={["hover", "click"]}
-                  overlay={menuCol}
-                  animation="slide-up"
-                  overlayClassName="w-fit pt-2 cursor-pointer	"
-                  openClassName="cursor-pointer	"
-                  onVisibleChange={onVisibleChange}
-                >
-                  <a className={styles.navBarItem}>{"Nos Collection"}</a>
-                </Dropdown>
-              </li> */}
-              {/* <li>
-                <Dropdown
-                  trigger={["hover", "click"]}
-                  overlay={menuCat}
-                  animation="slide-up"
-                  overlayClassName="w-fit pt-2 cursor-pointer"
-                  openClassName="cursor-pointer"
-                  onVisibleChange={onVisibleChange}
-                >
-                  <a className={styles.navBarItem}>{t("Catalogue")}</a>
-                </Dropdown>
-              </li> */}
+              <li>
+                <Link href={`/screenProtector`}>
+                  <a className={styles.navBarItem}>protecteur d'écran</a>
+                </Link>
+              </li>
             </ul>
 
             {/* TN PrimeLogo */}

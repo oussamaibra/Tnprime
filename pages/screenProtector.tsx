@@ -1,92 +1,48 @@
-/* eslint-disable react/jsx-key */
 import { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
-import Link from "next/link";
-import Image from "next/image";
-import { Disclosure } from "@headlessui/react";
-import { useTranslations } from "next-intl";
-import axios from "axios";
-import { useRouter } from "next/router";
-import Circle from "@uiw/react-color-circle";
-import _, { isEmpty, isNil, values } from "lodash";
-import emailjs from "@emailjs/browser";
-import { Toaster, toast } from "react-hot-toast";
-// swiperjs
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// import Swiper core and required modules
-import SwiperCore, { Pagination } from "swiper/core";
-
-// import { useWishlist } from "../../../context/wishlist/WishlistProvider";
-// import { useCart } from "../../../context/cart/CartProvider";
-// import HeartSolid from "../../../public/icons/HeartSolid";
-import { EasyZoomOnMove } from "easy-magnify";
-import copy from "copy-to-clipboard";
-import Select from "react-select";
-// import Input from "../../../components/Input/Input";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-// import CardIG from "../../../components/Card/CardIG";
-// import { useAuth } from "../../../context/AuthContext";
-// import { roundDecimal } from "../../../components/Util/utilFunc";
+import { ChevronDown, Heart, ShoppingCart, Check, Star } from "lucide-react";
+import Button from "../components/Buttons/Button";
+import { useAuth } from "../context/AuthContext";
 import moment from "moment";
 import { useWishlist } from "../context/wishlist/WishlistProvider";
 import { useCart } from "../context/cart/CartProvider";
 import { roundDecimal } from "../components/Util/utilFunc";
 import { fbPixelAddToCart, fbPixelPurchase } from "../context/Util/fb";
-import Input from "../components/Input/Input";
-import HeartSolid from "../public/icons/HeartSolid";
+import emailjs from "@emailjs/browser";
+import axios from "axios";
+import { useRouter } from "next/router";
+import _ from "lodash";
 import Header from "../components/Header/Header";
-import Heart from "../public/icons/Heart";
-import GhostButton from "../components/Buttons/GhostButton";
-import Button from "../components/Buttons/Button";
-import DownArrow from "../public/icons/DownArrow";
-import CardIG from "../components/Card/CardIG";
-import Footer from "../components/Footer/Footer";
-import { useAuth } from "../context/AuthContext";
-// import { fbPixelAddToCart, fbPixelPurchase } from "../../../context/Util/fb";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768); // Example threshold for mobile devices
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    checkMobile(); // Initial check
-    window.addEventListener("resize", checkMobile); // Update on resize
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
 
     return () => {
-      window.removeEventListener("resize", checkMobile); // Cleanup on unmount
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
   return isMobile;
 };
 
-// install Swiper modules
-// SwiperCore.use([Pagination]);
-
-type Props = {
-  product: any;
-  products: any[];
-};
-
-const ProductExternel: React.FC<Props> = () => {
+const ProductExternal = () => {
   const product = {
     id: 999999,
-    name: "Protection d’Écran – Modèle Fumé & Transparent",
+    name: "Protection d'Écran – Modèle Fumé & Transparent",
     description: "LA PROTECTION DE L'ÉCRAN N'A JAMAIS ÉTÉ AUSSI FACILE",
     detail: `✔ Installation rapide et sans bulles
 ✔ Résistance aux rayures et aux chocs
 ✔ Modèle fumé pour plus de confidentialité
 ✔ Technologie anti-traces et auto-nettoyante
 ✔ Étanche et ultra-fin
-✔ Résistant à l’eau et aux éclaboussures`,
-    categoryId: 2,
-    collectionId: 10,
-    createdAt: "2025-02-21T21:51:13.124Z",
-    updatedAt: "2025-02-24T14:26:43.144Z",
+✔ Résistant à l'eau et aux éclaboussures`,
     option: [
       {
         id: 101,
@@ -96,14 +52,13 @@ const ProductExternel: React.FC<Props> = () => {
         stock: "50",
         discount: "0",
         images:
-          "https://quanduro.com/cdn/shop/files/15secoundsinstalling_3f7b07eb-8cfd-494b-ac22-ed1acf71e33e.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/GentlyPull_1_b562e2a8-9c28-4a2c-a9cc-8502e375c879.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/GentlyPull_2_26aff573-8d97-4ccd-b2cc-4b44407201c3.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/iPhone-_8_6daa4dd0-f548-42f0-823b-e818bdd2db4c.webp?v=1739880734&width=823",
+          "https://www.tnprime.shop:6443/images/screenPro.jpeg,https://quanduro.com/cdn/shop/files/15secoundsinstalling_3f7b07eb-8cfd-494b-ac22-ed1acf71e33e.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/GentlyPull_1_b562e2a8-9c28-4a2c-a9cc-8502e375c879.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/GentlyPull_2_26aff573-8d97-4ccd-b2cc-4b44407201c3.png?v=1739880734&width=823,https://quanduro.com/cdn/shop/files/iPhone-_8_6daa4dd0-f548-42f0-823b-e818bdd2db4c.webp?v=1739880734&width=823",
         productId: 999999,
         createdAt: "2025-02-21T21:51:13.128Z",
         updatedAt: null,
       },
     ],
-    mainImg:
-      "https://quanduro.com/cdn/shop/files/15secoundsinstalling_3f7b07eb-8cfd-494b-ac22-ed1acf71e33e.png?v=1739880734&width=823",
+    mainImg: "https://www.tnprime.shop:6443/images/screenPro.jpeg",
   };
 
   const { cart, clearCart } = useCart();
@@ -111,265 +66,107 @@ const ProductExternel: React.FC<Props> = () => {
   const [currency, setcurrency] = useState("TND");
   const auth = useAuth();
 
-  const checkLocation = async () => {
-    const loc = JSON.parse(localStorage.getItem("location") ?? "");
-    setlocation(loc);
-    setcurrency(loc.currency);
-  };
-  useEffect(() => {
-    checkLocation();
-  }, []);
+  const isMobile = useMobileDetection();
+
+  const router = useRouter();
 
   // Form Fields
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-
   const [shippingAddress, setShippingAddress] = useState("");
-  const [isOrdering, setIsOrdering] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  // const [completedOrder, setCompletedOrder] = useState<Order | null>(null);
-  const [orderError, setOrderError] = useState("");
-  const [sendEmail, setSendEmail] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [type, settype] = useState(null);
-  const [paymentSuccess, setpaymentSuccess] = useState(false);
-
-  const isMobile = useMobileDetection();
-  const router = useRouter();
-
-  const { addItem } = useCart();
-  const { wishlist, addToWishlist, deleteWishlistItem } = useWishlist();
+  // Product state
   const [size, setSize] = useState(null);
   const [mainImg, setMainImg] = useState(product?.mainImg);
   const [currentQty, setCurrentQty] = useState(1);
-  const [copied, setcopied] = useState(false);
-  const [color, setcolor] = useState(product?.option[0]?.color);
-  const [productOption, setproductOption] = useState(product?.option[0]);
-
-  const [model, setmodel] = useState(null);
+  const [productOption] = useState(product?.option[0]);
+  const [model, setModel] = useState(null);
+  const [type, setType] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   const listMark = ["IPHONE", "SAMSUNG"];
 
+  // iPhone models list
   const listIphone = [
-    { value: "iPhone 16 Pro Max", label: "iPhone 16 Pro Max" },
-    { value: "iPhone 16 Pro", label: "iPhone 16 Pro" },
-    { value: "iPhone 16 Plus", label: "iPhone 16 Plus" },
-    { value: "iPhone 16", label: "iPhone 16" },
+    { value: "X", label: "Iphone X" },
+    { value: "XS", label: "Iphone XS" },
+    { value: "11PRO", label: "Iphone 11PRO" },
+    { value: "XR", label: "Iphone XR" },
+    { value: "11", label: "Iphone 11" },
 
-    { value: "iPhone 15 Pro Max", label: "iPhone 15 Pro Max" },
-    { value: "iPhone 15 Pro", label: "iPhone 15 Pro" },
-    { value: "iPhone 15 Plus", label: "iPhone 15 Plus" },
-    { value: "iPhone 15", label: "iPhone 15" },
+    { value: "XSMAX", label: "Iphone XSMAX" },
+    { value: "11PRO MAX", label: "Iphone 11PRO MAX" },
 
-    { value: "iPhone 14 Pro Max", label: "iPhone 14 Pro Max" },
-    { value: "iPhone 14 Pro", label: "iPhone 14 Pro" },
-    { value: "iPhone 14 Plus", label: "iPhone 14 Plus" },
-    { value: "iPhone 14", label: "iPhone 14" },
-    { value: "iPhone 13 Pro Max", label: "iPhone 13 Pro Max" },
-    { value: "iPhone 13 Pro", label: "iPhone 13 Pro" },
-    { value: "iPhone 13 Mini", label: "iPhone 13 Mini" },
-    { value: "iPhone 13", label: "iPhone 13" },
-    { value: "iPhone 12 Pro Max", label: "iPhone 12 Pro Max" },
-    { value: "iPhone 12 Pro", label: "iPhone 12 Pro" },
-    { value: "iPhone 12 Mini", label: "iPhone 12 Mini" },
-    { value: "iPhone 12", label: "iPhone 12" },
-    { value: "iPhone 11 Pro Max", label: "iPhone 11 Pro Max" },
-    { value: "iPhone 11 Pro", label: "iPhone 11 Pro" },
-    { value: "iPhone 11", label: "iPhone 11" },
-    {
-      value: "iPhone SE (3rd generation)",
-      label: "iPhone SE (3rd generation)",
-    },
-    {
-      value: "iPhone SE (2nd generation)",
-      label: "iPhone SE (2nd generation)",
-    },
-    { value: "iPhone XR", label: "iPhone XR" },
-    { value: "iPhone XS Max", label: "iPhone XS Max" },
-    { value: "iPhone XS", label: "iPhone XS" },
-    { value: "iPhone X", label: "iPhone X" },
-    { value: "iPhone 8 Plus", label: "iPhone 8 Plus" },
-    { value: "iPhone 8", label: "iPhone 8" },
-    { value: "iPhone 7 Plus", label: "iPhone 7 Plus" },
+    { value: "12", label: "Iphone 12" },
+    { value: "12 PRO", label: "Iphone 12 PRO" },
+    { value: "12 PRO MAX", label: "Iphone 12 PRO MAX" },
+
+    { value: "13", label: "Iphone 13" },
+    { value: "13 PRO", label: "Iphone 13 PRO" },
+    { value: "14", label: "Iphone 14" },
+
+    { value: "13 PRO MAX", label: "Iphone 13 PRO MAX" },
+    { value: "14 Plus", label: "Iphone 14 Plus" },
+
+    { value: "14 PRO", label: "Iphone 14 PRO" },
+    { value: "IP14 PRO MAX", label: "Iphone IP14 PRO MAX" },
+    { value: "15", label: "Iphone 15" },
+    { value: "15 PRO", label: "Iphone 15 PRO" },
+    { value: "15 PLUS", label: "Iphone 15 PLUS" },
+    { value: "15 PRO MAX", label: "Iphone 15 PRO MAX" },
+    { value: "16", label: "Iphone 16" },
+    { value: "16 PRO", label: "Iphone 16 PRO" },
+    { value: "16 PLUS", label: "Iphone 16 PLUS" },
+    { value: "16 PRO MAX", label: "Iphone 16 PRO MAX" },
   ];
+
+  // Samsung models list
   const listSam = [
-    { value: "Samsung Galaxy S6", label: "Samsung Galaxy S6" },
-    { value: "Samsung Galaxy S6 Edge", label: "Samsung Galaxy S6 Edge" },
-    { value: "Samsung Galaxy Note 5", label: "Samsung Galaxy Note 5" },
-    { value: "Samsung Galaxy A3 (2015)", label: "Samsung Galaxy A3 (2015)" },
-    { value: "Samsung Galaxy A5 (2015)", label: "Samsung Galaxy A5 (2015)" },
-    { value: "Samsung Galaxy A7 (2015)", label: "Samsung Galaxy A7 (2015)" },
-    { value: "Samsung Galaxy J1", label: "Samsung Galaxy J1" },
-    { value: "Samsung Galaxy J5", label: "Samsung Galaxy J5" },
-    { value: "Samsung Galaxy J7", label: "Samsung Galaxy J7" },
-    { value: "Samsung Galaxy S7", label: "Samsung Galaxy S7" },
-    { value: "Samsung Galaxy S7 Edge", label: "Samsung Galaxy S7 Edge" },
-    { value: "Samsung Galaxy Note 7", label: "Samsung Galaxy Note 7" },
-    { value: "Samsung Galaxy A3 (2016)", label: "Samsung Galaxy A3 (2016)" },
-    { value: "Samsung Galaxy A5 (2016)", label: "Samsung Galaxy A5 (2016)" },
-    { value: "Samsung Galaxy A7 (2016)", label: "Samsung Galaxy A7 (2016)" },
-    { value: "Samsung Galaxy A8 (2016)", label: "Samsung Galaxy A8 (2016)" },
-    { value: "Samsung Galaxy J2", label: "Samsung Galaxy J2" },
-    { value: "Samsung Galaxy J3", label: "Samsung Galaxy J3" },
-    { value: "Samsung Galaxy J5 (2016)", label: "Samsung Galaxy J5 (2016)" },
-    { value: "Samsung Galaxy J7 (2016)", label: "Samsung Galaxy J7 (2016)" },
-    { value: "Samsung Galaxy S8", label: "Samsung Galaxy S8" },
-    { value: "Samsung Galaxy S8+", label: "Samsung Galaxy S8+" },
-    { value: "Samsung Galaxy Note 8", label: "Samsung Galaxy Note 8" },
-    { value: "Samsung Galaxy A3 (2017)", label: "Samsung Galaxy A3 (2017)" },
-    { value: "Samsung Galaxy A5 (2017)", label: "Samsung Galaxy A5 (2017)" },
-    { value: "Samsung Galaxy A7 (2017)", label: "Samsung Galaxy A7 (2017)" },
-    { value: "Samsung Galaxy A8 (2018)", label: "Samsung Galaxy A8 (2018)" },
-    { value: "Samsung Galaxy J3 (2017)", label: "Samsung Galaxy J3 (2017)" },
-    { value: "Samsung Galaxy J5 (2017)", label: "Samsung Galaxy J5 (2017)" },
-    { value: "Samsung Galaxy J7 (2017)", label: "Samsung Galaxy J7 (2017)" },
-    { value: "Samsung Galaxy S9", label: "Samsung Galaxy S9" },
-    { value: "Samsung Galaxy S9+", label: "Samsung Galaxy S9+" },
-    { value: "Samsung Galaxy Note 9", label: "Samsung Galaxy Note 9" },
-    { value: "Samsung Galaxy A6", label: "Samsung Galaxy A6" },
-    { value: "Samsung Galaxy A6+", label: "Samsung Galaxy A6+" },
-    { value: "Samsung Galaxy A7 (2018)", label: "Samsung Galaxy A7 (2018)" },
-    { value: "Samsung Galaxy A8 (2018)", label: "Samsung Galaxy A8 (2018)" },
-    { value: "Samsung Galaxy A8+ (2018)", label: "Samsung Galaxy A8+ (2018)" },
-    { value: "Samsung Galaxy A9 (2018)", label: "Samsung Galaxy A9 (2018)" },
-    { value: "Samsung Galaxy J4", label: "Samsung Galaxy J4" },
-    { value: "Samsung Galaxy J6", label: "Samsung Galaxy J6" },
-    { value: "Samsung Galaxy J8", label: "Samsung Galaxy J8" },
-    { value: "Samsung Galaxy S10e", label: "Samsung Galaxy S10e" },
-    { value: "Samsung Galaxy S10", label: "Samsung Galaxy S10" },
-    { value: "Samsung Galaxy S10+", label: "Samsung Galaxy S10+" },
-    { value: "Samsung Galaxy S10 5G", label: "Samsung Galaxy S10 5G" },
-    { value: "Samsung Galaxy Note 10", label: "Samsung Galaxy Note 10" },
-    { value: "Samsung Galaxy Note 10+", label: "Samsung Galaxy Note 10+" },
-    { value: "Samsung Galaxy A10", label: "Samsung Galaxy A10" },
-    { value: "Samsung Galaxy A20", label: "Samsung Galaxy A20" },
-    { value: "Samsung Galaxy A30", label: "Samsung Galaxy A30" },
-    { value: "Samsung Galaxy A40", label: "Samsung Galaxy A40" },
-    { value: "Samsung Galaxy A50", label: "Samsung Galaxy A50" },
-    { value: "Samsung Galaxy A60", label: "Samsung Galaxy A60" },
-    { value: "Samsung Galaxy A70", label: "Samsung Galaxy A70" },
-    { value: "Samsung Galaxy A80", label: "Samsung Galaxy A80" },
-    { value: "Samsung Galaxy A90 5G", label: "Samsung Galaxy A90 5G" },
-    { value: "Samsung Galaxy M10", label: "Samsung Galaxy M10" },
-    { value: "Samsung Galaxy M20", label: "Samsung Galaxy M20" },
-    { value: "Samsung Galaxy M30", label: "Samsung Galaxy M30" },
-    { value: "Samsung Galaxy S20", label: "Samsung Galaxy S20" },
-    { value: "Samsung Galaxy S20+", label: "Samsung Galaxy S20+" },
-    { value: "Samsung Galaxy S20 Ultra", label: "Samsung Galaxy S20 Ultra" },
-    { value: "Samsung Galaxy Note 20", label: "Samsung Galaxy Note 20" },
-    {
-      value: "Samsung Galaxy Note 20 Ultra",
-      label: "Samsung Galaxy Note 20 Ultra",
-    },
-    { value: "Samsung Galaxy A01", label: "Samsung Galaxy A01" },
-    { value: "Samsung Galaxy A11", label: "Samsung Galaxy A11" },
-    { value: "Samsung Galaxy A21", label: "Samsung Galaxy A21" },
-    { value: "Samsung Galaxy A31", label: "Samsung Galaxy A31" },
-    { value: "Samsung Galaxy A41", label: "Samsung Galaxy A41" },
-    { value: "Samsung Galaxy A51", label: "Samsung Galaxy A51" },
-    { value: "Samsung Galaxy A71", label: "Samsung Galaxy A71" },
-    { value: "Samsung Galaxy A81", label: "Samsung Galaxy A81" },
-    { value: "Samsung Galaxy A91", label: "Samsung Galaxy A91" },
-    { value: "Samsung Galaxy M21", label: "Samsung Galaxy M21" },
-    { value: "Samsung Galaxy M31", label: "Samsung Galaxy M31" },
-    { value: "Samsung Galaxy M51", label: "Samsung Galaxy M51" },
-    { value: "Samsung Galaxy Z Flip", label: "Samsung Galaxy Z Flip" },
-    { value: "Samsung Galaxy Z Fold 2", label: "Samsung Galaxy Z Fold 2" },
-    { value: "Samsung Galaxy S21", label: "Samsung Galaxy S21" },
-    { value: "Samsung Galaxy S21+", label: "Samsung Galaxy S21+" },
-    { value: "Samsung Galaxy S21 Ultra", label: "Samsung Galaxy S21 Ultra" },
-    { value: "Samsung Galaxy A02", label: "Samsung Galaxy A02" },
-    { value: "Samsung Galaxy A12", label: "Samsung Galaxy A12" },
-    { value: "Samsung Galaxy A22", label: "Samsung Galaxy A22" },
-    { value: "Samsung Galaxy A32", label: "Samsung Galaxy A32" },
-    { value: "Samsung Galaxy A42", label: "Samsung Galaxy A42" },
-    { value: "Samsung Galaxy A52", label: "Samsung Galaxy A52" },
-    { value: "Samsung Galaxy A72", label: "Samsung Galaxy A72" },
-    { value: "Samsung Galaxy M12", label: "Samsung Galaxy M12" },
-    { value: "Samsung Galaxy M22", label: "Samsung Galaxy M22" },
-    { value: "Samsung Galaxy M32", label: "Samsung Galaxy M32" },
-    { value: "Samsung Galaxy M52", label: "Samsung Galaxy M52" },
-    { value: "Samsung Galaxy Z Flip 3", label: "Samsung Galaxy Z Flip 3" },
-    { value: "Samsung Galaxy Z Fold 3", label: "Samsung Galaxy Z Fold 3" },
-    { value: "Samsung Galaxy S22", label: "Samsung Galaxy S22" },
-    { value: "Samsung Galaxy S22+", label: "Samsung Galaxy S22+" },
-    { value: "Samsung Galaxy S22 Ultra", label: "Samsung Galaxy S22 Ultra" },
-    { value: "Samsung Galaxy A13", label: "Samsung Galaxy A13" },
-    { value: "Samsung Galaxy A23", label: "Samsung Galaxy A23" },
-    { value: "Samsung Galaxy A33", label: "Samsung Galaxy A33" },
-    { value: "Samsung Galaxy A53", label: "Samsung Galaxy A53" },
-    { value: "Samsung Galaxy A73", label: "Samsung Galaxy A73" },
-    { value: "Samsung Galaxy M13", label: "Samsung Galaxy M13" },
-    { value: "Samsung Galaxy M23", label: "Samsung Galaxy M23" },
-    { value: "Samsung Galaxy M33", label: "Samsung Galaxy M33" },
-    { value: "Samsung Galaxy M53", label: "Samsung Galaxy M53" },
-    { value: "Samsung Galaxy Z Flip 4", label: "Samsung Galaxy Z Flip 4" },
-    { value: "Samsung Galaxy Z Fold 4", label: "Samsung Galaxy Z Fold 4" },
-    { value: "Samsung Galaxy S23", label: "Samsung Galaxy S23" },
-    { value: "Samsung Galaxy S23+", label: "Samsung Galaxy S23+" },
-    { value: "Samsung Galaxy S23 Ultra", label: "Samsung Galaxy S23 Ultra" },
-    { value: "Samsung Galaxy A14", label: "Samsung Galaxy A14" },
-    { value: "Samsung Galaxy A24", label: "Samsung Galaxy A24" },
-    { value: "Samsung Galaxy A34", label: "Samsung Galaxy A34" },
-    { value: "Samsung Galaxy A54", label: "Samsung Galaxy A54" },
-    { value: "Samsung Galaxy A74", label: "Samsung Galaxy A74" },
-    { value: "Samsung Galaxy M14", label: "Samsung Galaxy M14" },
-    { value: "Samsung Galaxy M24", label: "Samsung Galaxy M24" },
-    { value: "Samsung Galaxy M34", label: "Samsung Galaxy M34" },
-    { value: "Samsung Galaxy M54", label: "Samsung Galaxy M54" },
-    { value: "Samsung Galaxy Z Flip 5", label: "Samsung Galaxy Z Flip 5" },
-    { value: "Samsung Galaxy Z Fold 5", label: "Samsung Galaxy Z Fold 5" },
-    { value: "Samsung Galaxy S24", label: "Samsung Galaxy S24" },
-    { value: "Samsung Galaxy S24+", label: "Samsung Galaxy S24+" },
-    { value: "Samsung Galaxy S24 Ultra", label: "Samsung Galaxy S24 Ultra" },
-    { value: "Samsung Galaxy A15", label: "Samsung Galaxy A15" },
-    { value: "Samsung Galaxy A25", label: "Samsung Galaxy A25" },
-    { value: "Samsung Galaxy A35", label: "Samsung Galaxy A35" },
-    { value: "Samsung Galaxy A55", label: "Samsung Galaxy A55" },
-    { value: "Samsung Galaxy M15", label: "Samsung Galaxy M15" },
-    { value: "Samsung Galaxy M25", label: "Samsung Galaxy M25" },
-    { value: "Samsung Galaxy M35", label: "Samsung Galaxy M35" },
-    { value: "Samsung Galaxy M55", label: "Samsung Galaxy M55" },
-    { value: "Samsung Galaxy Z Flip 6", label: "Samsung Galaxy Z Flip 6" },
-    { value: "Samsung Galaxy Z Fold 6", label: "Samsung Galaxy Z Fold 6" },
-    { value: "Samsung Galaxy S25", label: "Samsung Galaxy S25" },
-    { value: "Samsung Galaxy S25+", label: "Samsung Galaxy S25+" },
-    { value: "Samsung Galaxy S25 Ultra", label: "Samsung Galaxy S25 Ultra" },
-  ];
-  const t = useTranslations("Category");
-  const t2 = useTranslations("CartWishlist");
+    { value: "S22", label: "Samsung S22" },
+    { value: "23", label: "Samsung 23" },
 
-  const alreadyWishlisted =
-    wishlist.filter((wItem) => wItem.id === product.id).length > 0;
+    { value: "S22+", label: "Samsung S22+" },
+    { value: "S23+", label: "Samsung S23+" },
+
+    { value: "S24", label: "Samsung S24" },
+    { value: "25", label: "Samsung 25" },
+
+    { value: "S24+", label: "Samsung S24+" },
+    { value: "25+", label: "Samsung 25+" },
+
+    { value: "S24 Ultra", label: "Samsung S24 Ultra" },
+    { value: "S25 Ultra", label: "Samsung S25 Ultra" },
+  ];
 
   useEffect(() => {
     setMainImg(product?.mainImg);
-    setcolor(product?.option[0]?.color);
-    setproductOption(product?.option[0]);
   }, []);
 
-  const handleSize = (value: string) => {
+  const handleSize = (value) => {
     setSize(value);
-    setmodel(null);
+    setModel(null);
   };
 
-  const currentItem = {
-    ...product,
-    price: productOption.price,
-    img1: productOption?.images?.split(",")[0],
-    option: productOption.id,
-    size: model?.value,
-    qty: currentQty,
+  const handleModelChange = (selectedModel) => {
+    setModel(selectedModel);
   };
 
-  const handleWishlist = () => {
-    alreadyWishlisted
-      ? deleteWishlistItem!(currentItem)
-      : addToWishlist!(currentItem);
+  const isEmpty = (value) => {
+    return !value || value.trim() === "";
   };
 
-  const Ordering = () => {
+  const calculateTotalPrice = () => {
+    const basePrice = type ? (type.value === "1" ? 39 : 45) : 39;
+
+    return basePrice * currentQty + 8;
+  };
+
+  const handleOrder = () => {
+    if (isEmpty(name) || isEmpty(phone) || isEmpty(shippingAddress) || !type) {
+      alert("Veuillez remplir tous les champs correctement");
+      return;
+    }
+
     let HTMT = `<table
           style="width: 100%; border-collapse: collapse; border: 0; border-spacing: 0;"
           role="presentation">
@@ -506,11 +303,9 @@ const ProductExternel: React.FC<Props> = () => {
         deliveryType: "DOMICILE",
         orderDate: moment().format("YYYY-MM-DD HH:mm"),
         products,
-        sendEmail,
+        sendEmail: true,
       });
       if (res?.data?.success) {
-        toast.success(t("Order Passed")); // Displays a success message
-
         fbPixelPurchase(
           currentQty === 1
             ? Number(
@@ -542,580 +337,436 @@ const ProductExternel: React.FC<Props> = () => {
     makeOrder();
   };
 
+  const CustomSelect = ({ options, value, onChange, placeholder }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+      <div className="relative">
+        <button
+          type="button"
+          className="w-full px-3 py-3 text-left bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex justify-between items-center"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className={value ? "text-gray-900" : "text-gray-500"}>
+            {value ? value.label : placeholder}
+          </span>
+          <ChevronDown
+            className={`w-5 h-5 transition-transform ${
+              isOpen ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {isOpen && (
+          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+            {options.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                className="w-full px-3 py-2 text-left hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                onClick={() => {
+                  onChange(option);
+                  setIsOpen(false);
+                }}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div>
-      <Toaster position="top-center" />
-
-      {/* ===== Head Section ===== */}
-      {/* <Header title={`${product.name} - TN Prime`} /> */}
+      <Header title={`${product.name} - TN Prime`} />
 
       <main id="main-content">
-        {/* ===== Breadcrumb Section ===== */}
-        {/* <div className="bg-lightgreen h-16 w-full flex items-center border-t-2 border-gray200">
-          <div className="app-x-padding app-max-width w-full">
-            <div className="breadcrumb">
-              <Link href="/">
-                <a className="text-gray400">{t("home")}</a>
-              </Link>{" "}
-              /{" "}
-              <Link href={`/product-category/${product.categoryName}`}>
-                <a className="text-gray400 capitalize">
-                  {t(product.categoryName as string)}
-                </a>
-              </Link>{" "}
-              / <span>{product.name}</span>
-            </div>
-          </div>
-        </div> */}
-        {/* ===== Main Content Section ===== */}
-        <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
-          <div className="imgSection w-full md:w-1/2 h-full flex">
-            {!isMobile ? (
-              <>
-                <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
-                  {productOption?.images?.split(",").map((el: any) => (
-                    <LazyLoadImage
-                      className={`cursor-pointer ${
-                        mainImg === el
-                          ? "opacity-100 border border-gray300"
-                          : "opacity-50"
-                      }`}
-                      effect="blur"
-                      onClick={() => setMainImg(el)}
-                      src={el as string}
-                      alt={product.name}
-                      placeholderSrc="/bg-img/skeleton-loading.gif"
-                    />
-                  ))}
-                </div>
+        <div className="bg-gray-50 min-h-screen">
+          {/* Promo Banner */}
+          {/* <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white py-2 px-4 text-center font-bold text-sm md:text-base">
+        🎁 2 = LIVRAISON GRATUITE 🎁 | 🎁 3+1 GRATUIT + LIVRAISON GRATUITE 📦 |
+        ⏳ Offre valable aujourd'hui seulement ⏳
+      </div> */}
 
-                <div
-                  className="w-full sm:w-3/4 h-full m-0 sm:m-4 ps-5 pe-5"
-                  style={{
-                    paddingLeft: "4rem",
-                    paddingRight: "4rem",
-                  }}
-                >
-                  <LazyLoadImage
-                    effect="blur"
-                    src={mainImg}
-                    className="lazy-image"
-                    alt={product?.name}
-                    placeholderSrc="/bg-img/skeleton-loading.gif"
-                  />
-                </div>
-              </>
-            ) : (
-              <Swiper
-                slidesPerView={1}
-                spaceBetween={0}
-                loop={true}
-                pagination={{
-                  clickable: true,
-                }}
-              >
-                {" "}
-                {productOption?.images?.split(",").map((el: any) => (
-                  <SwiperSlide>
-                    <LazyLoadImage
-                      effect="blur"
-                      src={el}
-                      className="lazy-image"
-                      alt={product?.name}
-                      placeholderSrc="/bg-img/skeleton-loading.gif"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            )}
-          </div>
-          <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
-            <h1 className="text-3xl mb-4">{product.name}</h1>
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Product Images */}
+              <div className="w-full lg:w-1/2">
+                {!isMobile ? (
+                  <div className="flex gap-4">
+                    <div className="flex flex-col gap-4 w-1/4">
+                      {productOption?.images?.split(",").map((el, index) => (
+                        <div
+                          key={index}
+                          className={`cursor-pointer border-2 ${
+                            mainImg === el
+                              ? "border-blue-500"
+                              : "border-transparent"
+                          } rounded-lg overflow-hidden transition-all hover:border-gray-300`}
+                          onClick={() => setMainImg(el)}
+                        >
+                          <img
+                            src={el}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-auto object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
 
-            {/* <span className="text-2xl text-red mb-2 animate-pulse">
-              <Link href="/">
-                <a className="animate-pulse">
-                  {" "}
-                  {t("See more products click here")}
-                </a>
-              </Link>{" "}
-            </span> */}
-
-            <span className="text-2xl text-gray400 mb-2">
-              {type ? (type.value === "1" ? 39 : 45) : 39} {currency}{" "}
-              <span className="text-xl text-red mb-2">
-                {" "}
-                Livraison gratuite 🚚{" "}
-              </span>
-            </span>
-            <span className="mb-2 mt-2 text-justify break-words">
-              {product.detail.split("✔").map(
-                (el, index) =>
-                  index > 0 && (
-                    <>
-                      <div> ✅ {el} </div> <br />
-                    </>
-                  )
-              )}
-            </span>
-            {/* <span className="mb-2">
-              {t("availability")}: {t("in_stock")}
-            </span> */}
-
-            <div className="mb-2 mt-2">
-              <strong
-                style={{
-                  color: "#F14A00",
-                }}
-              >
-                {" "}
-                1 - Selectionner Votre Marque de Télephone
-              </strong>
-
-              <div className="sizeContainer flex space-x-4 text-sm mb-4">
-                {/* ["IPHONE", "SAMSUNG", "OTHERS"] */}
-                {listMark?.map((el: any) => (
-                  <div
-                    key={el}
-                    onClick={() => {
-                      handleSize(el);
-                    }}
-                    className={`flex items-center justify-center border ${
-                      size === el ? "border-red" : "border-gray300 text-gray400"
-                    } cursor-pointer `}
-                  >
-                    <div>
+                    <div className="w-3/4 bg-white p-4 rounded-lg shadow-md">
                       <img
-                        src={
-                          el === "IPHONE"
-                            ? "https://www.tnprime.shop:6443" +
-                              "/images/" +
-                              "ap.png"
-                            : el === "SAMSUNG"
-                            ? "https://www.tnprime.shop:6443" +
-                              "/images/" +
-                              "sam.png"
-                            : "https://i.pinimg.com/564x/97/6a/0f/976a0ffd77349036329064a231504f7f.jpg"
-                        }
-                        height={100}
-                        width={100}
+                        src={mainImg}
+                        alt={product.name}
+                        className="w-full h-auto object-contain max-h-[500px] mx-auto"
                       />
                     </div>
                   </div>
-                ))}
+                ) : (
+                  <div className="bg-white p-4 rounded-lg shadow-md">
+                    <img
+                      src={mainImg}
+                      alt={product.name}
+                      className="w-full h-auto object-contain max-h-[400px] mx-auto"
+                    />
+                    <div className="flex gap-2 mt-4 justify-center">
+                      {productOption?.images?.split(",").map((el, index) => (
+                        <button
+                          key={index}
+                          className={`w-16 h-16 border-2 ${
+                            mainImg === el
+                              ? "border-blue-500"
+                              : "border-gray-200"
+                          } rounded-md overflow-hidden`}
+                          onClick={() => setMainImg(el)}
+                        >
+                          <img
+                            src={el}
+                            alt={`Thumb ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
 
-                {/* <GhostButton
-                  onClick={handleWishlist}
-                  extraClass="hover:bg-gray200"
-                  size="sm"
-                >
-                  {alreadyWishlisted ? (
-                    <HeartSolid extraClass="inline" />
-                  ) : (
-                    <Heart extraClass="inline" />
+              {/* Product Details */}
+              <div className="w-full lg:w-1/2 space-y-6">
+                <div className="bg-white p-6 rounded-lg shadow-md">
+                  <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                    {product.name}
+                  </h1>
+
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="flex text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-current" />
+                      ))}
+                    </div>
+                    <span className="text-gray-600 text-sm">(127 avis)</span>
+                  </div>
+
+                  <p className="text-2xl text-blue-600 font-bold mb-4">
+                    {type ? (type?.value === "1" ? 39 : 45) : 39} {currency}
+                    {/* <span className="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-normal">
+                  Livraison gratuite 🚚
+                </span> */}
+                  </p>
+
+                  <div className="space-y-2 mb-6">
+                    {product.detail.split("✔").map(
+                      (el, index) =>
+                        index > 0 && (
+                          <div key={index} className="flex items-start">
+                            <Check className="text-green-500 mr-2 mt-1 w-4 h-4 flex-shrink-0" />
+                            <span className="text-gray-700">{el.trim()}</span>
+                          </div>
+                        )
+                    )}
+                  </div>
+
+                  {/* Brand Selection */}
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                      <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-md mr-2">
+                        1
+                      </span>
+                      Sélectionnez votre marque de téléphone
+                    </h3>
+                    <div className="grid grid-cols-3 gap-3">
+                      {listMark.map((el) => (
+                        <button
+                          key={el}
+                          onClick={() => handleSize(el)}
+                          className={`flex flex-col items-center justify-center p-4 border-2 rounded-lg transition-all ${
+                            size === el
+                              ? "border-blue-500 bg-blue-50"
+                              : "border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          <img
+                            src={
+                              el === "IPHONE"
+                                ? "https://www.tnprime.shop:6443/images/ap.png"
+                                : el === "SAMSUNG"
+                                ? "https://www.tnprime.shop:6443/images/sam.png"
+                                : "https://i.pinimg.com/564x/97/6a/0f/976a0ffd77349036329064a231504f7f.jpg"
+                            }
+                            alt={el}
+                            className="h-12 w-12 object-contain mb-2"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Model Selection */}
+                  {size && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                        <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-md mr-2">
+                          2
+                        </span>
+                        Sélectionnez votre modèle de téléphone
+                      </h3>
+                      {["IPHONE", "SAMSUNG"].includes(size) && (
+                        <CustomSelect
+                          value={model}
+                          onChange={handleModelChange}
+                          options={size === "IPHONE" ? listIphone : listSam}
+                          placeholder="Sélectionnez votre modèle..."
+                        />
+                      )}
+                    </div>
                   )}
-                </GhostButton> */}
+
+                  {/* Type Selection */}
+                  {model && (
+                    <div className="mb-6">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                        <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-md mr-2">
+                          3
+                        </span>
+                        Type de protection
+                      </h3>
+                      <CustomSelect
+                        value={type}
+                        onChange={setType}
+                        options={[
+                          { label: "Fumé", value: "2" },
+                          { label: "Transparent Normal", value: "1" },
+                        ]}
+                        placeholder="Sélectionnez un type..."
+                      />
+                    </div>
+                  )}
+
+                  {/* Order Form */}
+                  {type && (
+                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                        <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-md mr-2">
+                          4
+                        </span>
+                        Informations de livraison
+                      </h3>
+
+                      <div className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Nom et Prénom *
+                          </label>
+                          <input
+                            type="text"
+                            className="w-full px-3 py-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Téléphone *
+                          </label>
+                          <input
+                            type="tel"
+                            placeholder="Ex: 99 999 999"
+                            className="w-full px-3 py-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Adresse de livraison *
+                          </label>
+                          <textarea
+                            className="w-full px-3 py-3 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            rows={3}
+                            value={shippingAddress}
+                            onChange={(e) => setShippingAddress(e.target.value)}
+                            required
+                          />
+                        </div>
+
+                        {/* Quantity Selector */}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Quantité
+                          </label>
+                          <div className="flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setCurrentQty(Math.max(1, currentQty - 1))
+                              }
+                              className="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors"
+                            >
+                              -
+                            </button>
+                            <span className="text-lg font-semibold w-8 text-center">
+                              {currentQty}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => setCurrentQty(currentQty + 1)}
+                              className="w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center hover:border-gray-400 transition-colors"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Order Summary */}
+                        <div className="bg-white p-4 rounded-md border border-gray-200">
+                          <h4 className="font-medium text-gray-800 mb-3">
+                            Résumé de la commande
+                          </h4>
+
+                          <div className="space-y-2">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Sous-total</span>
+                              <span className="font-medium">
+                                {(type ? (type.value === "1" ? 39 : 45) : 39) *
+                                  currentQty}{" "}
+                                {currency}
+                              </span>
+                            </div>
+
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Livraison</span>
+                              <span className="text-green-600">8 TND</span>
+                            </div>
+
+                            <div className="border-t border-gray-200 pt-2 mt-2">
+                              <div className="flex justify-between font-semibold text-lg">
+                                <span>Total</span>
+                                <span className="text-blue-600">
+                                  {calculateTotalPrice()} {currency}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Validation Errors */}
+                        {(isEmpty(name) ||
+                          isEmpty(phone) ||
+                          phone.length > 8 ||
+                          isEmpty(shippingAddress)) && (
+                          <div className="text-red-500 text-sm text-center py-2 bg-red-50 rounded-md border border-red-200">
+                            Veuillez remplir tous les champs correctement :
+                            <br />
+                            - Nom et prénom
+                            <br />
+                            - Téléphone (8 chiffres)
+                            <br />- Adresse complète
+                          </div>
+                        )}
+
+                        {/* Order Button */}
+                        {/* <button
+                      onClick={handleOrder}
+                      disabled={
+                        isEmpty(name) ||
+                        isEmpty(type?.label) ||
+                        isEmpty(phone) ||
+                        phone.length > 8 ||
+                        isEmpty(shippingAddress)
+                      }
+                      className="w-full py-4 bg-gradient-to-r from-blue-600
+                       to-blue-500 hover:from-blue-700
+                        hover:to-blue-600
+                         text-white
+                          font-bold
+                          
+                          rounded-lg shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                      <ShoppingCart className="w-5 h-5" />
+                      Passer la commande
+                    </button> */}
+
+                        <div className="flex h-12 space-x-4 w-full">
+                          <Button
+                            value={"Passer la commande"}
+                            size="lg"
+                            disabled={
+                              isEmpty(name) ||
+                              isEmpty(type?.label) ||
+                              isEmpty(phone) ||
+                              phone.length > 8 ||
+                              isEmpty(shippingAddress)
+                            }
+                            extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
+                            onClick={handleOrder}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Product Details Accordion */}
+                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                  <button
+                    onClick={() => setShowDetails(!showDetails)}
+                    className="flex justify-between items-center w-full px-6 py-4 text-left font-medium text-gray-900 bg-gray-50 hover:bg-gray-100 focus:outline-none transition-colors"
+                  >
+                    <span>Détails du produit</span>
+                    <ChevronDown
+                      className={`w-5 h-5 text-blue-500 transition-transform ${
+                        showDetails ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {showDetails && (
+                    <div className="px-6 py-4 text-gray-600">
+                      <p className="mb-4">{product.description}</p>
+                      <div className="space-y-2">
+                        {product.detail.split("\n").map((line, i) => (
+                          <div key={i} className="flex items-start">
+                            <Check className="text-green-500 mr-2 mt-1 w-4 h-4 flex-shrink-0" />
+                            <span>{line}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-
-            {size && (
-              <div className="mb-2 mt-2">
-                <strong
-                  style={{
-                    color: "#F14A00",
-                  }}
-                >
-                  2 - Selectionner Votre Model de Télephone
-                </strong>
-
-                {["IPHONE", "SAMSUNG"].includes(size) ? (
-                  <Select
-                    className="w-full focus:border-gray500 mb-4 z-10"
-                    value={model}
-                    onChange={(e: any) => {
-                      setmodel(e);
-                    }}
-                    options={
-                      size === "IPHONE"
-                        ? listIphone
-                        : size === "SAMSUNG"
-                        ? listSam
-                        : []
-                    }
-                  />
-                ) : (
-                  <Input
-                    type="model"
-                    name="model"
-                    required
-                    extraClass="w-full focus:border-gray500"
-                    border="border-2 border-gray300 mb-4"
-                    placeholder="Votre Marque et Model (Exp:Oppo F2 ,Nokia 2024 ...)"
-                    onChange={(e: any) =>
-                      setmodel({
-                        value: e.target.value,
-                        label: e.target.value,
-                      })
-                    }
-                    value={model?.value}
-                  />
-                )}
-              </div>
-            )}
-
-            {model && (
-              <div className="mb-2 mt-2">
-                <strong
-                  style={{
-                    color: "#F14A00",
-                  }}
-                >
-                  3 - Placer Votre Commande
-                </strong>
-
-                {/* <div className="addToCart flex flex-col sm:flex-row md:flex-col lg:flex-row space-y-4 sm:space-y-0 mb-4">
-                  <div className="plusOrMinus h-12 flex border justify-center border-gray300 divide-x-2 divide-gray300 mb-4 mr-0 sm:mr-4 md:mr-0 lg:mr-4">
-                    <div
-                      onClick={() =>
-                        setCurrentQty((prevState) => prevState - 1)
-                      }
-                      className={`${
-                        currentQty === 1 && "pointer-events-none"
-                      } h-full w-full sm:w-12 flex justify-center items-center cursor-pointer hover:bg-gray500 hover:text-gray100`}
-                    >
-                      -
-                    </div>
-                    <div className="h-full w-28 sm:w-12 flex justify-center items-center pointer-events-none">
-                      {currentQty}
-                    </div>
-                    <div
-                      onClick={() =>
-                        setCurrentQty((prevState) => prevState + 1)
-                      }
-                      className="h-full w-full sm:w-12 flex justify-center items-center cursor-pointer hover:bg-gray500 hover:text-gray100"
-                    >
-                      +
-                    </div>
-                  </div>
-
-                  <div className="flex h-12 space-x-4 w-full">
-                    <Button
-                      value="Ajouter au panier"
-                      size="lg"
-                      disabled={
-                        isEmpty(model) ||
-                        isNil(model) ||
-                        Number(productOption?.stock) <= 0
-                      }
-                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                      onClick={() => {
-                        addItem!(currentItem);
-                        fbPixelAddToCart();
-                      }}
-                    />
-                  </div>
-                </div> */}
-              </div>
-            )}
-
-            {model && Number(productOption?.stock) > 0 && (
-              <div
-                style={{
-                  //  border:"1px solid",
-                  //  padding:"10px",
-                  marginBottom: "20px",
-                }}
-              >
-                <div className="mb-2">
-                  <div className="my-4">
-                    <label htmlFor="name" className="text-lg">
-                      Modèle Fumé & Transparent
-                    </label>
-                    <Select
-                      className="w-full focus:border-gray500 mb-4 z-10"
-                      value={type}
-                      onChange={(e: any) => {
-                        settype(e);
-                      }}
-                      options={[
-                        { label: "Fumé", value: "2" },
-                        { label: "Transparent Normal", value: "1" },
-                      ]}
-                    />
-                  </div>
-
-                  <div className="my-4">
-                    <label htmlFor="name" className="text-lg">
-                      Nom et Prénom
-                    </label>
-                    <Input
-                      name="name"
-                      type="text"
-                      extraClass="w-full mt-1 mb-2"
-                      border="border-2 border-gray400"
-                      value={name}
-                      onChange={(e) =>
-                        setName((e.target as HTMLInputElement).value)
-                      }
-                      required
-                    />
-                  </div>
-
-                  <div className="my-4">
-                    <label htmlFor="phone" className="text-lg">
-                      Télephone
-                    </label>
-                    <Input
-                      placeholder="exp : 99 999 999"
-                      name="phone"
-                      type="number"
-                      extraClass="w-full mt-1 mb-2"
-                      border="border-2 border-gray400"
-                      value={phone}
-                      onChange={(e) =>
-                        setPhone((e.target as HTMLInputElement).value)
-                      }
-                      required
-                    />
-                  </div>
-
-                  <div className="my-4">
-                    <label htmlFor="shipping_address" className="text-lg">
-                      Adresse de livraison
-                    </label>
-
-                    <textarea
-                      id="shipping_address"
-                      aria-label="shipping address"
-                      className="w-full mt-1 mb-2 border-2 border-gray400 p-4 outline-none"
-                      rows={4}
-                      value={shippingAddress}
-                      onChange={(e) =>
-                        setShippingAddress(
-                          (e.target as HTMLTextAreaElement).value
-                        )
-                      }
-                    />
-                  </div>
-                </div>
-
-                <div className="py-3 flex justify-between">
-                  <span className="uppercase">Sous-total</span>
-                  <span>
-                    {" "}
-                    {Number(
-                      roundDecimal(
-                        Number(type ? (type.value === "1" ? 39 : 45) : 39) *
-                          Number(currentQty)
-                      )
-                    )}
-                    {currency}{" "}
-                  </span>
-                </div>
-
-                {currentQty > 1 && (
-                  <div
-                    className="py-3 flex justify-between"
-                    style={{
-                      color: "red",
-                    }}
-                  >
-                    <span className="uppercase">
-                      {"Disount (pour plus 2eme Skin)"}
-                    </span>
-                    <span>
-                      {" "}
-                      {Number(currentQty - 1) * 8} {currency}
-                    </span>
-                  </div>
-                )}
-
-                <div className="py-3 flex justify-between">
-                  <span className="uppercase">{"Livraison gratuite"}</span>
-                  <span>
-                    {" "}
-                    {0} {currency}
-                  </span>
-                </div>
-
-                <hr />
-                <div>
-                  <div className="flex justify-between py-3">
-                    <span>Total général</span>
-                    <span>
-                      {" "}
-                      {currentQty === 1
-                        ? Number(
-                            roundDecimal(
-                              Number(
-                                type ? (type.value === "1" ? 39 : 45) : 39
-                              ) * Number(currentQty)
-                            )
-                          )
-                        : Number(
-                            roundDecimal(
-                              Number(
-                                type ? (type.value === "1" ? 39 : 45) : 39
-                              ) *
-                                Number(currentQty) -
-                                Number(currentQty - 1) * 8
-                            )
-                          )}{" "}
-                      {currency}{" "}
-                    </span>
-                  </div>
-                </div>
-
-                {(isEmpty(name) ||
-                  isEmpty(phone) ||
-                  phone.length > 8 ||
-                  isEmpty(shippingAddress)) && (
-                  <div
-                    className="text-center"
-                    style={{
-                      color: "red",
-                      marginTop: "10px",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    <strong>
-                      {t(
-                        "Saisir tous les données : Nom et Prénom ,Téléphone (8 chiffers), Adresse"
-                      )}
-                    </strong>
-                  </div>
-                )}
-
-                <div className="flex h-12 space-x-4 w-full">
-                  <Button
-                    value="Placer Votre Commande"
-                    size="lg"
-                    disabled={
-                      isEmpty(name) ||
-                      isEmpty(type?.label) ||
-                      isEmpty(phone) ||
-                      phone.length > 8 ||
-                      isEmpty(shippingAddress)
-                    }
-                    extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                    onClick={() => {
-                      Ordering();
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-
-            <Disclosure>
-              {({ open }) => (
-                <>
-                  <Disclosure.Button className="py-2 focus:outline-none text-left mb-4 border-b-2 border-gray200 flex items-center justify-between">
-                    <span>Détails</span>
-                    <DownArrow
-                      extraClass={`${
-                        open ? "" : "transform rotate-180"
-                      } w-5 h-5 text-purple-500`}
-                    />
-                  </Disclosure.Button>
-                  <Disclosure.Panel
-                    className={`text-gray400 animate__animated animate__bounceIn`}
-                  >
-                    {product.description}
-                  </Disclosure.Panel>
-                </>
-              )}
-            </Disclosure>
-
-            {product?.detail.includes("https://www.youtube.com") && (
-              <div className="flex items-center mt-4">
-                <iframe width="550" height="315" src={product?.detail}></iframe>
-              </div>
-            )}
-          </div>
+          </main>
         </div>
-        {/* ===== Horizontal Divider ===== */}
-        {/* <div className="border-b-2 border-gray200"></div> */}
-
-        {/* ===== You May Also Like Section ===== */}
-        {/* <div className="recSection my-8 app-max-width app-x-padding">
-          <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
-          <Swiper
-            slidesPerView={2}
-            centeredSlides={true}
-            spaceBetween={10}
-            loop={true}
-            grabCursor={true}
-            // pagination={{
-            //   clickable: true,
-            //   type: "bullets",
-            // }}
-            className="mySwiper card-swiper sm:hidden"
-          >
-            {products.map((item) => (
-              <SwiperSlide key={item.id}>
-                <div className="mb-6">
-                  <CardIG key={item.id} item={item} />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-10 sm:gap-y-6 mb-10">
-            {products.map((item) => (
-              <CardIG key={item.id} item={item} />
-            ))}
-          </div>
-        </div> */}
       </main>
-
-      {/* ===== Footer Section ===== */}
-      {/* <Footer /> */}
     </div>
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async ({
-//   params,
-//   locale,
-//   req,
-// }) => {
-//   // const paramId = params!.id as string;
-//   // const res = await axios.get(
-//   //   `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/${paramId}`
-//   // );
-
-//   // const fetchedProduct: any = res.data.data;
-
-//   // const resProduct = await axios.get(
-//   //   `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${fetchedProduct?.collectionId}`
-//   // );
-
-//   // const products: any = resProduct.data.data;
-
-//   return {
-//     props: {
-//       product: {
-//         ...fetchedProduct,
-//         mainImg: fetchedProduct.option[0]?.images?.split(",")[0],
-//       },
-//       products: products.map((el: any) => ({
-//         id: el?.id,
-//         name: el?.name,
-//         price: el?.option[0]?.price,
-//         detail: el?.detail,
-//         img1: el?.option[0]?.images?.split(",")[0],
-//         img2:
-//           el?.option[0]?.images?.split(",")?.length > 1
-//             ? el?.option[0]?.images?.split(",")[1]
-//             : el?.option[0]?.images?.split(",")[0],
-//         // categoryName: "Shirts",
-//         stock: el?.option[0]?.stock,
-//         option: el?.option[0]?.id,
-//         size: el?.option[0].size.split(",")[0],
-//       })),
-//       messages: (await import(`../../../messages/common/${locale}.json`))
-//         .default,
-//     },
-//   };
-// };
-
-export default ProductExternel;
+export default ProductExternal;

@@ -157,7 +157,7 @@ export default function Menu() {
                       >
                         {"Accueil"}
                       </a>
-                    </Link>
+                    </Link> 
 
                     <Link href="/products/cover/1">
                       <a
@@ -165,6 +165,15 @@ export default function Menu() {
                         onClick={closeModal}
                       >
                         {"Peace Case 3D"}
+                      </a>
+                    </Link>
+
+                    <Link href="/screenProtector">
+                      <a
+                        className="w-full text-xl hover:bg-gray100 text-left py-2"
+                        onClick={closeModal}
+                      >
+                        {"Protection d'Écran"}
                       </a>
                     </Link>
 
