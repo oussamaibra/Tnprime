@@ -42,97 +42,61 @@ const TopNav = () => {
 
   return (
     <div className="bg-gray200 text-black">
-      <div className="text-center app-max-width p-2 ">
-        <p
-          className=" decoration-sky-500 "
-          style={{ fontWeight: "600", fontSize: "12px" }}
-        >
-          {t("topnavContent")} <span dir={"ltr"}>📞 42 301 531</span>
-        </p>
-        {/* <ul className={`flex ${styles.topRightMenu}`}>
-          <li>
-            <Menu as="div" className="relative">
-              <Menu.Button as="a" href="#" className="flex">
-                {locale === "fr" ? t("fr") : t("ar")} <DownArrow />
-              </Menu.Button>
-              <Menu.Items
-                className="flex flex-col w-20 right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none"
-                style={{ zIndex: 9999 }}
-              >
-                <Menu.Item>
-                  {({ active }) => (
-                    <MyLink active={active} href={asPath} locale="fr">
-                      {t("fr")}
-                    </MyLink>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <MyLink active={active} href={asPath} locale="ar">
-                      {t("ar")}
-                    </MyLink>
-                  )}
-                </Menu.Item>
-              </Menu.Items>
-            </Menu>
-          </li>
-        </ul> */}
-        {/* <ul className={`flex ${styles.topLeftMenu}`}>
-          <li>
-            <a href="#" aria-label="TN PrimeFashion Facebook Page">
-              <FacebookLogo />
-            </a>
-          </li>
-          <li>
-            <a href="#" aria-label="TN PrimeFashion Instagram Account">
-              <InstagramLogo />
-            </a>
-          </li>
-          <li>
-            <a href="#">{t("about_us")}</a>
-          </li>
-          <li>
-            <a href="#">{t("our_policy")}</a>
-          </li>
-        </ul>
-      
-          <li>
-            <Menu as="div" className="relative">
-              <Menu.Button as="a" href="#" className="flex">
-                {t("usd")} <DownArrow />
-              </Menu.Button>
-              <Menu.Items
-                className="flex flex-col w-20 right-0 absolute p-1 border border-gray200 bg-white mt-2 outline-none"
-                style={{ zIndex: 9999 }}
-              >
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray100 text-gray500" : "bg-white text-gray500"
-                      } py-2 px-4 text-center focus:outline-none`}
-                    >
-                      {t("usd")}
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={`${
-                        active ? "bg-gray100 text-gray500" : "bg-white text-gray500"
-                      } py-2 px-4 text-center focus:outline-none`}
-                    >
-                      {t("mmk")}
-                    </a>
-                  )}
-                </Menu.Item>
-              </Menu.Items>
-            </Menu>
-          </li>
-        </ul> */}
+      <div className="text-center app-max-width p-2 overflow-hidden">
+        <style jsx>{`
+          .horizontal-ticker {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+          }
+          .horizontal-ticker__container {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 30s linear infinite;
+          }
+          .horizontal-ticker__item {
+            margin-right: 2rem;
+            display: inline-block;
+          }
+          .horizontal-ticker__item--uppercase {
+            text-transform: uppercase;
+          }
+          .horizontal-ticker__item--bold {
+            font-weight: 600;
+            font-size: 12px;
+          }
+          @keyframes scroll {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-50%);
+            }
+          }
+        `}</style>
+
+        <div className="horizontal-ticker">
+          <div className="horizontal-ticker__container">
+            <p className="horizontal-ticker__item horizontal-ticker__item--uppercase horizontal-ticker__item--bold">
+              🎁 2 = LIVRAISON GRATUITE 🎁
+            </p>
+            <p className="horizontal-ticker__item horizontal-ticker__item--uppercase horizontal-ticker__item--bold">
+              🎁 3+1 GRATUIT🎁 + LIVRAISON GRATUITE 📦
+            </p>
+            <p className="horizontal-ticker__item horizontal-ticker__item--uppercase horizontal-ticker__item--bold">
+              ⏳ Offre valable aujourd'hui seulement ⏳
+            </p>
+            <p className="horizontal-ticker__item horizontal-ticker__item--uppercase horizontal-ticker__item--bold">
+              🎁 2 = LIVRAISON GRATUITE 🎁
+            </p>
+            <p className="horizontal-ticker__item horizontal-ticker__item--uppercase horizontal-ticker__item--bold">
+              🎁 3+1 GRATUIT🎁 + LIVRAISON GRATUITE 📦
+            </p>
+            <p className="horizontal-ticker__item horizontal-ticker__item--uppercase horizontal-ticker__item--bold">
+              ⏳ Offre valable aujourd'hui seulement ⏳
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
