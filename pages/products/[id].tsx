@@ -206,7 +206,7 @@ const ProductOptions = ({
                   className="w-5 h-5 text-green-600 border-2 border-gray-300 focus:ring-green-500 focus:ring-2"
                 />
                 <div className="font-semibold text-gray-800">
-                  {option.label}{" "}
+                  {option.label}
                   {option.offer && (
                     <span className="ml-3 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm animate-pulse">
                       {option.description}
@@ -302,10 +302,17 @@ const ProductOptions = ({
                             )}
                             placeholder="اختر المنتج المناسب..."
                             noOptionsMessage={() => "لا توجد خيارات متاحة"}
-                            styles={customSelectStyles}
+                            styles={{
+                              ...customSelectStyles,
+                              input: (provided) => ({
+                                ...provided,
+                                caretColor: "transparent", // Hide text cursor
+                              }),
+                            }}
                             className="react-select-container z-999"
                             classNamePrefix="react-select"
-                            isSearchable
+                            blurInputOnSelect={false}
+                            isSearchable={false} // 🔴 disables text input and thus keyboard
                             isClearable
                           />
                         </div>

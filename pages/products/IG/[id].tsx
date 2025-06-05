@@ -290,10 +290,17 @@ const ProductOptions = ({
                             )}
                             placeholder="اختر المنتج المناسب..."
                             noOptionsMessage={() => "لا توجد خيارات متاحة"}
-                            styles={customSelectStyles}
+                            styles={{
+                              ...customSelectStyles,
+                              input: (provided) => ({
+                                ...provided,
+                                caretColor: "transparent", // Hide text cursor
+                              }),
+                            }}
                             className="react-select-container z-999"
                             classNamePrefix="react-select"
-                            isSearchable
+                            blurInputOnSelect={false}
+                            isSearchable={false} // 🔴 disables text input and thus keyboard
                             isClearable
                           />
                         </div>
@@ -1602,7 +1609,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const fetchedProduct: any = res.data.data;
 
   const resProduct = await axios.get(
-    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}`
+    `${process.env.NEXT_PUBLIC_PRODUCTS_MODULE}/col/${fetchedProduct?.collectionId}`
   );
 
   const products: any = resProduct.data.data;
