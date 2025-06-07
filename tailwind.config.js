@@ -2,8 +2,6 @@ module.exports = {
   purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
   theme: {
-
-
     screens: {
       sm: "576px",
       md: "768px",
@@ -19,6 +17,12 @@ module.exports = {
       },
     },
     colors: {
+      yellow200: "#FEF08A", // light yellow
+      yellow300: "#FDE047",
+      yellow400: "#FACC15", // standard yellow-400
+      yellow500: "#EAB308",
+      yellow600: "#CA8A04",
+
       transparent: "transparent",
       current: "currentColor",
 

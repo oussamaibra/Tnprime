@@ -140,56 +140,22 @@ const Accessories: React.FC<Props> = () => {
   );
 };
 
-// export const getStaticProps: GetStaticProps = async ({ locale }) => {
-//   try {
-//     const res = await axios.get(`${process.env.NEXT_PUBLIC_ACC_MODULE}`);
-
-//     const sortedArray = _.orderBy(
-//       res.data,
-//       (o: Product) => moment(o.createdAt).valueOf(),
-//       ["desc"]
-//     );
-
-//     const products = sortedArray.map((item) => {
-//       const firstVariant = item.varient[0];
-//       const images = firstVariant.images.split(",");
-
-//       return {
-//         id: item._id,
-//         name: item.name,
-//         price: firstVariant.price,
-//         discount: item.discount,
-//         qty: 1,
-//         description: item.details,
-//         detail: item.details,
-//         img1: images[0],
-//         img2: images.length > 1 ? images[1] : images[0],
-//         stock: item.stock,
-//         createdAt: item.createdAt,
-//         option: firstVariant.name,
-//         size: firstVariant.name,
-//       };
-//     });
-
-//     return {
-//       props: {
-//         messages: {
-//           ...require(`../messages/common/${locale}.json`),
-//         },
-//         products,
-//       },
-//     };
-//   } catch (error) {
-//     console.error("Error in getStaticProps:", error);
-//     return {
-//       props: {
-//         messages: {
-//           ...require(`../messages/common/${locale}.json`),
-//         },
-//         products: [],
-//       },
-//     };
-//   }
-// };
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  try {
+    return {
+      props: {
+        messages: (await import(`../messages/common/${locale}.json`)).default,
+      },
+    };
+  } catch (error) {
+    console.error("Error in getStaticProps:", error);
+    return {
+      props: {
+        messages: (await import(`../messages/common/${locale}.json`)).default,
+        products: [],
+      },
+    };
+  }
+};
 
 export default Accessories;

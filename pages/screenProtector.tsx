@@ -12,6 +12,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import _ from "lodash";
 import Header from "../components/Header/Header";
+import { GetServerSideProps } from "next";
 
 const useMobileDetection = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -768,5 +769,18 @@ const ProductExternal = () => {
     </div>
   );
 };
-
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  try {
+    return {
+      props: {
+        messages: (await import(`../messages/common/${locale}.json`)).default,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching product data:", error);
+    return {
+      notFound: true,
+    };
+  }
+};
 export default ProductExternal;

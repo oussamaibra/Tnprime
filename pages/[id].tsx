@@ -14,6 +14,8 @@ import { Toaster, toast } from "react-hot-toast";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EasyZoomOnMove } from "easy-magnify";
+// import { StarIcon } from "@heroicons/react/20/solid";
+// import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "../context/AuthContext";
 import { useWishlist } from "../context/wishlist/WishlistProvider";
 import Header from "../components/Header/Header";
@@ -23,6 +25,17 @@ import Button from "../components/Buttons/Button";
 import DownArrow from "../public/icons/DownArrow";
 import Card from "../components/Card/Card";
 import { fbPixelPurchase } from "../context/Util/fb";
+import { PencilIcon, Star, StarIcon, TrashIcon } from "lucide-react";
+
+type Review = {
+  _id?: string;
+  rating: number;
+  message: string;
+  name: string;
+  email: string;
+  image?: string;
+  createdAt?: string;
+};
 
 type Product = {
   _id: string;
@@ -35,7 +48,7 @@ type Product = {
     price: number;
     images: string;
   }[];
-  reviews: any[];
+  reviews: Review[];
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -88,6 +101,19 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
   const [currentQty, setCurrentQty] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(product.varient[0]);
 
+  // Review state
+  const [reviews, setReviews] = useState<Review[]>(product.reviews || []);
+  const [newReview, setNewReview] = useState({
+    rating: 5,
+    message: "",
+    name: "",
+    email: "",
+    image: "",
+  });
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
   const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product._id);
 
   useEffect(() => {
@@ -95,7 +121,14 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
       localStorage.getItem("location") || { currency: "TND" }
     );
     setCurrency(loc.currency);
+    fetchReviews();
   }, []);
+
+  // Calculate average rating
+  const averageRating =
+    reviews.length > 0
+      ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+      : 0;
 
   const currentItem = {
     id: product._id,
@@ -113,6 +146,17 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
     stock: product.stock,
   };
 
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}/reviews`
+      );
+      setReviews(res.data.reviews || []);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
   const handleWishlist = () => {
     alreadyWishlisted
       ? deleteWishlistItem!(currentItem)
@@ -122,6 +166,58 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
   const handleVariantChange = (variant: (typeof product.varient)[0]) => {
     setSelectedVariant(variant);
     setMainImg(variant.images.split(",")[0]);
+  };
+
+  const handleReviewChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewReview((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRatingChange = (rating: number) => {
+    setNewReview((prev) => ({ ...prev, rating }));
+  };
+
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmittingReview(true);
+
+    try {
+      if (editingReviewId) {
+        // Update existing review
+        await axios.put(
+          `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}/reviews/${editingReviewId}`,
+          newReview
+        );
+        toast.success("Review updated successfully!");
+      } else {
+        // Add new review
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}/reviews`,
+          { ...newReview, image: imageFile?.name }
+        );
+        toast.success("Review submitted successfully!");
+      }
+
+      // Refresh reviews
+      await fetchReviews();
+      setImageFile(null);
+      // Reset form
+      setNewReview({
+        rating: 5,
+        message: "",
+        name: "",
+        email: "",
+        image: "",
+      });
+      setEditingReviewId(null);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      toast.error("Failed to submit review");
+    } finally {
+      setIsSubmittingReview(false);
+    }
   };
 
   const handleOrder = async () => {
@@ -202,7 +298,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
         {/* Product Section */}
         <div className="itemSection app-max-width app-x-padding flex flex-col md:flex-row">
           {/* Image Gallery */}
-          <div className="imgSection w-full md:w-1/2 h-full flex">
+          {/* <div className="imgSection w-full md:w-1/2 h-full flex">
             {!isMobile ? (
               <>
                 <div className="hidden sm:block w-full sm:w-1/4 h-full space-y-4 my-4">
@@ -242,7 +338,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
             ) : (
               <Swiper slidesPerView={1} spaceBetween={0} loop={true}>
                 {selectedVariant.images.split(",").map((img, index) => (
-                  <SwiperSlide key={index}>
+                  <SwiperSlide key={index} >
                     <LazyLoadImage
                       effect="blur"
                       src={img}
@@ -254,11 +350,79 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
                 ))}
               </Swiper>
             )}
+          </div> */}
+
+          <div className="mb-8 lg:mb-0">
+            <div className="relative mb-4 rounded-lg overflow-hidden">
+              {selectedVariant.images
+                ?.split(",")
+                ?.map((img: string, index: number) => (
+                  <div
+                    key={img + index}
+                    className={`transition-opacity duration-300 ${
+                      mainImg === img
+                        ? "opacity-100"
+                        : "opacity-0 absolute inset-0"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product?.nom} view ${index + 1}`}
+                      width={800}
+                      height={800}
+                      className="w-full h-auto object-contain"
+                      priority={index === 0}
+                    />
+                  </div>
+                ))}
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {selectedVariant.images
+                ?.split(",")
+                ?.map((img: string, index: number) => (
+                  <button
+                    key={img + index}
+                    onClick={() => setMainImg(img)}
+                    className={`rounded-md overflow-hidden border-2 ${
+                      mainImg === img
+                        ? "border-green-500"
+                        : "border-transparent"
+                    }`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product?.name} thumbnail ${index + 1}`}
+                      width={200}
+                      height={200}
+                      className="w-full h-auto object-cover"
+                    />
+                  </button>
+                ))}
+            </div>
           </div>
 
           {/* Product Info */}
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
+
+            {/* Rating display */}
+            <div className="flex items-center mb-2">
+              <div className="flex items-center">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <StarIcon
+                    key={star}
+                    className={`h-5 w-5 ${
+                      star <= Math.round(averageRating)
+                        ? "text-yellow400"
+                        : "text-gray300"
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="ml-2 text-sm text-gray600">
+                {averageRating.toFixed(1)} ({reviews.length} reviews)
+              </span>
+            </div>
 
             <span className="text-2xl text-gray400 mb-2">
               {selectedVariant.price} {currency}
@@ -469,6 +633,242 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
           </div>
         </div>
 
+        {/* Reviews Section */}
+
+        <div className="app-max-width app-x-padding my-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            Customer Reviews
+          </h2>
+
+          <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+            {/* Review Summary */}
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray100 hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-xl font-semibold mb-6 text-gray800">
+                Review Summary
+              </h3>
+              <div className="flex items-center mb-6">
+                <div className="text-5xl font-bold text-blue600 mr-6">
+                  {averageRating.toFixed(1)}
+                </div>
+                <div>
+                  <div className="flex items-center space-x-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`w-6 h-6 transition-all duration-200 ${
+                          star <= Math.round(averageRating)
+                            ? "text-yellow400 fill-yellow400"
+                            : "text-gray300"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="text-sm text-gray600 mt-2">
+                    Based on {reviews.length} review
+                    {reviews.length !== 1 ? "s" : ""}
+                  </div>
+                </div>
+              </div>
+              {[5, 4, 3, 2, 1].map((star) => {
+                const count = reviews.filter((r) => r.rating === star).length;
+                const percentage =
+                  reviews.length > 0 ? (count / reviews.length) * 100 : 0;
+                return (
+                  <div key={star} className="flex items-center">
+                    <div className="flex items-center w-20">
+                      <span className="text-sm font-medium text-gray700 mr-1">
+                        {star}
+                      </span>
+                      <Star className="w-4 h-4 text-yellow400 fill-yellow400" />
+                    </div>
+                    <div className="flex-1 mx-3">
+                      <div className="h-3 bg-gray200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-yellow400 to-yellow500 rounded-full transition-all duration-500 ease-out"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                    <div className="w-8 text-sm text-gray600 text-right font-medium">
+                      {count}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Review Form */}
+            <div className="bg-white p-6 rounded-xl shadow-lg border border-gray100 hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-xl font-semibold mb-6 text-gray800">
+                {editingReviewId ? "Edit Your Review" : "Write a Review"}
+              </h3>
+              <form onSubmit={handleReviewSubmit}>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Rating *
+                    </label>
+                    <div className="flex items-center space-x-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => handleRatingChange(star)}
+                          className="focus:outline-none"
+                        >
+                          <Star
+                            className={`w-8 h-8 transition-all duration-200 ${
+                              star <= newReview.rating
+                                ? "text-yellow400 fill-yellow400"
+                                : "text-gray300 hover:text-yellow200"
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray700 mb-1">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={newReview.name}
+                      onChange={handleReviewChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray700 mb-1">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={newReview.email}
+                      onChange={handleReviewChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray700 mb-1">
+                      Review *
+                    </label>
+                    <textarea
+                      name="message"
+                      rows={4}
+                      value={newReview.message}
+                      onChange={handleReviewChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray700 mb-1">
+                      Image (optional)
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="image"
+                      onChange={async (e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          console.log(
+                            "eeeeeeeeeeeeeeeeeeeeee",
+                            e.target.files[0]
+                          );
+                          setImageFile(e.target.files[0]);
+                          var bodyFormData = new FormData();
+                          bodyFormData.append("images", e.target.files[0]);
+                          let listOfPromise = [];
+                          listOfPromise.push(
+                            axios({
+                              method: "post",
+                              url: "https://www.tnprime.shop:6443/api/upload",
+                              data: bodyFormData,
+                              headers: {
+                                "Content-Type": "multipart/form-data",
+                              },
+                            })
+                          );
+
+                          await Promise.all(listOfPromise);
+                        }
+                      }}
+                      className="block w-full text-sm text-gray500 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue50 file:text-blue700 hover:file:bg-blue100"
+                    />
+                    {imageFile && (
+                      <div className="mt-3">
+                        <img
+                          src={`https://www.tnprime.shop:6443/images/${imageFile.name}`}
+                          alt="Preview"
+                          className="h-24 w-24 object-cover rounded-lg border-2 border-gray200 shadow-sm"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmittingReview}
+                    className="w-full bg-gradient-to-r from-blue to-blue  py-3 px-6 rounded-lg font-semibold hover:from-blue hover:to-blue focus:outline-none focus:ring-2 focus:ring-blue disabled:opacity-50"
+                  >
+                    {isSubmittingReview ? "Submitting..." : "Submit Review"}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Reviews List */}
+            <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <h3 className="text-xl font-semibold mb-6 text-gray-800">
+                Customer Reviews
+              </h3>
+              {reviews.length === 0 ? (
+                <p className="text-gray-500 text-center">
+                  No reviews yet. Be the first to review!
+                </p>
+              ) : (
+                <div className="space-y-6 max-h-96 overflow-y-auto">
+                  {reviews.map((review, index) => (
+                    <div key={review._id} className="border-b pb-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="flex items-center mb-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                className={`w-4 h-4 ${
+                                  star <= review.rating
+                                    ? "text-yellow400 fill-yellow400"
+                                    : "text-gray300"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <h4 className="font-semibold text-gray900">
+                            {review.name}
+                          </h4>
+                        </div>
+                      </div>
+                      <p className="text-gray-700 mb-2">{review.message}</p>
+                      {review.image && (
+                        <img
+                          src={`https://www.tnprime.shop:6443/images/${review.image}`}
+                          alt="Review"
+                          className="h-24 w-24 object-cover rounded border"
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
         {/* Related Products */}
         <div className="recSection my-8 app-max-width app-x-padding">
           <h2 className="text-3xl mb-6">{t("you_may_also_like")}</h2>
@@ -488,6 +888,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
                   stock: item.stock,
                 }}
                 frompage={true}
+                acc={true}
               />
             ))}
           </div>
@@ -526,8 +927,7 @@ export const getServerSideProps: GetServerSideProps = async ({
           ?.filter((p: Product) => p._id !== product._id)
           ?.slice(0, 5),
         paramId,
-        messages: (await import(`../messages/common/${locale}.json`))
-          .default,
+        messages: (await import(`../messages/common/${locale}.json`)).default,
       },
     };
   } catch (error) {
