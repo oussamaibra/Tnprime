@@ -16,15 +16,15 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { EasyZoomOnMove } from "easy-magnify";
 // import { StarIcon } from "@heroicons/react/20/solid";
 // import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { useAuth } from "../context/AuthContext";
-import { useWishlist } from "../context/wishlist/WishlistProvider";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
-import Input from "../components/Input/Input";
-import Button from "../components/Buttons/Button";
-import DownArrow from "../public/icons/DownArrow";
-import Card from "../components/Card/Card";
-import { fbPixelPurchase } from "../context/Util/fb";
+import { useAuth } from "../../../context/AuthContext";
+import { useWishlist } from "../../../context/wishlist/WishlistProvider";
+import Header from "../../../components/Header/Header";
+import Footer from "../../../components/Footer/Footer";
+import Input from "../../../components/Input/Input";
+import Button from "../../../components/Buttons/Button";
+import DownArrow from "../../../public/icons/DownArrow";
+import Card from "../../../components/Card/Card";
+import { fbPixelPurchase } from "../../../context/Util/fb";
 import { PencilIcon, Star, StarIcon, TrashIcon } from "lucide-react";
 
 type Review = {
@@ -927,7 +927,8 @@ export const getServerSideProps: GetServerSideProps = async ({
           ?.filter((p: Product) => p._id !== product._id)
           ?.slice(0, 5),
         paramId,
-        messages: (await import(`../messages/common/${locale}.json`)).default,
+        messages: (await import(`../../../messages/common/${locale}.json`))
+          .default,
       },
     };
   } catch (error) {

@@ -164,7 +164,7 @@ const Card: FC<Props> = ({
   const { id, name, price, img1, img2 } = item;
 
   const itemLink =
-    Number(item?.stock) <= 0 ? "" : !acc ? `/products/${encodeURIComponent(id)}` :`/${encodeURIComponent(id)}`;
+    Number(item?.stock) <= 0 ? "" : !acc ? `/products/${encodeURIComponent(id)}` :`/products/acc/${encodeURIComponent(id)}`;
 
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === id).length > 0;
