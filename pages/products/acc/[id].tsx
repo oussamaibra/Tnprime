@@ -912,13 +912,13 @@ export const getServerSideProps: GetServerSideProps = async ({
     const productRes = await axios.get(
       `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}`
     );
-    const product = productRes.data;
+    const product = productRes?.data;
 
     // Fetch related products
     const productsRes = await axios.get(
       `${process.env.NEXT_PUBLIC_ACC_MODULE}`
     );
-    const products = productsRes.data.data;
+    const products = productsRes?.data?.data;
 
     return {
       props: {

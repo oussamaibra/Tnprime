@@ -6,7 +6,7 @@ const path = require("path");
 // module.exports = withPWA({
 module.exports = {
   i18n: {
-    locales: ["fr", "ar", "it" ,"an"],
+    locales: ["fr", "ar", "it", "an"],
     defaultLocale: "ar",
   },
   reactStrictMode: true,
