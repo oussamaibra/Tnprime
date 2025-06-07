@@ -259,7 +259,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
           {/* Product Info */}
           <div className="infoSection w-full md:w-1/2 h-auto py-8 sm:pl-4 flex flex-col">
             <h1 className="text-3xl mb-4">{product.name}</h1>
-          
+
             <span className="text-2xl text-gray400 mb-2">
               {selectedVariant.price} {currency}
             </span>
@@ -289,11 +289,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
               {Number(product.stock) > 0 ? t("in_stock") : t("out_of_stock")}
             </span>
 
-
-            
-            <span className="mb-2">
-              {product.details}
-            </span>
+            <span className="mb-2">{product.details}</span>
 
             {/* Order Form */}
             {Number(product.stock) > 0 && (
@@ -530,6 +526,8 @@ export const getServerSideProps: GetServerSideProps = async ({
           ?.filter((p: Product) => p._id !== product._id)
           ?.slice(0, 5),
         paramId,
+        messages: (await import(`../messages/common/${locale}.json`))
+          .default,
       },
     };
   } catch (error) {
