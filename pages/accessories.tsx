@@ -63,7 +63,6 @@ const Accessories: React.FC<Props> = () => {
 
         setProducts(sortedArray);
         setCurrentItems(sortedArray);
-
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -130,7 +129,7 @@ const Accessories: React.FC<Props> = () => {
                   size: firstVariant.name, // Using variant name as size in this case
                 };
 
-                return <Card key={item._id} item={cardItem} />;
+                return <Card key={item._id} item={cardItem} acc={true} />;
               })}
             </div>
           </div>

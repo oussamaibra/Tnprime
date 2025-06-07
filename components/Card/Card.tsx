@@ -33,6 +33,7 @@ const Card: FC<Props> = ({
   item,
   outStock = false,
   isInsta = false,
+  acc = false,
   frompage,
 }) => {
   const [location, setlocation] = useState({});
@@ -163,7 +164,7 @@ const Card: FC<Props> = ({
   const { id, name, price, img1, img2 } = item;
 
   const itemLink =
-    Number(item?.stock) <= 0 ? "" : `/products/${encodeURIComponent(id)}`;
+    Number(item?.stock) <= 0 ? "" : !acc ? `/products/${encodeURIComponent(id)}` :`/${encodeURIComponent(id)}`;
 
   const alreadyWishlisted =
     wishlist.filter((wItem) => wItem.id === id).length > 0;

@@ -226,6 +226,14 @@ const Header: React.FC<Props> = ({ title }) => {
                   <a className={styles.navBarItem}>Protecteur d'écran</a>
                 </Link>
               </li>
+
+
+              <li>
+                <Link href={`/accessories`}>
+                  <a className={styles.navBarItem}>Accessories Iphone</a>
+                </Link>
+              </li>
+             
             </ul>
 
             {/* TN PrimeLogo */}
