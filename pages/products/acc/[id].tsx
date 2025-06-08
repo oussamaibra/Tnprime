@@ -104,6 +104,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
   // Review state
   const [reviews, setReviews] = useState<Review[]>(product.reviews || []);
   const [newReview, setNewReview] = useState({
+    productId: paramId,
     rating: 5,
     message: "",
     name: "",
@@ -146,9 +147,10 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
   const fetchReviews = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}/reviews`
+        `${process.env.NEXT_PUBLIC_REV_MODULE}/${paramId}`
       );
-      setReviews(res.data.reviews || []);
+      console.log("", res);
+      setReviews(res.data || []);
     } catch (error) {
       console.error("Error fetching reviews:", error);
     }
@@ -181,27 +183,20 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
     setIsSubmittingReview(true);
 
     try {
-      if (editingReviewId) {
-        // Update existing review
-        await axios.put(
-          `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}/reviews/${editingReviewId}`,
-          newReview
-        );
-        toast.success("Review updated successfully!");
-      } else {
-        // Add new review
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_ACC_MODULE}/${paramId}/reviews`,
-          { ...newReview, image: imageFile?.name }
-        );
-        toast.success("Review submitted successfully!");
-      }
+      // Add new review
+      await axios.post(`${process.env.NEXT_PUBLIC_REV_MODULE}`, {
+        ...newReview,
+        image: imageFile?.name,
+        productId: paramId,
+      });
+      toast.success("Review submitted successfully!");
 
       // Refresh reviews
       await fetchReviews();
       setImageFile(null);
       // Reset form
       setNewReview({
+        productId: paramId,
         rating: 5,
         message: "",
         name: "",
