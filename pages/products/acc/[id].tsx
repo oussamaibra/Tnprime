@@ -117,10 +117,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
   const alreadyWishlisted = wishlist.some((wItem) => wItem.id === product._id);
 
   useEffect(() => {
-    const loc = JSON.parse(
-      localStorage.getItem("location") || { currency: "TND" }
-    );
-    setCurrency(loc.currency);
+    setCurrency("TND");
     fetchReviews();
   }, []);
 
