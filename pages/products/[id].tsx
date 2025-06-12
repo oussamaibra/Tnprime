@@ -1239,91 +1239,76 @@ const Product: React.FC<Props> = ({ product, products, url, paramId }) => {
             )}
 
             {showConfirmationModal && (
-              <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 backdrop-blur-sm">
-                <div className="bg-white p-6 rounded-xl max-w-md w-full mx-4 shadow-2xl border border-gray-100">
-                  <div className="flex flex-col items-center">
-                    <div className="bg-yellow-50 p-3 rounded-full mb-4">
+              <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 backdrop-blur-sm p-4">
+                <div className="bg-white p-4 sm:p-6 rounded-xl w-full max-w-md mx-auto shadow-2xl border border-gray-100 max-h-[90vh] flex flex-col">
+                  <div className="flex flex-col items-center overflow-y-auto">
+                    <div className="bg-yellow-50 p-2 sm:p-3 rounded-full mb-3 sm:mb-4">
                       <img
                         src={"/bg-img/tanbih.png"}
                         alt="تنبيه"
-                        width={300}
-                        height={300}
-                        className="animate-pulse"
+                        width={200}
+                        height={200}
+                        className="animate-pulse w-16 h-16 sm:w-20 sm:h-20"
                       />
                     </div>
 
-                    <h3 className="text-2xl font-bold text-gray-800 text-center mb-3">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-800 text-center mb-2 sm:mb-3">
                       تأكيد الطلب
                     </h3>
 
-                    <div className="bg-yellow-50 p-4 rounded-lg mb-6 w-full border border-yellow-100">
-                      <p
-                        className="text-gray-700 text-center text-sm leading-relaxed"
-                        dir="rtl"
-                      >
-                        <span className="font-bold block mb-2 text-yellow-600">
-                          مهم برشة !!{" "}
-                        </span>
-                        قبل ما تعدي الكوموند، خذ دقيقة و ثبت روحك مليح. كل كولي
-                        يرجع، راهو موش كان خسارة في المصروف، أما زادة تعب في
-                        التحضير و الوقت اللي نخصصوه ليك.
-                      </p>
-                      <p
-                        className="text-gray-700 text-center text-sm mt-3 leading-relaxed"
-                        dir="rtl"
-                      >
-                        نحب نخدمك بأحسن جودة و نعملك حاجة تليق بيك، و الكوموند
-                        متاعنا نخدموها على الطلب – خاصة ليك، بالشكل اللي تحب
-                        عليه
-                      </p>
-                      <p
-                        className="text-gray-700 text-center text-sm mt-3 leading-relaxed"
-                        dir="rtl"
-                      >
-                        متأكد من الكوموند، نحبك تعرف إلي نجم تبدل أو ترجع، أما
-                        تحت شروط واضحة وبأجل محدد. المسؤولية تبدأ منّا و تكمل
-                        بيك. خلي ديما خدمتك و خدمتنا تمشي في بلاصتها. يعطيك
-                        الصحة على ثقتك وتفهمك، ومرحبا بيك ديما بكل حب واحترام
-                      </p>
+                    <div className="bg-yellow-50 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 w-full border border-yellow-100 overflow-y-auto max-h-[50vh]">
+                      <div className="space-y-2 sm:space-y-3">
+                        <p
+                          className="text-gray-700 text-center text-xs sm:text-sm leading-relaxed"
+                          dir="rtl"
+                        >
+                          <span className="font-bold block mb-1 sm:mb-2 text-yellow-600">
+                            مهم برشة !!{" "}
+                          </span>
+                          قبل ما تعدي الكوموند، خذ دقيقة و ثبت روحك مليح. كل
+                          كولي يرجع، راهو موش كان خسارة في المصروف، أما زادة تعب
+                          في التحضير و الوقت اللي نخصصوه ليك.
+                        </p>
+                        <p
+                          className="text-gray-700 text-center text-xs sm:text-sm leading-relaxed"
+                          dir="rtl"
+                        >
+                          نحب نخدمك بأحسن جودة و نعملك حاجة تليق بيك، و الكوموند
+                          متاعنا نخدموها على الطلب – خاصة ليك، بالشكل اللي تحب
+                          عليه
+                        </p>
+                        <p
+                          className="text-gray-700 text-center text-xs sm:text-sm leading-relaxed"
+                          dir="rtl"
+                        >
+                          متأكد من الكوموند، نحبك تعرف إلي نجم تبدل أو ترجع، أما
+                          تحت شروط واضحة وبأجل محدد. المسؤولية تبدأ منّا و تكمل
+                          بيك. خلي ديما خدمتك و خدمتنا تمشي في بلاصتها. يعطيك
+                          الصحة على ثقتك وتفهمك، ومرحبا بيك ديما بكل حب واحترام
+                        </p>
+                      </div>
                     </div>
+                  </div>
 
-                    <div className="flex justify-between w-full gap-3">
-                      <Button
-                        value={"إلغاء"}
-                        size="lg"
-                        extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                        onClick={() => {
-                          setShowConfirmationModal(false);
-                        }}
-                      />
+                  <div className="flex justify-between w-full gap-2 sm:gap-3 mt-auto">
+                    <Button
+                      value={"إلغاء"}
+                      size="md sm:lg"
+                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray-200 text-sm sm:text-base`}
+                      onClick={() => {
+                        setShowConfirmationModal(false);
+                      }}
+                    />
 
-                      <Button
-                        value={"تأكيد الطلب"}
-                        size="lg"
-                        extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray200`}
-                        onClick={() => {
-                          setShowConfirmationModal(false);
-                          Ordering();
-                        }}
-                      />
-
-                      {/* <button
-                        className="flex-1 py-3 px-4 bg-white text-red-600 border border-red-300 rounded-lg font-medium hover:bg-red-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-200"
-                        onClick={() => setShowConfirmationModal(false)}
-                      >
-                        إلغاء
-                      </button> */}
-                      {/* 
-                      <button
-                        className="flex-1 py-3 px-4 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-200"
-                        onClick={() => {
-                          setShowConfirmationModal(false);
-                          Ordering();
-                        }}
-                      >
-                        تأكيد الطلب
-                      </button> */}
-                    </div>
+                    <Button
+                      value={"تأكيد الطلب"}
+                      size="md sm:lg"
+                      extraClass={`flex-grow text-center whitespace-nowrap hover:bg-gray-200 text-sm sm:text-base`}
+                      onClick={() => {
+                        setShowConfirmationModal(false);
+                        Ordering();
+                      }}
+                    />
                   </div>
                 </div>
               </div>

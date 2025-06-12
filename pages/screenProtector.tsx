@@ -48,7 +48,7 @@ const ProductExternal = () => {
       {
         id: 101,
         color: " ",
-        price: "39",
+        price: "30",
         size: "",
         stock: "50",
         discount: "0",
@@ -157,7 +157,7 @@ const ProductExternal = () => {
   };
 
   const calculateTotalPrice = () => {
-    const basePrice = type ? (type.value === "1" ? 39 : 45) : 39;
+    const basePrice = type ? (type.value === "1" ? 30 : 35) : 30;
 
     return basePrice * currentQty + 8;
   };
@@ -288,13 +288,13 @@ const ProductExternal = () => {
           currentQty === 1
             ? Number(
                 roundDecimal(
-                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                  Number(type ? (type.value === "1" ? 30 : 35) : 30) *
                     Number(currentQty)
                 )
               )
             : Number(
                 roundDecimal(
-                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                  Number(type ? (type.value === "1" ? 30 : 35) : 30) *
                     Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
@@ -311,13 +311,13 @@ const ProductExternal = () => {
           currentQty === 1
             ? Number(
                 roundDecimal(
-                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                  Number(type ? (type.value === "1" ? 30 : 35) : 30) *
                     Number(currentQty)
                 )
               )
             : Number(
                 roundDecimal(
-                  Number(type ? (type.value === "1" ? 39 : 45) : 39) *
+                  Number(type ? (type.value === "1" ? 30 : 35) : 30) *
                     Number(currentQty) -
                     Number(currentQty - 1) * 8
                 )
@@ -472,7 +472,7 @@ const ProductExternal = () => {
                   </div>
 
                   <p className="text-2xl text-blue-600 font-bold mb-4">
-                    {type ? (type?.value === "1" ? 39 : 45) : 39} {currency}
+                    {type ? (type?.value === "1" ? 30 : 35) : 30} {currency}
                     {/* <span className="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-normal">
                   Livraison gratuite 🚚
                 </span> */}
@@ -655,7 +655,7 @@ const ProductExternal = () => {
                             <div className="flex justify-between">
                               <span className="text-gray-600">Sous-total</span>
                               <span className="font-medium">
-                                {(type ? (type.value === "1" ? 39 : 45) : 39) *
+                                {(type ? (type.value === "1" ? 30 : 35) : 30) *
                                   currentQty}{" "}
                                 {currency}
                               </span>
