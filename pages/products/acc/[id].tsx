@@ -220,7 +220,7 @@ const ProductPage: React.FC<Props> = ({ product, products, paramId, url }) => {
         customerName: name,
         customerPhone: phone,
         shippingAddress,
-        ville: moment().format("YYYY-MM-DD HH:mm"),
+        ville: "Extern",
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice: Number(selectedVariant.price) + 8, // Base price + shipping
         deliveryDate: new Date().setDate(new Date().getDate() + 2),

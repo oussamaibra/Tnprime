@@ -282,7 +282,7 @@ const ProductExternal = () => {
         customerName: name,
         customerPhone: phone,
         shippingAddress: shippingAddress,
-        ville: moment().format("YYYY-MM-DD HH:mm"),
+        ville: "Extern",
         gouvernorat: moment().format("YYYY-MM-DD HH:mm"),
         totalPrice:
           currentQty === 1
