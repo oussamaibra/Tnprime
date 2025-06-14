@@ -157,7 +157,7 @@ export default function Menu() {
                       >
                         {"Skin-Cover"}
                       </a>
-                    </Link> 
+                    </Link>
 
                     <Link href="/products/cover/1">
                       <a
@@ -391,7 +391,19 @@ export default function Menu() {
                       >
                         <InstagramLogo extraClass="h-8" />
                       </a>
+                      <a
+                        href={
+                          "https://www.facebook.com/profile.php?id=61571897970388"
+                        }
+                        target="_blank"
+                        className="text-gray400 w-10 h-10 py-1 px-auto flex justify-center rounded-md active:bg-gray300"
+                        rel="noreferrer"
+                      >
+                        <FacebookLogo extraClass="h-8" />
+                      </a>
                     </div>
+
+                    <div className="flex my-10 w-2/5 space-x-6 justify-center"></div>
                   </div>
                 </div>
               </div>

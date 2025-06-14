@@ -92,6 +92,17 @@ export default function Footer() {
             </a>
           </div>
 
+          <div className={styles.socialsContainer}>
+            <a
+              href={"https://www.facebook.com/profile.php?id=61571897970388"}
+              target="_blank"
+              className={styles.socials}
+              rel="noreferrer"
+            >
+              <FacebookLogo extraClass={styles.socials} />
+            </a>
+          </div>
+
           {/* <span className="flex items-center">
             <span className="hidden sm:block">{"follow_us_on_social_media"}:</span>{" "}
             <a href="www.facebook.com" aria-label="Facebook Page for TN PrimeFashion">
