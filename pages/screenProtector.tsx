@@ -472,10 +472,11 @@ const ProductExternal = () => {
                   </div>
 
                   <p className="text-2xl text-blue-600 font-bold mb-4">
-                    {type ? (type?.value === "1" ? 30 : 35) : 30} {currency}
-                    {/* <span className="ml-2 text-sm bg-green-100 text-green-800 px-2 py-1 rounded-full font-normal">
-                  Livraison gratuite 🚚
-                </span> */}
+                    Transparent Normal : 30 {currency}
+                  </p>
+
+                  <p className="text-2xl text-blue-600 font-bold mb-4">
+                    Fumé : 35 {currency}
                   </p>
 
                   <div className="space-y-2 mb-6">
@@ -558,8 +559,8 @@ const ProductExternal = () => {
                         value={type}
                         onChange={setType}
                         options={[
-                          { label: "Fumé", value: "2" },
-                          { label: "Transparent Normal", value: "1" },
+                          { label: "Fumé - 35 TND", value: "2" },
+                          { label: "Transparent Normal - 30 TND", value: "1" },
                         ]}
                         placeholder="Sélectionnez un type..."
                       />
@@ -692,28 +693,7 @@ const ProductExternal = () => {
                           </div>
                         )}
 
-                        {/* Order Button */}
-                        {/* <button
-                      onClick={handleOrder}
-                      disabled={
-                        isEmpty(name) ||
-                        isEmpty(type?.label) ||
-                        isEmpty(phone) ||
-                        phone.length > 8 ||
-                        isEmpty(shippingAddress)
-                      }
-                      className="w-full py-4 bg-gradient-to-r from-blue-600
-                       to-blue-500 hover:from-blue-700
-                        hover:to-blue-600
-                         text-white
-                          font-bold
-                          
-                          rounded-lg shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      <ShoppingCart className="w-5 h-5" />
-                      Passer la commande
-                    </button> */}
-
+              
                         <div className="flex h-12 space-x-4 w-full">
                           <Button
                             value={"Passer la commande"}
