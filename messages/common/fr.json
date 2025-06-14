@@ -15,7 +15,7 @@
     "an": "Anglais",
     "fr": "Francais",
     "ar": "Arabic",
-    "Accueil": "Accueil",
+    "Skin-Cover": "Skin-Cover",
     "chercher": "Chercher...",
     "Catalogue": "Catalogue",
     "voirtout": "Voir tout",
@@ -78,7 +78,7 @@
     "SelectionnerVotreModeldeTélephone": "Selectionner Votre Model de Télephone",
     "SelectionnerVotreMarquedeTélephone": "Selectionner Votre Marque de Télephone",
     "Listedesouhaits": "Liste de souhaits",
-    "home": "Accueil",
+    "home": "Skin-Cover",
     "Imageduproduit": "Image du produit",
     "Nomduproduit&Model": "Nom du produit & Model",
     "Continuervosachats": "Continuer vos achats",
@@ -193,7 +193,7 @@
     "SelectionnerVotreModeldeTélephone": "Selectionner Votre Model de Télephone",
     "SelectionnerVotreMarquedeTélephone": "Selectionner Votre Marque de Télephone",
     "SelectionnerVotreMarquedeTélephone2": "Selectionner Votre Marque de Télephone",
-    "home": "Accueil",
+    "home": "Skin-Cover",
     "men": "Hommes",
     "women": "Femmes",
     "bags": "Sacs",
@@ -211,7 +211,7 @@
     "you_may_also_like": "Vous pourriez aussi aimer"
   },
   "Categorie": {
-    "home": "Accueil",
+    "home": "Skin-Cover",
     "men": "Hommes",
     "women": "Femmes",
     "bags": "Sacs",
@@ -229,7 +229,7 @@
     "you_may_also_like": "Vous pourriez aussi aimer"
   },
   "Collection": {
-    "home": "Accueil",
+    "home": "Skin-Cover",
     "men": "Hommes",
     "women": "Femmes",
     "bags": "Sacs",
@@ -272,7 +272,7 @@
     "profile": "Profil"
   },
   "Search": {
-    "home": "Accueil",
+    "home": "Skin-Cover",
     "search_results": "Résultats de recherche",
     "no_result": "Aucun résultat",
     "showing_results": "Affichage de {products} résultat(s)"

@@ -155,7 +155,7 @@ export default function Menu() {
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
                         onClick={closeModal}
                       >
-                        {"Accueil"}
+                        {"Skin-Cover"}
                       </a>
                     </Link> 
 

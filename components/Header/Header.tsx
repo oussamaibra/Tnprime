@@ -211,7 +211,7 @@ const Header: React.FC<Props> = ({ title }) => {
             <ul className={`flex-0 lg:flex-1 flex ${styles.leftMenu} flex justify-between`}>
               <li>
                 <Link href={`/`}>
-                  <a className={styles.navBarItem}>{t("Accueil")}</a>
+                  <a className={styles.navBarItem}>{t("Skin-Cover")}</a>
                 </Link>
               </li>
 

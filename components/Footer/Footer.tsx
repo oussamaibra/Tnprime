@@ -18,7 +18,7 @@ export default function Footer() {
           <div>
             <h3 className={styles.footerHead}>{"INFORMATION"}</h3>
             <div className={styles.column}>
-              <a href="example">{"Accueil"}</a>
+              <a href="example">{"Skin-Cover"}</a>
               <a href="example">{"Nos collection"}</a>
               <a href="example">{"store_location"}</a>
             </div>
