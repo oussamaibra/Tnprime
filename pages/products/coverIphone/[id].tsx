@@ -360,7 +360,7 @@ const ProductIG: React.FC<Props> = ({ paramId }) => {
                         <SwiperSlide key={index}>
                           <div
                             className="aspect-square relative group flex items-center justify-center"
-                            style={{ maxHeight: "400px" }}
+                            style={{ maxHeight: "450px" }}
                           >
                             <LazyLoadImage
                               effect="blur"
