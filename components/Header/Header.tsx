@@ -222,6 +222,12 @@ const Header: React.FC<Props> = ({ title }) => {
               </li>
 
               <li>
+                <Link href={`/products/coverIphone/1`}>
+                  <a className={styles.navBarItem}>Cases </a>
+                </Link>
+              </li>
+
+              <li>
                 <Link href={`/screenProtector`}>
                   <a className={styles.navBarItem}>Protecteur d'écran</a>
                 </Link>

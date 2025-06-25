@@ -168,6 +168,15 @@ export default function Menu() {
                       </a>
                     </Link>
 
+                    <Link href="/products/coverIphone/1">
+                      <a
+                        className="w-full text-xl hover:bg-gray100 text-left py-2"
+                        onClick={closeModal}
+                      >
+                        {" Cases "}
+                      </a>
+                    </Link>
+
                     <Link href="/screenProtector">
                       <a
                         className="w-full text-xl hover:bg-gray100 text-left py-2"
